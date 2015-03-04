@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type='text/xsl' href='_UpgradeReport_Files/UpgradeReport.xslt'?><UpgradeLog>
+<Properties><Property Name="Solution" Value="MVP">
+</Property><Property Name="Solution File" Value="C:\GIT\MVP\MVP.sln">
+</Property><Property Name="Date" Value="4 марта 2015 г.">
+</Property><Property Name="Time" Value="13:49:04">
+</Property></Properties><Event ErrorLevel="0" Project="DashBoard" Source="..\..\Work\Документы Галкин\DashBoard\Project\DashBoard\DashBoard\DashBoard.csproj" Description="Project file successfully backed up as C:\GIT\MVP\Backup\DashBoard.csproj">
+</Event><Event ErrorLevel="0" Project="DashBoard" Source="..\..\Work\Документы Галкин\DashBoard\Project\DashBoard\DashBoard\DashBoard.csproj.user" Description="Project user file successfully backed up as C:\GIT\MVP\Backup\DashBoard.csproj.user">
+</Event><Event ErrorLevel="0" Project="DashBoard" Source="..\..\Work\Документы Галкин\DashBoard\Project\DashBoard\DashBoard\Form1.cs" Description="File successfully backed up as C:\GIT\MVP\Backup\Form1.cs">
+</Event><Event ErrorLevel="0" Project="DashBoard" Source="..\..\Work\Документы Галкин\DashBoard\Project\DashBoard\DashBoard\Form1.Designer.cs" Description="File successfully backed up as C:\GIT\MVP\Backup\Form1.Designer.cs">
+</Event><Event ErrorLevel="0" Project="DashBoard" Source="..\..\Work\Документы Галкин\DashBoard\Project\DashBoard\DashBoard\Program.cs" Description="File successfully backed up as C:\GIT\MVP\Backup\Program.cs">
+</Event><Event ErrorLevel="0" Project="DashBoard" Source="..\..\Work\Документы Галкин\DashBoard\Project\DashBoard\DashBoard\Properties\AssemblyInfo.cs" Description="File successfully backed up as C:\GIT\MVP\Backup\Properties\AssemblyInfo.cs">
+</Event><Event ErrorLevel="0" Project="DashBoard" Source="..\..\Work\Документы Галкин\DashBoard\Project\DashBoard\DashBoard\Properties\Resources.Designer.cs" Description="File successfully backed up as C:\GIT\MVP\Backup\Properties\Resources.Designer.cs">
+</Event><Event ErrorLevel="0" Project="DashBoard" Source="..\..\Work\Документы Галкин\DashBoard\Project\DashBoard\DashBoard\Properties\Settings.Designer.cs" Description="File successfully backed up as C:\GIT\MVP\Backup\Properties\Settings.Designer.cs">
+</Event><Event ErrorLevel="0" Project="DashBoard" Source="..\..\Work\Документы Галкин\DashBoard\Project\DashBoard\DashBoard\app.config" Description="File successfully backed up as C:\GIT\MVP\Backup\app.config">
+</Event><Event ErrorLevel="0" Project="DashBoard" Source="..\..\Work\Документы Галкин\DashBoard\Project\DashBoard\DashBoard\Properties\Settings.settings" Description="File successfully backed up as C:\GIT\MVP\Backup\Properties\Settings.settings">
+</Event><Event ErrorLevel="0" Project="DashBoard" Source="..\..\Work\Документы Галкин\DashBoard\Project\DashBoard\DashBoard\Form1.resx" Description="File successfully backed up as C:\GIT\MVP\Backup\Form1.resx">
+</Event><Event ErrorLevel="0" Project="DashBoard" Source="..\..\Work\Документы Галкин\DashBoard\Project\DashBoard\DashBoard\Properties\Resources.resx" Description="File successfully backed up as C:\GIT\MVP\Backup\Properties\Resources.resx">
+</Event><Event ErrorLevel="0" Project="DashBoard" Source="..\..\Work\Документы Галкин\DashBoard\Project\DashBoard\DashBoard\DashBoard.csproj" Description="Project converted successfully">
+</Event><Event ErrorLevel="3" Project="DashBoard" Source="..\..\Work\Документы Галкин\DashBoard\Project\DashBoard\DashBoard\DashBoard.csproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="DashBoard" Source="..\..\Work\Документы Галкин\DashBoard\Project\DashBoard\DashBoard\DashBoard.csproj" Description="Scan complete: Upgrade not required for project files.">
+</Event></UpgradeLog>
