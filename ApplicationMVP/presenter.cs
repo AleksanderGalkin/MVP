@@ -12,7 +12,7 @@ namespace test
 {
     public class Presenter
     {
-        private Model _model = new Model();
+        private Model _model;
         private IView _view;
 
         /// <summary>
@@ -21,6 +21,7 @@ namespace test
         /// <summary>
         public Presenter(IView view)
         {
+             _model = new Model();
             _view = view;
             _view.SetDegreeEvent += new EventHandler<EventArgs>(OnSetDegree);
 
