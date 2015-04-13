@@ -12,10 +12,7 @@ namespace GeoDB
             [STAThread]
             static void Main()
             {
-               // FormView view = new FormView();
-               // Presenter presenter = new Presenter(view);
-                   Application.Run();
-               // presenter.Show();
+
             }
         }
     

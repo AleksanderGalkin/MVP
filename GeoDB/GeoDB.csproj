@@ -67,7 +67,7 @@
     <Compile Include="Class1.cs" />
     <Compile Include="Model\Collar2.cs" />
     <Compile Include="Model\Interface\IBase.cs" />
-    <Compile Include="Presenter\DrillHoles.cs" />
+    <Compile Include="Presenter\PDrillHoles.cs" />
     <Compile Include="Service\DataAccess\CollarEntityService.cs" />
     <Compile Include="Service\DataAccess\Interface\ModelDbInteface.cs" />
     <Compile Include="Model\Model.Designer.cs">
@@ -76,6 +76,7 @@
       <DependentUpon>Model.edmx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="View\IViewCollar2.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Tests\" />
@@ -122,12 +123,6 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\GeoDBWinForms\GeoDBWinForms.csproj">
-      <Project>{DA658039-F3E2-4E27-882F-8362C76C64E5}</Project>
-      <Name>GeoDBWinForms</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
