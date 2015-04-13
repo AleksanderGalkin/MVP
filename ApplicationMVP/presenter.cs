@@ -7,7 +7,7 @@ using testForms;
 
 
 
-namespace test
+namespace presenter
 {
     public class Presenter
     {
