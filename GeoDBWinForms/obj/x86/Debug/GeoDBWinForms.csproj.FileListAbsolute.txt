@@ -1,8 +1,0 @@
-E:\GIT\AleksanderGalkin\MVP\GeoDBWinForms\obj\x86\Debug\ResolveAssemblyReference.cache
-E:\GIT\AleksanderGalkin\MVP\GeoDBWinForms\obj\x86\Debug\GeoDBWinForms.Properties.Resources.resources
-E:\GIT\AleksanderGalkin\MVP\GeoDBWinForms\obj\x86\Debug\GenerateResource.read.1.tlog
-E:\GIT\AleksanderGalkin\MVP\GeoDBWinForms\obj\x86\Debug\GenerateResource.write.1.tlog
-E:\GIT\AleksanderGalkin\MVP\GeoDBWinForms\bin\Debug\GeoDBWinForms.exe
-E:\GIT\AleksanderGalkin\MVP\GeoDBWinForms\bin\Debug\GeoDBWinForms.pdb
-E:\GIT\AleksanderGalkin\MVP\GeoDBWinForms\obj\x86\Debug\GeoDBWinForms.exe
-E:\GIT\AleksanderGalkin\MVP\GeoDBWinForms\obj\x86\Debug\GeoDBWinForms.pdb
