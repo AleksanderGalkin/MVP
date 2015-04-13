@@ -8,89 +8,88 @@
 //------------------------------------------------------------------------------
 
 using System;
-using System.ComponentModel;
-using System.Data.EntityClient;
 using System.Data.Objects;
 using System.Data.Objects.DataClasses;
-using System.Linq;
-using System.Runtime.Serialization;
+using System.Data.EntityClient;
+using System.ComponentModel;
 using System.Xml.Serialization;
+using System.Runtime.Serialization;
 
 [assembly: EdmSchemaAttribute()]
 #region EDM Relationship Metadata
 
-[assembly: EdmRelationshipAttribute("Model", "ASSAYS_FK00", "BLOCK_ZAPASOV", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(GeoDB.Service.DataAccess.BLOCK_ZAPASOV), "ASSAYS", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Service.DataAccess.ASSAYS), true)]
-[assembly: EdmRelationshipAttribute("Model", "ASSAYS_FK01", "COLLAR", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GeoDB.Service.DataAccess.COLLAR), "ASSAYS", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Service.DataAccess.ASSAYS), true)]
-[assembly: EdmRelationshipAttribute("Model", "ASSAYS_FK02", "GEOLOGIST", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(GeoDB.Service.DataAccess.GEOLOGIST), "ASSAYS", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Service.DataAccess.ASSAYS), true)]
-[assembly: EdmRelationshipAttribute("Model", "ASSAYS_FK03", "JOURNAL", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GeoDB.Service.DataAccess.JOURNAL), "ASSAYS", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Service.DataAccess.ASSAYS), true)]
-[assembly: EdmRelationshipAttribute("Model", "ASSAYS_FK04", "LITOLOGY", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GeoDB.Service.DataAccess.LITOLOGY), "ASSAYS", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Service.DataAccess.ASSAYS), true)]
-[assembly: EdmRelationshipAttribute("Model", "ASSAYS_FK05", "RANG", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(GeoDB.Service.DataAccess.RANG), "ASSAYS", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Service.DataAccess.ASSAYS), true)]
-[assembly: EdmRelationshipAttribute("Model", "ASSAYS_FK06", "REESTR_VEDOMOSTEI", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GeoDB.Service.DataAccess.REESTR_VEDOMOSTEI), "ASSAYS", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Service.DataAccess.ASSAYS), true)]
-[assembly: EdmRelationshipAttribute("Model", "ASSAYS_DMP_FK00", "COLLAR_DMP", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GeoDB.Service.DataAccess.COLLAR_DMP), "ASSAYS_DMP", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Service.DataAccess.ASSAYS_DMP), true)]
-[assembly: EdmRelationshipAttribute("Model", "ASSAYS_DMP_FK01", "GEOLOGIST", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(GeoDB.Service.DataAccess.GEOLOGIST), "ASSAYS_DMP", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Service.DataAccess.ASSAYS_DMP), true)]
-[assembly: EdmRelationshipAttribute("Model", "ASSAYS_DMP_FK02", "REESTR_VEDOMOSTEI", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GeoDB.Service.DataAccess.REESTR_VEDOMOSTEI), "ASSAYS_DMP", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Service.DataAccess.ASSAYS_DMP), true)]
-[assembly: EdmRelationshipAttribute("Model", "ASSAYS_DMP_FK03", "SECTOR", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(GeoDB.Service.DataAccess.SECTOR), "ASSAYS_DMP", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Service.DataAccess.ASSAYS_DMP), true)]
-[assembly: EdmRelationshipAttribute("Model", "ASSAYS_STRG_FK00", "COLLAR_STRG", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GeoDB.Service.DataAccess.COLLAR_STRG), "ASSAYS_STRG", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Service.DataAccess.ASSAYS_STRG), true)]
-[assembly: EdmRelationshipAttribute("Model", "ASSAYS_STRG_FK01", "REESTR_VEDOMOSTEI_STRG", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GeoDB.Service.DataAccess.REESTR_VEDOMOSTEI_STRG), "ASSAYS_STRG", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Service.DataAccess.ASSAYS_STRG), true)]
-[assembly: EdmRelationshipAttribute("Model", "ASSAYS2_FK00", "BLOCK_ZAPASOV", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(GeoDB.Service.DataAccess.BLOCK_ZAPASOV), "ASSAYS2", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Service.DataAccess.ASSAYS2), true)]
-[assembly: EdmRelationshipAttribute("Model", "ASSAYS2_FK01", "COLLAR2", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GeoDB.Service.DataAccess.COLLAR2), "ASSAYS2", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Service.DataAccess.ASSAYS2), true)]
-[assembly: EdmRelationshipAttribute("Model", "ASSAYS2_FK02", "GEOLOGIST", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GeoDB.Service.DataAccess.GEOLOGIST), "ASSAYS2", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Service.DataAccess.ASSAYS2), true)]
-[assembly: EdmRelationshipAttribute("Model", "ASSAYS2_FK03", "JOURNAL", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GeoDB.Service.DataAccess.JOURNAL), "ASSAYS2", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Service.DataAccess.ASSAYS2), true)]
-[assembly: EdmRelationshipAttribute("Model", "ASSAYS2_FK04", "LITOLOGY", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GeoDB.Service.DataAccess.LITOLOGY), "ASSAYS2", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Service.DataAccess.ASSAYS2), true)]
-[assembly: EdmRelationshipAttribute("Model", "ASSAYS2_FK05", "RANG", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(GeoDB.Service.DataAccess.RANG), "ASSAYS2", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Service.DataAccess.ASSAYS2), true)]
-[assembly: EdmRelationshipAttribute("Model", "ASSAYS2_FK06", "REESTR_VEDOMOSTEI", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GeoDB.Service.DataAccess.REESTR_VEDOMOSTEI), "ASSAYS2", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Service.DataAccess.ASSAYS2), true)]
-[assembly: EdmRelationshipAttribute("Model", "ASSAYS2_CS_FK00", "REESTR_VEDOMOSTEI", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GeoDB.Service.DataAccess.REESTR_VEDOMOSTEI), "ASSAYS2_CS", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Service.DataAccess.ASSAYS2_CS), true)]
-[assembly: EdmRelationshipAttribute("Model", "COLLAR_FK00", "DRILLING_TYPE", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(GeoDB.Service.DataAccess.DRILLING_TYPE), "COLLAR", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Service.DataAccess.COLLAR), true)]
-[assembly: EdmRelationshipAttribute("Model", "COLLAR_FK01", "GORIZONT", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GeoDB.Service.DataAccess.GORIZONT), "COLLAR", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Service.DataAccess.COLLAR), true)]
-[assembly: EdmRelationshipAttribute("Model", "COLLAR_FK02", "HOLE", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GeoDB.Service.DataAccess.HOLE), "COLLAR", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Service.DataAccess.COLLAR), true)]
-[assembly: EdmRelationshipAttribute("Model", "COLLAR_FK03", "RL_EXPLO", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GeoDB.Service.DataAccess.RL_EXPLO), "COLLAR", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Service.DataAccess.COLLAR), true)]
-[assembly: EdmRelationshipAttribute("Model", "SURVEYS_DMP_FK00", "COLLAR_DMP", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GeoDB.Service.DataAccess.COLLAR_DMP), "SURVEYS_DMP", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Service.DataAccess.SURVEYS_DMP), true)]
-[assembly: EdmRelationshipAttribute("Model", "FK_COLLAR_OR_DOMEN", "DOMEN", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GeoDB.Service.DataAccess.DOMEN), "COLLAR_OR", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Service.DataAccess.COLLAR_OR), true)]
-[assembly: EdmRelationshipAttribute("Model", "SURVEYS_STRG_FK00", "COLLAR_STRG", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GeoDB.Service.DataAccess.COLLAR_STRG), "SURVEYS_STRG", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Service.DataAccess.SURVEYS_STRG), true)]
-[assembly: EdmRelationshipAttribute("Model", "COLLAR2_FK_DOMEN", "DOMEN", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GeoDB.Service.DataAccess.DOMEN), "COLLAR2", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Service.DataAccess.COLLAR2), true)]
-[assembly: EdmRelationshipAttribute("Model", "COLLAR2_FK00", "DRILLING_TYPE", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GeoDB.Service.DataAccess.DRILLING_TYPE), "COLLAR2", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Service.DataAccess.COLLAR2), true)]
-[assembly: EdmRelationshipAttribute("Model", "COLLAR2_FK01", "GORIZONT", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GeoDB.Service.DataAccess.GORIZONT), "COLLAR2", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Service.DataAccess.COLLAR2), true)]
-[assembly: EdmRelationshipAttribute("Model", "COLLAR2_FK02", "RL_EXPLO2", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GeoDB.Service.DataAccess.RL_EXPLO2), "COLLAR2", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Service.DataAccess.COLLAR2), true)]
-[assembly: EdmRelationshipAttribute("Model", "DUMP_BALANS_FK00", "Q_Mes", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(GeoDB.Service.DataAccess.Q_Mes), "DUMP_BALANS", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Service.DataAccess.DUMP_BALANS), true)]
-[assembly: EdmRelationshipAttribute("Model", "DUMP_BALANS_FK01", "Q_YEAR", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(GeoDB.Service.DataAccess.Q_YEAR), "DUMP_BALANS", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Service.DataAccess.DUMP_BALANS), true)]
-[assembly: EdmRelationshipAttribute("Model", "FK_Flows_Q_sm", "Q_sm", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GeoDB.Service.DataAccess.Q_sm), "Flows", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Service.DataAccess.Flows), true)]
-[assembly: EdmRelationshipAttribute("Model", "FK_Flows_sprAreas", "sprAreas", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GeoDB.Service.DataAccess.sprAreas), "Flows", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Service.DataAccess.Flows), true)]
-[assembly: EdmRelationshipAttribute("Model", "FK_Flows_sprAreas1", "sprAreas", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GeoDB.Service.DataAccess.sprAreas), "Flows", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Service.DataAccess.Flows), true)]
-[assembly: EdmRelationshipAttribute("Model", "QFACE_FK00", "GEOLOGIST", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(GeoDB.Service.DataAccess.GEOLOGIST), "QFACE", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Service.DataAccess.QFACE), true)]
-[assembly: EdmRelationshipAttribute("Model", "REESTR_VEDOMOSTEI_STRG_FK00", "GEOLOGIST", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(GeoDB.Service.DataAccess.GEOLOGIST), "REESTR_VEDOMOSTEI_STRG", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Service.DataAccess.REESTR_VEDOMOSTEI_STRG), true)]
-[assembly: EdmRelationshipAttribute("Model", "SFACE_FK00", "GEOLOGIST", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(GeoDB.Service.DataAccess.GEOLOGIST), "SFACE", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Service.DataAccess.SFACE), true)]
-[assembly: EdmRelationshipAttribute("Model", "FK_S_BLOK_GORIZONT", "GORIZONT", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GeoDB.Service.DataAccess.GORIZONT), "S_BLOK", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Service.DataAccess.S_BLOK), true)]
-[assembly: EdmRelationshipAttribute("Model", "QBLOK_FK00", "GORIZONT", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(GeoDB.Service.DataAccess.GORIZONT), "QBLOK", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Service.DataAccess.QBLOK), true)]
-[assembly: EdmRelationshipAttribute("Model", "QFACE_FK01", "GORIZONT", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GeoDB.Service.DataAccess.GORIZONT), "QFACE", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Service.DataAccess.QFACE), true)]
-[assembly: EdmRelationshipAttribute("Model", "S_DAY_FK00", "GORIZONT", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GeoDB.Service.DataAccess.GORIZONT), "S_DAY", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Service.DataAccess.S_DAY), true)]
-[assembly: EdmRelationshipAttribute("Model", "QFACE_FK03", "MOVER", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GeoDB.Service.DataAccess.MOVER), "QFACE", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Service.DataAccess.QFACE), true)]
-[assembly: EdmRelationshipAttribute("Model", "REESTR_VEDOMOSTEI_STRG_FK01", "MOVER", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(GeoDB.Service.DataAccess.MOVER), "REESTR_VEDOMOSTEI_STRG", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Service.DataAccess.REESTR_VEDOMOSTEI_STRG), true)]
-[assembly: EdmRelationshipAttribute("Model", "S_DAY_FK01", "MOVER", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GeoDB.Service.DataAccess.MOVER), "S_DAY", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Service.DataAccess.S_DAY), true)]
-[assembly: EdmRelationshipAttribute("Model", "S_DAY_FK02", "Q_pit", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GeoDB.Service.DataAccess.Q_pit), "S_DAY", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Service.DataAccess.S_DAY), true)]
-[assembly: EdmRelationshipAttribute("Model", "S_DAY_FK03", "Q_sm", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GeoDB.Service.DataAccess.Q_sm), "S_DAY", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Service.DataAccess.S_DAY), true)]
-[assembly: EdmRelationshipAttribute("Model", "S_ORE_PIT_FK00", "Q_sm", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(GeoDB.Service.DataAccess.Q_sm), "S_ORE_PIT", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Service.DataAccess.S_ORE_PIT), true)]
-[assembly: EdmRelationshipAttribute("Model", "S_ZIF_FK00", "Q_sm", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(GeoDB.Service.DataAccess.Q_sm), "S_ZIF", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Service.DataAccess.S_ZIF), true)]
-[assembly: EdmRelationshipAttribute("Model", "S_ORE_PIT_FK01", "Q_zone", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(GeoDB.Service.DataAccess.Q_zone), "S_ORE_PIT", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Service.DataAccess.S_ORE_PIT), true)]
-[assembly: EdmRelationshipAttribute("Model", "QCONTROL_FK00", "REESTR_VEDOMOSTEI", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GeoDB.Service.DataAccess.REESTR_VEDOMOSTEI), "QCONTROL", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Service.DataAccess.QCONTROL), true)]
-[assembly: EdmRelationshipAttribute("Model", "QFACE_FK02", "REESTR_VEDOMOSTEI", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GeoDB.Service.DataAccess.REESTR_VEDOMOSTEI), "QFACE", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Service.DataAccess.QFACE), true)]
-[assembly: EdmRelationshipAttribute("Model", "RV_GEO_FK00", "REESTR_VEDOMOSTEI", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GeoDB.Service.DataAccess.REESTR_VEDOMOSTEI), "RV_GEO", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Service.DataAccess.RV_GEO), true)]
-[assembly: EdmRelationshipAttribute("Model", "REESTR_VEDOMOSTEI_STRG_FK02", "SECTOR", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(GeoDB.Service.DataAccess.SECTOR), "REESTR_VEDOMOSTEI_STRG", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Service.DataAccess.REESTR_VEDOMOSTEI_STRG), true)]
-[assembly: EdmRelationshipAttribute("Model", "RV_GEO_STRG_FK00", "REESTR_VEDOMOSTEI_STRG", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GeoDB.Service.DataAccess.REESTR_VEDOMOSTEI_STRG), "RV_GEO_STRG", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Service.DataAccess.RV_GEO_STRG), true)]
-[assembly: EdmRelationshipAttribute("Model", "SFACE_FK01", "REESTR_VEDOMOSTEI_STRG", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GeoDB.Service.DataAccess.REESTR_VEDOMOSTEI_STRG), "SFACE", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Service.DataAccess.SFACE), true)]
-[assembly: EdmRelationshipAttribute("Model", "FK_S_BLOK_RL_EXPLO2", "RL_EXPLO2", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GeoDB.Service.DataAccess.RL_EXPLO2), "S_BLOK", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Service.DataAccess.S_BLOK), true)]
-[assembly: EdmRelationshipAttribute("Model", "S_DAY_FK04", "RL_EXPLO2", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GeoDB.Service.DataAccess.RL_EXPLO2), "S_DAY", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Service.DataAccess.S_DAY), true)]
-[assembly: EdmRelationshipAttribute("Model", "RV_GRP_FK00", "RV_GEO", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GeoDB.Service.DataAccess.RV_GEO), "RV_GRP", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Service.DataAccess.RV_GRP), true)]
-[assembly: EdmRelationshipAttribute("Model", "RV_PAL_FK00", "RV_GEO", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GeoDB.Service.DataAccess.RV_GEO), "RV_PAL", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Service.DataAccess.RV_PAL), true)]
-[assembly: EdmRelationshipAttribute("Model", "RV_GRP_STRG_FK00", "RV_GEO_STRG", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GeoDB.Service.DataAccess.RV_GEO_STRG), "RV_GRP_STRG", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Service.DataAccess.RV_GRP_STRG), true)]
-[assembly: EdmRelationshipAttribute("Model", "RV_PAL_STRG_FK00", "RV_GEO_STRG", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GeoDB.Service.DataAccess.RV_GEO_STRG), "RV_PAL_STRG", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Service.DataAccess.RV_PAL_STRG), true)]
-[assembly: EdmRelationshipAttribute("Model", "S_ORE_PIT_FK02", "SECTOR", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(GeoDB.Service.DataAccess.SECTOR), "S_ORE_PIT", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Service.DataAccess.S_ORE_PIT), true)]
-[assembly: EdmRelationshipAttribute("Model", "FK_S_SALDO_sprAreas", "sprAreas", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GeoDB.Service.DataAccess.sprAreas), "S_SALDO", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Service.DataAccess.S_SALDO), true)]
-[assembly: EdmRelationshipAttribute("Model", "FK_sprDirections_sprAreas", "sprAreas", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GeoDB.Service.DataAccess.sprAreas), "sprDirections", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Service.DataAccess.sprDirections), true)]
-[assembly: EdmRelationshipAttribute("Model", "FK_sprDirections_sprOreRepGroups", "sprOreRepGroups", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(GeoDB.Service.DataAccess.sprOreRepGroups), "sprDirections", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Service.DataAccess.sprDirections), true)]
+[assembly: EdmRelationshipAttribute("Model", "ASSAYS_FK00", "BLOCK_ZAPASOV", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(GeoDB.Model.BLOCK_ZAPASOV), "ASSAYS", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Model.ASSAYS), true)]
+[assembly: EdmRelationshipAttribute("Model", "ASSAYS_FK01", "COLLAR", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GeoDB.Model.COLLAR), "ASSAYS", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Model.ASSAYS), true)]
+[assembly: EdmRelationshipAttribute("Model", "ASSAYS_FK02", "GEOLOGIST", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(GeoDB.Model.GEOLOGIST), "ASSAYS", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Model.ASSAYS), true)]
+[assembly: EdmRelationshipAttribute("Model", "ASSAYS_FK03", "JOURNAL", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GeoDB.Model.JOURNAL), "ASSAYS", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Model.ASSAYS), true)]
+[assembly: EdmRelationshipAttribute("Model", "ASSAYS_FK04", "LITOLOGY", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GeoDB.Model.LITOLOGY), "ASSAYS", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Model.ASSAYS), true)]
+[assembly: EdmRelationshipAttribute("Model", "ASSAYS_FK05", "RANG", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(GeoDB.Model.RANG), "ASSAYS", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Model.ASSAYS), true)]
+[assembly: EdmRelationshipAttribute("Model", "ASSAYS_FK06", "REESTR_VEDOMOSTEI", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GeoDB.Model.REESTR_VEDOMOSTEI), "ASSAYS", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Model.ASSAYS), true)]
+[assembly: EdmRelationshipAttribute("Model", "ASSAYS_DMP_FK00", "COLLAR_DMP", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GeoDB.Model.COLLAR_DMP), "ASSAYS_DMP", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Model.ASSAYS_DMP), true)]
+[assembly: EdmRelationshipAttribute("Model", "ASSAYS_DMP_FK01", "GEOLOGIST", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(GeoDB.Model.GEOLOGIST), "ASSAYS_DMP", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Model.ASSAYS_DMP), true)]
+[assembly: EdmRelationshipAttribute("Model", "ASSAYS_DMP_FK02", "REESTR_VEDOMOSTEI", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GeoDB.Model.REESTR_VEDOMOSTEI), "ASSAYS_DMP", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Model.ASSAYS_DMP), true)]
+[assembly: EdmRelationshipAttribute("Model", "ASSAYS_DMP_FK03", "SECTOR", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(GeoDB.Model.SECTOR), "ASSAYS_DMP", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Model.ASSAYS_DMP), true)]
+[assembly: EdmRelationshipAttribute("Model", "ASSAYS_STRG_FK00", "COLLAR_STRG", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GeoDB.Model.COLLAR_STRG), "ASSAYS_STRG", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Model.ASSAYS_STRG), true)]
+[assembly: EdmRelationshipAttribute("Model", "ASSAYS_STRG_FK01", "REESTR_VEDOMOSTEI_STRG", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GeoDB.Model.REESTR_VEDOMOSTEI_STRG), "ASSAYS_STRG", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Model.ASSAYS_STRG), true)]
+[assembly: EdmRelationshipAttribute("Model", "ASSAYS2_FK00", "BLOCK_ZAPASOV", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(GeoDB.Model.BLOCK_ZAPASOV), "ASSAYS2", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Model.ASSAYS2), true)]
+[assembly: EdmRelationshipAttribute("Model", "ASSAYS2_FK01", "COLLAR2", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GeoDB.Model.COLLAR2), "ASSAYS2", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Model.ASSAYS2), true)]
+[assembly: EdmRelationshipAttribute("Model", "ASSAYS2_FK02", "GEOLOGIST", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GeoDB.Model.GEOLOGIST), "ASSAYS2", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Model.ASSAYS2), true)]
+[assembly: EdmRelationshipAttribute("Model", "ASSAYS2_FK03", "JOURNAL", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GeoDB.Model.JOURNAL), "ASSAYS2", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Model.ASSAYS2), true)]
+[assembly: EdmRelationshipAttribute("Model", "ASSAYS2_FK04", "LITOLOGY", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GeoDB.Model.LITOLOGY), "ASSAYS2", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Model.ASSAYS2), true)]
+[assembly: EdmRelationshipAttribute("Model", "ASSAYS2_FK05", "RANG", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(GeoDB.Model.RANG), "ASSAYS2", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Model.ASSAYS2), true)]
+[assembly: EdmRelationshipAttribute("Model", "ASSAYS2_FK06", "REESTR_VEDOMOSTEI", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GeoDB.Model.REESTR_VEDOMOSTEI), "ASSAYS2", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Model.ASSAYS2), true)]
+[assembly: EdmRelationshipAttribute("Model", "ASSAYS2_CS_FK00", "REESTR_VEDOMOSTEI", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GeoDB.Model.REESTR_VEDOMOSTEI), "ASSAYS2_CS", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Model.ASSAYS2_CS), true)]
+[assembly: EdmRelationshipAttribute("Model", "COLLAR_FK00", "DRILLING_TYPE", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(GeoDB.Model.DRILLING_TYPE), "COLLAR", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Model.COLLAR), true)]
+[assembly: EdmRelationshipAttribute("Model", "COLLAR_FK01", "GORIZONT", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GeoDB.Model.GORIZONT), "COLLAR", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Model.COLLAR), true)]
+[assembly: EdmRelationshipAttribute("Model", "COLLAR_FK02", "HOLE", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GeoDB.Model.HOLE), "COLLAR", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Model.COLLAR), true)]
+[assembly: EdmRelationshipAttribute("Model", "COLLAR_FK03", "RL_EXPLO", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GeoDB.Model.RL_EXPLO), "COLLAR", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Model.COLLAR), true)]
+[assembly: EdmRelationshipAttribute("Model", "SURVEYS_DMP_FK00", "COLLAR_DMP", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GeoDB.Model.COLLAR_DMP), "SURVEYS_DMP", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Model.SURVEYS_DMP), true)]
+[assembly: EdmRelationshipAttribute("Model", "FK_COLLAR_OR_DOMEN", "DOMEN", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GeoDB.Model.DOMEN), "COLLAR_OR", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Model.COLLAR_OR), true)]
+[assembly: EdmRelationshipAttribute("Model", "SURVEYS_STRG_FK00", "COLLAR_STRG", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GeoDB.Model.COLLAR_STRG), "SURVEYS_STRG", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Model.SURVEYS_STRG), true)]
+[assembly: EdmRelationshipAttribute("Model", "COLLAR2_FK_DOMEN", "DOMEN", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GeoDB.Model.DOMEN), "COLLAR2", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Model.COLLAR2), true)]
+[assembly: EdmRelationshipAttribute("Model", "COLLAR2_FK00", "DRILLING_TYPE", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GeoDB.Model.DRILLING_TYPE), "COLLAR2", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Model.COLLAR2), true)]
+[assembly: EdmRelationshipAttribute("Model", "COLLAR2_FK01", "GORIZONT", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GeoDB.Model.GORIZONT), "COLLAR2", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Model.COLLAR2), true)]
+[assembly: EdmRelationshipAttribute("Model", "COLLAR2_FK02", "RL_EXPLO2", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GeoDB.Model.RL_EXPLO2), "COLLAR2", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Model.COLLAR2), true)]
+[assembly: EdmRelationshipAttribute("Model", "DUMP_BALANS_FK00", "Q_Mes", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(GeoDB.Model.Q_Mes), "DUMP_BALANS", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Model.DUMP_BALANS), true)]
+[assembly: EdmRelationshipAttribute("Model", "DUMP_BALANS_FK01", "Q_YEAR", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(GeoDB.Model.Q_YEAR), "DUMP_BALANS", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Model.DUMP_BALANS), true)]
+[assembly: EdmRelationshipAttribute("Model", "FK_Flows_Q_sm", "Q_sm", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GeoDB.Model.Q_sm), "Flows", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Model.Flows), true)]
+[assembly: EdmRelationshipAttribute("Model", "FK_Flows_sprAreas", "sprAreas", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GeoDB.Model.sprAreas), "Flows", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Model.Flows), true)]
+[assembly: EdmRelationshipAttribute("Model", "FK_Flows_sprAreas1", "sprAreas", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GeoDB.Model.sprAreas), "Flows", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Model.Flows), true)]
+[assembly: EdmRelationshipAttribute("Model", "QFACE_FK00", "GEOLOGIST", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(GeoDB.Model.GEOLOGIST), "QFACE", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Model.QFACE), true)]
+[assembly: EdmRelationshipAttribute("Model", "REESTR_VEDOMOSTEI_STRG_FK00", "GEOLOGIST", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(GeoDB.Model.GEOLOGIST), "REESTR_VEDOMOSTEI_STRG", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Model.REESTR_VEDOMOSTEI_STRG), true)]
+[assembly: EdmRelationshipAttribute("Model", "SFACE_FK00", "GEOLOGIST", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(GeoDB.Model.GEOLOGIST), "SFACE", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Model.SFACE), true)]
+[assembly: EdmRelationshipAttribute("Model", "FK_S_BLOK_GORIZONT", "GORIZONT", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GeoDB.Model.GORIZONT), "S_BLOK", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Model.S_BLOK), true)]
+[assembly: EdmRelationshipAttribute("Model", "QBLOK_FK00", "GORIZONT", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(GeoDB.Model.GORIZONT), "QBLOK", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Model.QBLOK), true)]
+[assembly: EdmRelationshipAttribute("Model", "QFACE_FK01", "GORIZONT", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GeoDB.Model.GORIZONT), "QFACE", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Model.QFACE), true)]
+[assembly: EdmRelationshipAttribute("Model", "S_DAY_FK00", "GORIZONT", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GeoDB.Model.GORIZONT), "S_DAY", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Model.S_DAY), true)]
+[assembly: EdmRelationshipAttribute("Model", "QFACE_FK03", "MOVER", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GeoDB.Model.MOVER), "QFACE", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Model.QFACE), true)]
+[assembly: EdmRelationshipAttribute("Model", "REESTR_VEDOMOSTEI_STRG_FK01", "MOVER", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(GeoDB.Model.MOVER), "REESTR_VEDOMOSTEI_STRG", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Model.REESTR_VEDOMOSTEI_STRG), true)]
+[assembly: EdmRelationshipAttribute("Model", "S_DAY_FK01", "MOVER", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GeoDB.Model.MOVER), "S_DAY", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Model.S_DAY), true)]
+[assembly: EdmRelationshipAttribute("Model", "S_DAY_FK02", "Q_pit", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GeoDB.Model.Q_pit), "S_DAY", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Model.S_DAY), true)]
+[assembly: EdmRelationshipAttribute("Model", "S_DAY_FK03", "Q_sm", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GeoDB.Model.Q_sm), "S_DAY", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Model.S_DAY), true)]
+[assembly: EdmRelationshipAttribute("Model", "S_ORE_PIT_FK00", "Q_sm", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(GeoDB.Model.Q_sm), "S_ORE_PIT", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Model.S_ORE_PIT), true)]
+[assembly: EdmRelationshipAttribute("Model", "S_ZIF_FK00", "Q_sm", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(GeoDB.Model.Q_sm), "S_ZIF", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Model.S_ZIF), true)]
+[assembly: EdmRelationshipAttribute("Model", "S_ORE_PIT_FK01", "Q_zone", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(GeoDB.Model.Q_zone), "S_ORE_PIT", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Model.S_ORE_PIT), true)]
+[assembly: EdmRelationshipAttribute("Model", "QCONTROL_FK00", "REESTR_VEDOMOSTEI", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GeoDB.Model.REESTR_VEDOMOSTEI), "QCONTROL", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Model.QCONTROL), true)]
+[assembly: EdmRelationshipAttribute("Model", "QFACE_FK02", "REESTR_VEDOMOSTEI", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GeoDB.Model.REESTR_VEDOMOSTEI), "QFACE", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Model.QFACE), true)]
+[assembly: EdmRelationshipAttribute("Model", "RV_GEO_FK00", "REESTR_VEDOMOSTEI", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GeoDB.Model.REESTR_VEDOMOSTEI), "RV_GEO", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Model.RV_GEO), true)]
+[assembly: EdmRelationshipAttribute("Model", "REESTR_VEDOMOSTEI_STRG_FK02", "SECTOR", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(GeoDB.Model.SECTOR), "REESTR_VEDOMOSTEI_STRG", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Model.REESTR_VEDOMOSTEI_STRG), true)]
+[assembly: EdmRelationshipAttribute("Model", "RV_GEO_STRG_FK00", "REESTR_VEDOMOSTEI_STRG", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GeoDB.Model.REESTR_VEDOMOSTEI_STRG), "RV_GEO_STRG", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Model.RV_GEO_STRG), true)]
+[assembly: EdmRelationshipAttribute("Model", "SFACE_FK01", "REESTR_VEDOMOSTEI_STRG", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GeoDB.Model.REESTR_VEDOMOSTEI_STRG), "SFACE", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Model.SFACE), true)]
+[assembly: EdmRelationshipAttribute("Model", "FK_S_BLOK_RL_EXPLO2", "RL_EXPLO2", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GeoDB.Model.RL_EXPLO2), "S_BLOK", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Model.S_BLOK), true)]
+[assembly: EdmRelationshipAttribute("Model", "S_DAY_FK04", "RL_EXPLO2", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GeoDB.Model.RL_EXPLO2), "S_DAY", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Model.S_DAY), true)]
+[assembly: EdmRelationshipAttribute("Model", "RV_GRP_FK00", "RV_GEO", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GeoDB.Model.RV_GEO), "RV_GRP", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Model.RV_GRP), true)]
+[assembly: EdmRelationshipAttribute("Model", "RV_PAL_FK00", "RV_GEO", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GeoDB.Model.RV_GEO), "RV_PAL", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Model.RV_PAL), true)]
+[assembly: EdmRelationshipAttribute("Model", "RV_GRP_STRG_FK00", "RV_GEO_STRG", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GeoDB.Model.RV_GEO_STRG), "RV_GRP_STRG", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Model.RV_GRP_STRG), true)]
+[assembly: EdmRelationshipAttribute("Model", "RV_PAL_STRG_FK00", "RV_GEO_STRG", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GeoDB.Model.RV_GEO_STRG), "RV_PAL_STRG", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Model.RV_PAL_STRG), true)]
+[assembly: EdmRelationshipAttribute("Model", "S_ORE_PIT_FK02", "SECTOR", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(GeoDB.Model.SECTOR), "S_ORE_PIT", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Model.S_ORE_PIT), true)]
+[assembly: EdmRelationshipAttribute("Model", "FK_S_SALDO_sprAreas", "sprAreas", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GeoDB.Model.sprAreas), "S_SALDO", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Model.S_SALDO), true)]
+[assembly: EdmRelationshipAttribute("Model", "FK_sprDirections_sprAreas", "sprAreas", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GeoDB.Model.sprAreas), "sprDirections", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Model.sprDirections), true)]
+[assembly: EdmRelationshipAttribute("Model", "FK_sprDirections_sprOreRepGroups", "sprOreRepGroups", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(GeoDB.Model.sprOreRepGroups), "sprDirections", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GeoDB.Model.sprDirections), true)]
 
 #endregion
 
-namespace GeoDB.Service.DataAccess
+namespace GeoDB.Model
 {
     #region Contexts
     
@@ -1019,7 +1018,6 @@ namespace GeoDB.Service.DataAccess
         private ObjectSet<sysdiagrams> _sysdiagrams;
 
         #endregion
-
         #region AddTo Methods
     
         /// <summary>
@@ -1463,11 +1461,11 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
     }
+    
 
     #endregion
-
+    
     #region Entities
     
     /// <summary>
@@ -1510,7 +1508,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
         #region Primitive Properties
     
         /// <summary>
@@ -1997,7 +1994,6 @@ namespace GeoDB.Service.DataAccess
         partial void Onupsize_tsChanged();
 
         #endregion
-
     
         #region Navigation Properties
     
@@ -2268,7 +2264,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
     }
     
     /// <summary>
@@ -2299,7 +2294,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
         #region Primitive Properties
     
         /// <summary>
@@ -2666,7 +2660,6 @@ namespace GeoDB.Service.DataAccess
         partial void Onupsize_tsChanged();
 
         #endregion
-
     
         #region Navigation Properties
     
@@ -2823,7 +2816,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
     }
     
     /// <summary>
@@ -2866,7 +2858,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
         #region Primitive Properties
     
         /// <summary>
@@ -3449,7 +3440,6 @@ namespace GeoDB.Service.DataAccess
         partial void OnLastDTChanged();
 
         #endregion
-
     
     }
     
@@ -3481,7 +3471,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
         #region Primitive Properties
     
         /// <summary>
@@ -4016,7 +4005,6 @@ namespace GeoDB.Service.DataAccess
         partial void Onupsize_tsChanged();
 
         #endregion
-
     
         #region Navigation Properties
     
@@ -4097,7 +4085,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
     }
     
     /// <summary>
@@ -4142,7 +4129,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
         #region Primitive Properties
     
         /// <summary>
@@ -4821,7 +4807,6 @@ namespace GeoDB.Service.DataAccess
         partial void Onupsize_tsChanged();
 
         #endregion
-
     
         #region Navigation Properties
     
@@ -5092,7 +5077,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
     }
     
     /// <summary>
@@ -5121,7 +5105,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
         #region Primitive Properties
     
         /// <summary>
@@ -5608,7 +5591,6 @@ namespace GeoDB.Service.DataAccess
         partial void Onupsize_tsChanged();
 
         #endregion
-
     
         #region Navigation Properties
     
@@ -5651,7 +5633,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
     }
     
     /// <summary>
@@ -5676,7 +5657,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
         #region Primitive Properties
     
         /// <summary>
@@ -5803,7 +5783,6 @@ namespace GeoDB.Service.DataAccess
         partial void Onupsize_tsChanged();
 
         #endregion
-
     
         #region Navigation Properties
     
@@ -5852,7 +5831,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
     }
     
     /// <summary>
@@ -5893,7 +5871,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
         #region Primitive Properties
     
         /// <summary>
@@ -6212,7 +6189,6 @@ namespace GeoDB.Service.DataAccess
         partial void Onupsize_tsChanged();
 
         #endregion
-
     
         #region Navigation Properties
     
@@ -6391,7 +6367,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
     }
     
     /// <summary>
@@ -6426,7 +6401,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
         #region Primitive Properties
     
         /// <summary>
@@ -6649,7 +6623,6 @@ namespace GeoDB.Service.DataAccess
         partial void Onupsize_tsChanged();
 
         #endregion
-
     
         #region Navigation Properties
     
@@ -6698,7 +6671,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
     }
     
     /// <summary>
@@ -6735,7 +6707,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
         #region Primitive Properties
     
         /// <summary>
@@ -6958,7 +6929,6 @@ namespace GeoDB.Service.DataAccess
         partial void OnLastDTChanged();
 
         #endregion
-
     
         #region Navigation Properties
     
@@ -7001,7 +6971,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
     }
     
     /// <summary>
@@ -7036,7 +7005,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
         #region Primitive Properties
     
         /// <summary>
@@ -7259,7 +7227,6 @@ namespace GeoDB.Service.DataAccess
         partial void Onupsize_tsChanged();
 
         #endregion
-
     
         #region Navigation Properties
     
@@ -7308,7 +7275,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
     }
     
     /// <summary>
@@ -7353,7 +7319,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
         #region Primitive Properties
     
         /// <summary>
@@ -7696,7 +7661,6 @@ namespace GeoDB.Service.DataAccess
         partial void Onupsize_tsChanged();
 
         #endregion
-
     
         #region Navigation Properties
     
@@ -7875,7 +7839,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
     }
     
     /// <summary>
@@ -7904,7 +7867,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
         #region Primitive Properties
     
         /// <summary>
@@ -8031,7 +7993,6 @@ namespace GeoDB.Service.DataAccess
         partial void OnLastDTChanged();
 
         #endregion
-
     
         #region Navigation Properties
     
@@ -8080,7 +8041,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
     }
     
     /// <summary>
@@ -8109,7 +8069,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
         #region Primitive Properties
     
         /// <summary>
@@ -8260,7 +8219,6 @@ namespace GeoDB.Service.DataAccess
         partial void Onupsize_tsChanged();
 
         #endregion
-
     
         #region Navigation Properties
     
@@ -8309,7 +8267,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
     }
     
     /// <summary>
@@ -8334,7 +8291,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
         #region Primitive Properties
     
         /// <summary>
@@ -8605,7 +8561,6 @@ namespace GeoDB.Service.DataAccess
         partial void Onupsize_tsChanged();
 
         #endregion
-
     
         #region Navigation Properties
     
@@ -8686,7 +8641,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
     }
     
     /// <summary>
@@ -8721,7 +8675,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
         #region Primitive Properties
     
         /// <summary>
@@ -8920,7 +8873,6 @@ namespace GeoDB.Service.DataAccess
         partial void OnLastDTChanged();
 
         #endregion
-
     
         #region Navigation Properties
     
@@ -9039,7 +8991,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
     }
     
     /// <summary>
@@ -9068,7 +9019,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
         #region Primitive Properties
     
         /// <summary>
@@ -9219,7 +9169,6 @@ namespace GeoDB.Service.DataAccess
         partial void Onupsize_tsChanged();
 
         #endregion
-
     
         #region Navigation Properties
     
@@ -9356,7 +9305,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
     }
     
     /// <summary>
@@ -9383,7 +9331,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
         #region Primitive Properties
     
         /// <summary>
@@ -9510,7 +9457,6 @@ namespace GeoDB.Service.DataAccess
         partial void Onupsize_tsChanged();
 
         #endregion
-
     
         #region Navigation Properties
     
@@ -9647,7 +9593,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
     }
     
     /// <summary>
@@ -9674,7 +9619,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
         #region Primitive Properties
     
         /// <summary>
@@ -9801,7 +9745,6 @@ namespace GeoDB.Service.DataAccess
         partial void Onupsize_tsChanged();
 
         #endregion
-
     
         #region Navigation Properties
     
@@ -9828,7 +9771,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
     }
     
     /// <summary>
@@ -9855,7 +9797,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
         #region Primitive Properties
     
         /// <summary>
@@ -9982,7 +9923,6 @@ namespace GeoDB.Service.DataAccess
         partial void Onupsize_tsChanged();
 
         #endregion
-
     
         #region Navigation Properties
     
@@ -10031,7 +9971,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
     }
     
     /// <summary>
@@ -10060,7 +9999,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
         #region Primitive Properties
     
         /// <summary>
@@ -10211,7 +10149,6 @@ namespace GeoDB.Service.DataAccess
         partial void Onupsize_tsChanged();
 
         #endregion
-
     
         #region Navigation Properties
     
@@ -10260,7 +10197,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
     }
     
     /// <summary>
@@ -10287,7 +10223,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
         #region Primitive Properties
     
         /// <summary>
@@ -10414,7 +10349,6 @@ namespace GeoDB.Service.DataAccess
         partial void Onupsize_tsChanged();
 
         #endregion
-
     
         #region Navigation Properties
     
@@ -10485,7 +10419,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
     }
     
     /// <summary>
@@ -10510,7 +10443,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
         #region Primitive Properties
     
         /// <summary>
@@ -10589,7 +10521,6 @@ namespace GeoDB.Service.DataAccess
         partial void Onupsize_tsChanged();
 
         #endregion
-
     
         #region Navigation Properties
     
@@ -10616,7 +10547,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
     }
     
     /// <summary>
@@ -10643,7 +10573,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
         #region Primitive Properties
     
         /// <summary>
@@ -10770,7 +10699,6 @@ namespace GeoDB.Service.DataAccess
         partial void Onupsize_tsChanged();
 
         #endregion
-
     
         #region Navigation Properties
     
@@ -10797,7 +10725,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
     }
     
     /// <summary>
@@ -10822,7 +10749,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
         #region Primitive Properties
     
         /// <summary>
@@ -10949,7 +10875,6 @@ namespace GeoDB.Service.DataAccess
         partial void Onupsize_tsChanged();
 
         #endregion
-
     
         #region Navigation Properties
     
@@ -11042,7 +10967,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
     }
     
     /// <summary>
@@ -11067,7 +10991,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
         #region Primitive Properties
     
         /// <summary>
@@ -11146,7 +11069,6 @@ namespace GeoDB.Service.DataAccess
         partial void Onupsize_tsChanged();
 
         #endregion
-
     
         #region Navigation Properties
     
@@ -11173,7 +11095,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
     }
     
     /// <summary>
@@ -11200,7 +11121,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
         #region Primitive Properties
     
         /// <summary>
@@ -11327,7 +11247,6 @@ namespace GeoDB.Service.DataAccess
         partial void Onupsize_tsChanged();
 
         #endregion
-
     
         #region Navigation Properties
     
@@ -11354,7 +11273,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
     }
     
     /// <summary>
@@ -11379,7 +11297,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
         #region Primitive Properties
     
         /// <summary>
@@ -11650,7 +11567,6 @@ namespace GeoDB.Service.DataAccess
         partial void Onupsize_tsChanged();
 
         #endregion
-
     
         #region Navigation Properties
     
@@ -11693,7 +11609,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
     }
     
     /// <summary>
@@ -11722,7 +11637,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
         #region Primitive Properties
     
         /// <summary>
@@ -12113,7 +12027,6 @@ namespace GeoDB.Service.DataAccess
         partial void Onupsize_tsChanged();
 
         #endregion
-
     
         #region Navigation Properties
     
@@ -12156,7 +12069,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
     }
     
     /// <summary>
@@ -12195,7 +12107,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
         #region Primitive Properties
     
         /// <summary>
@@ -12751,7 +12662,6 @@ namespace GeoDB.Service.DataAccess
         partial void Onupsize_tsChanged();
 
         #endregion
-
     
         #region Navigation Properties
     
@@ -12908,7 +12818,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
     }
     
     /// <summary>
@@ -12933,7 +12842,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
         #region Primitive Properties
     
         /// <summary>
@@ -13108,7 +13016,6 @@ namespace GeoDB.Service.DataAccess
         partial void Onupsize_tsChanged();
 
         #endregion
-
     
         #region Navigation Properties
     
@@ -13157,7 +13064,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
     }
     
     /// <summary>
@@ -13184,7 +13090,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
         #region Primitive Properties
     
         /// <summary>
@@ -13455,7 +13360,6 @@ namespace GeoDB.Service.DataAccess
         partial void Onupsize_tsChanged();
 
         #endregion
-
     
         #region Navigation Properties
     
@@ -13614,7 +13518,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
     }
     
     /// <summary>
@@ -13641,7 +13544,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
         #region Primitive Properties
     
         /// <summary>
@@ -13960,7 +13862,6 @@ namespace GeoDB.Service.DataAccess
         partial void Onupsize_tsChanged();
 
         #endregion
-
     
         #region Navigation Properties
     
@@ -14145,7 +14046,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
     }
     
     /// <summary>
@@ -14170,7 +14070,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
         #region Primitive Properties
     
         /// <summary>
@@ -14297,7 +14196,6 @@ namespace GeoDB.Service.DataAccess
         partial void Onupsize_tsChanged();
 
         #endregion
-
     
         #region Navigation Properties
     
@@ -14324,7 +14222,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
     }
     
     /// <summary>
@@ -14349,7 +14246,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
         #region Primitive Properties
     
         /// <summary>
@@ -14500,7 +14396,6 @@ namespace GeoDB.Service.DataAccess
         partial void Onupsize_tsChanged();
 
         #endregion
-
     
         #region Navigation Properties
     
@@ -14571,7 +14466,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
     }
     
     /// <summary>
@@ -14600,7 +14494,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
         #region Primitive Properties
     
         /// <summary>
@@ -14847,7 +14740,6 @@ namespace GeoDB.Service.DataAccess
         partial void Onupsize_tsChanged();
 
         #endregion
-
     
         #region Navigation Properties
     
@@ -14934,7 +14826,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
     }
     
     /// <summary>
@@ -14963,7 +14854,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
         #region Primitive Properties
     
         /// <summary>
@@ -15162,7 +15052,6 @@ namespace GeoDB.Service.DataAccess
         partial void Onupsize_tsChanged();
 
         #endregion
-
     
         #region Navigation Properties
     
@@ -15249,7 +15138,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
     }
     
     /// <summary>
@@ -15276,7 +15164,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
         #region Primitive Properties
     
         /// <summary>
@@ -15427,7 +15314,6 @@ namespace GeoDB.Service.DataAccess
         partial void Onupsize_tsChanged();
 
         #endregion
-
     
         #region Navigation Properties
     
@@ -15470,7 +15356,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
     }
     
     /// <summary>
@@ -15497,7 +15382,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
         #region Primitive Properties
     
         /// <summary>
@@ -15648,7 +15532,6 @@ namespace GeoDB.Service.DataAccess
         partial void Onupsize_tsChanged();
 
         #endregion
-
     
         #region Navigation Properties
     
@@ -15691,7 +15574,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
     }
     
     /// <summary>
@@ -15718,7 +15600,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
         #region Primitive Properties
     
         /// <summary>
@@ -16136,7 +16017,6 @@ namespace GeoDB.Service.DataAccess
         partial void Onupsize_tsChanged();
 
         #endregion
-
     
         #region Navigation Properties
     
@@ -16179,7 +16059,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
     }
     
     /// <summary>
@@ -16206,7 +16085,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
         #region Primitive Properties
     
         /// <summary>
@@ -16621,7 +16499,6 @@ namespace GeoDB.Service.DataAccess
         partial void Onupsize_tsChanged();
 
         #endregion
-
     
         #region Navigation Properties
     
@@ -16664,7 +16541,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
     }
     
     /// <summary>
@@ -16701,7 +16577,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
         #region Primitive Properties
     
         /// <summary>
@@ -17068,7 +16943,6 @@ namespace GeoDB.Service.DataAccess
         partial void Onupsize_tsChanged();
 
         #endregion
-
     
         #region Navigation Properties
     
@@ -17149,7 +17023,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
     }
     
     /// <summary>
@@ -17190,7 +17063,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
         #region Primitive Properties
     
         /// <summary>
@@ -17623,7 +17495,6 @@ namespace GeoDB.Service.DataAccess
         partial void Onupsize_tsChanged();
 
         #endregion
-
     
         #region Navigation Properties
     
@@ -17818,7 +17689,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
     }
     
     /// <summary>
@@ -17843,7 +17713,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
         #region Primitive Properties
     
         /// <summary>
@@ -18186,7 +18055,6 @@ namespace GeoDB.Service.DataAccess
         partial void Onupsize_tsChanged();
 
         #endregion
-
     
         #region Navigation Properties
     
@@ -18305,7 +18173,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
     }
     
     /// <summary>
@@ -18336,7 +18203,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
         #region Primitive Properties
     
         /// <summary>
@@ -18490,7 +18356,6 @@ namespace GeoDB.Service.DataAccess
         partial void OnLastDTChanged();
 
         #endregion
-
     
         #region Navigation Properties
     
@@ -18533,7 +18398,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
     }
     
     /// <summary>
@@ -18558,7 +18422,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
         #region Primitive Properties
     
         /// <summary>
@@ -18781,7 +18644,6 @@ namespace GeoDB.Service.DataAccess
         partial void Onupsize_tsChanged();
 
         #endregion
-
     
         #region Navigation Properties
     
@@ -18824,7 +18686,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
     }
     
     /// <summary>
@@ -18851,7 +18712,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
         #region Primitive Properties
     
         /// <summary>
@@ -18978,7 +18838,6 @@ namespace GeoDB.Service.DataAccess
         partial void Onupsize_tsChanged();
 
         #endregion
-
     
         #region Navigation Properties
     
@@ -19049,7 +18908,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
     }
     
     /// <summary>
@@ -19084,7 +18942,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
         #region Primitive Properties
     
         /// <summary>
@@ -19547,7 +19404,6 @@ namespace GeoDB.Service.DataAccess
         partial void Onupsize_tsChanged();
 
         #endregion
-
     
         #region Navigation Properties
     
@@ -19628,7 +19484,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
     }
     
     /// <summary>
@@ -19655,7 +19510,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
         #region Primitive Properties
     
         /// <summary>
@@ -19758,7 +19612,6 @@ namespace GeoDB.Service.DataAccess
         partial void OnLastDTChanged();
 
         #endregion
-
     
         #region Navigation Properties
     
@@ -19851,7 +19704,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
     }
     
     /// <summary>
@@ -19880,7 +19732,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
         #region Primitive Properties
     
         /// <summary>
@@ -20055,7 +19906,6 @@ namespace GeoDB.Service.DataAccess
         partial void OnLastDTChanged();
 
         #endregion
-
     
         #region Navigation Properties
     
@@ -20136,7 +19986,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
     }
     
     /// <summary>
@@ -20163,7 +20012,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
         #region Primitive Properties
     
         /// <summary>
@@ -20290,7 +20138,6 @@ namespace GeoDB.Service.DataAccess
         partial void OnLastDTChanged();
 
         #endregion
-
     
         #region Navigation Properties
     
@@ -20317,7 +20164,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
     }
     
     /// <summary>
@@ -20344,7 +20190,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
         #region Primitive Properties
     
         /// <summary>
@@ -20543,7 +20388,6 @@ namespace GeoDB.Service.DataAccess
         partial void Onupsize_tsChanged();
 
         #endregion
-
     
         #region Navigation Properties
     
@@ -20586,7 +20430,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
     }
     
     /// <summary>
@@ -20613,7 +20456,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
         #region Primitive Properties
     
         /// <summary>
@@ -20788,7 +20630,6 @@ namespace GeoDB.Service.DataAccess
         partial void OnLastDTChanged();
 
         #endregion
-
     
     }
     
@@ -20816,7 +20657,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
         #region Primitive Properties
     
         /// <summary>
@@ -21015,7 +20855,6 @@ namespace GeoDB.Service.DataAccess
         partial void Onupsize_tsChanged();
 
         #endregion
-
     
         #region Navigation Properties
     
@@ -21058,7 +20897,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
     }
     
     /// <summary>
@@ -21087,7 +20925,6 @@ namespace GeoDB.Service.DataAccess
         }
 
         #endregion
-
         #region Primitive Properties
     
         /// <summary>
@@ -21214,11 +21051,9 @@ namespace GeoDB.Service.DataAccess
         partial void OndefinitionChanged();
 
         #endregion
-
     
     }
 
     #endregion
-
     
 }

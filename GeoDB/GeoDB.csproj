@@ -65,9 +65,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="Model\Collar2.cs" />
+    <Compile Include="Model\Interface\IBase.cs" />
+    <Compile Include="Presenter\DrillHoles.cs" />
     <Compile Include="Service\DataAccess\CollarEntityService.cs" />
     <Compile Include="Service\DataAccess\Interface\ModelDbInteface.cs" />
-    <Compile Include="Service\DataAccess\Model.Designer.cs">
+    <Compile Include="Model\Model.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Model.edmx</DependentUpon>
@@ -111,7 +114,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Config" />
-    <EntityDeploy Include="Service\DataAccess\Model.edmx">
+    <EntityDeploy Include="Model\Model.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model.Designer.cs</LastGenOutput>
     </EntityDeploy>
@@ -121,13 +124,10 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Service\DataAccess\bl_server_data.mdf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Service\DataAccess\bl_server_data_log.ldf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <DependentUpon>bl_server_data.mdf</DependentUpon>
-    </Content>
+    <ProjectReference Include="..\GeoDBWinForms\GeoDBWinForms.csproj">
+      <Project>{DA658039-F3E2-4E27-882F-8362C76C64E5}</Project>
+      <Name>GeoDBWinForms</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
