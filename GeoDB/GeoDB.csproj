@@ -6,7 +6,7 @@
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{E8C7DA49-1762-44F4-82DE-9DAE305EF6A6}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>GeoDB</RootNamespace>
     <AssemblyName>GeoDB</AssemblyName>
@@ -64,7 +64,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
     <Compile Include="Model\Collar2.cs" />
     <Compile Include="Model\Interface\IBase.cs" />
     <Compile Include="Presenter\PDrillHoles.cs" />
@@ -119,6 +118,7 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model.Designer.cs</LastGenOutput>
     </EntityDeploy>
+    <None Include="Properties\DataSources\GeoDB.Model.ModelDB.datasource" />
     <None Include="Properties\DataSources\GeoDB.Service.DataAccess.ModelDB.datasource" />
   </ItemGroup>
   <ItemGroup>
