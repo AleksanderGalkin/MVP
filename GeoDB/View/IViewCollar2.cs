@@ -14,5 +14,6 @@ namespace GeoDBWinForms
 
 
         event EventHandler<EventArgs> clickCollarList;
+        event EventHandler<EventArgs> showData;
     }
 }
