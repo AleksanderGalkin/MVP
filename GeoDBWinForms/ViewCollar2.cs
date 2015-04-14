@@ -22,6 +22,7 @@ namespace GeoDBWinForms
             set { dataGVCollar2.DataSource = value; }
         }
         public event EventHandler<EventArgs> clickCollarList;
+        public event EventHandler<EventArgs> showData;
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -34,6 +35,14 @@ namespace GeoDBWinForms
         public new void Show()
         {
             Application.Run(this);
+        }
+
+        private void btShowData_Click(object sender, EventArgs e)
+        {
+            if (showData != null)
+            {
+                showData(this, EventArgs.Empty);
+            }
         }
     }
 }

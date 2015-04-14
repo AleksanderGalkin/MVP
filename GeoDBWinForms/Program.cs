@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using GeoDB.Presenter;
+using Ninject;
 
 namespace GeoDBWinForms
 {
@@ -14,14 +15,10 @@ namespace GeoDBWinForms
         [STAThread]
         static void Main()
         {
-            //Application.EnableVisualStyles();
-            //Application.SetCompatibleTextRenderingDefault(false);
-            //Application.Run(new Form1());
-
-            IViewCollar2 view = new ViewCollar2();
-           // view.Show();
+            IKernel ninjectKernel = new StandardKernel();
+            ninjectKernel.Bind<IViewCollar2>().To<ViewCollar2>();
+            IViewCollar2 view =  ninjectKernel.Get<IViewCollar2>();
             PDrillHoles presenter = new PDrillHoles(view);
-          //  Application.Run();
             presenter.Show();
         }
     }
