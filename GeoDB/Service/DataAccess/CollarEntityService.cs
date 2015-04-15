@@ -20,9 +20,9 @@ namespace GeoDB.Service.DataAccess
 
         public COLLAR2 Get(int id)
         {
-            COLLAR2 result = (from a in db.COLLAR2
-                                where a.ID == id
-                                select a).FirstOrDefault();
+            var result = (from a in db.COLLAR2
+                              where a.ID == id
+                              select a).FirstOrDefault();
             return result;
         }
     }

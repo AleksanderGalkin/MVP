@@ -823,7 +823,7 @@
           <Property Name="upsize_ts" Type="timestamp" StoreGeneratedPattern="Computed" />
         </EntityType>
         <!--Errors Found During Generation:
-      warning 6002: The table/view 'C:\GIT\MVP\GEODB\BL_SERVER_DATA.MDF.dbo.QFACE' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      warning 6002: The table/view 'C:\DB\BL_SERVER_DATA.MDF.dbo.QFACE' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
       -->
         <EntityType Name="QFACE">
           <Key>
@@ -977,7 +977,7 @@
           <Property Name="upsize_ts" Type="timestamp" StoreGeneratedPattern="Computed" />
         </EntityType>
         <!--Errors Found During Generation:
-      warning 6002: The table/view 'C:\GIT\MVP\GEODB\BL_SERVER_DATA.MDF.dbo.RV_PAL' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      warning 6002: The table/view 'C:\DB\BL_SERVER_DATA.MDF.dbo.RV_PAL' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
       -->
         <EntityType Name="RV_PAL">
           <Key>
@@ -5088,7 +5088,7 @@
     </Options>
     <!-- Diagram content (shape and connector positions) -->
     <Diagrams>
-      <Diagram Name="Model">
+      <Diagram Name="Model1">
         <EntityTypeShape EntityType="Model.ASSAYS" Width="1.5" PointX="3" PointY="23.125" Height="6.2109179687500031" IsExpanded="true" />
         <EntityTypeShape EntityType="Model.ASSAYS_DMP" Width="1.5" PointX="6" PointY="23.875" Height="4.6725065104166674" IsExpanded="true" />
         <EntityTypeShape EntityType="Model.ASSAYS_OR" Width="1.5" PointX="16.75" PointY="0.75" Height="5.634013671875" IsExpanded="true" />
