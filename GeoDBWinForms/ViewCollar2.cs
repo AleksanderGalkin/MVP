@@ -17,7 +17,7 @@ namespace GeoDBWinForms
             InitializeComponent();
         }
 
-        public List<COLLAR2> CollarList
+        public List<Collar2VmFull> CollarList
         {
             set { dataGVCollar2.DataSource = value; }
         }
