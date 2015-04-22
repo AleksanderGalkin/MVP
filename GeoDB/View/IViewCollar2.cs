@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using GeoDB.Model;
 
-namespace GeoDBWinForms
+namespace GeoDB.View
 {
     public interface IViewCollar2
     {

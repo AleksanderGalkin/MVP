@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using GeoDB.Model;
+using GeoDB.View;
 
 namespace GeoDBWinForms
 {
