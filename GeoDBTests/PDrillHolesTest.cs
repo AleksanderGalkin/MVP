@@ -20,7 +20,7 @@ namespace GeoDBTests
         {
             view_=Substitute.For<IViewCollar2>();
             
-            PDrillHoles PDrillHoles_ = new PDrillHoles(view_);
+            PDrillHoles PDrillHoles_ = new PDrillHoles(view_,10);
         }
 
     }

@@ -10,5 +10,6 @@ namespace GeoDB.Service.DataAccess.Interface
     {
         IEnumerable<T> Get();
         T Get(int id);
+        int Count();
     }
 }

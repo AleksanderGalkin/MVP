@@ -37,5 +37,12 @@ namespace GeoDB.Service.DataAccess
                                     select a).FirstOrDefault();
             return result;
         }
+
+        public int Count()
+        {
+            int result = (from a in db.COLLAR2
+                              select a).Count();
+            return result;
+        }
     }
 }

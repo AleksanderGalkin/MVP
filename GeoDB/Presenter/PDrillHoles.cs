@@ -15,14 +15,19 @@ namespace GeoDB.Presenter
         private COLLAR2 _model;
         private IViewCollar2 _view;
         private CollarEntityService _collar2;
+        private int _rowsToPage;
+        private int _currentPage;
+        private int _totalItems;
 
-        public PDrillHoles(IViewCollar2 viewCollar2)
+        public PDrillHoles(IViewCollar2 viewCollar2, int rowsToPage)
         {
             _view = viewCollar2;
             _model = new COLLAR2();
            // _view.showData += new EventHandler<EventArgs>(OnShowData);
             _collar2 = new CollarEntityService();
-            RefreshView();
+            _rowsToPage = rowsToPage;
+            _currentPage = 1;
+            _totalItems = _collar2.Count();
         }
 
         public void RefreshView()
