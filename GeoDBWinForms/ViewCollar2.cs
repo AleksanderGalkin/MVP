@@ -21,6 +21,7 @@ namespace GeoDBWinForms
         public List<Collar2VmFull> CollarList
         {
             set { dataGVCollar2.DataSource = value; }
+            get { return dataGVCollar2.DataSource as List<Collar2VmFull>; }
         }
         public event EventHandler<EventArgs> clickCollarList;
         public event EventHandler<EventArgs> showData;

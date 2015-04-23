@@ -30,6 +30,28 @@ namespace GeoDB.Presenter
             _totalItems = _collar2.Count();
         }
 
+        public void ShowPage()
+        {
+            _view.CollarList =
+                (from a in _collar2.Get()
+                 select new Collar2VmFull
+                 {
+                     id = a.ID,
+                     bhid = a.BHID,
+                     gorizont = a.GORIZONT.BENCH_NAME,
+                     blast = a.RL_EXPLO2.EXPL_LINE_NAME,
+                     hole = a.HOLE_ID,
+                     xcollar = a.XCOLLAR,
+                     ycollar = a.YCOLLAR,
+                     zcollar = a.ZCOLLAR,
+                     enddepth = a.ENDDEPTH,
+                     drillType = a.DRILLING_TYPE.DRILL_TYPE,
+                     lastUserID = a.LastUserID,
+                     lastDT = a.LastDT
+                 }) .Skip(_rowsToPage * (_currentPage - 1))
+                    .Take(_rowsToPage)
+                    .ToList();
+        }
         public void RefreshView()
         {
            
@@ -41,22 +63,22 @@ namespace GeoDB.Presenter
 
         private void OnShowData(object sender, EventArgs e)
         {
-               _view.CollarList = (from a in _collar2.Get()
-                                     select new Collar2VmFull
-                                    {
-                                        id = a.ID,
-                                        bhid = a.BHID,
-                                        gorizont = a.GORIZONT.BENCH_NAME,
-                                        blast = a.RL_EXPLO2.EXPL_LINE_NAME,
-                                        hole = a.HOLE_ID,
-                                        xcollar = a.XCOLLAR,
-                                        ycollar = a.YCOLLAR,
-                                        zcollar = a.ZCOLLAR,
-                                        enddepth = a.ENDDEPTH,
-                                        drillType = a.DRILLING_TYPE.DRILL_TYPE,
-                                        lastUserID = a.LastUserID,
-                                        lastDT = a.LastDT
-                                    }).ToList();
+            _view.CollarList = (from a in _collar2.Get()
+                                select new Collar2VmFull
+                               {
+                                   id = a.ID,
+                                   bhid = a.BHID,
+                                   gorizont = a.GORIZONT.BENCH_NAME,
+                                   blast = a.RL_EXPLO2.EXPL_LINE_NAME,
+                                   hole = a.HOLE_ID,
+                                   xcollar = a.XCOLLAR,
+                                   ycollar = a.YCOLLAR,
+                                   zcollar = a.ZCOLLAR,
+                                   enddepth = a.ENDDEPTH,
+                                   drillType = a.DRILLING_TYPE.DRILL_TYPE,
+                                   lastUserID = a.LastUserID,
+                                   lastDT = a.LastDT
+                               }).ToList();
             RefreshView();
         }
 

@@ -8,7 +8,7 @@ namespace GeoDB.View
 {
     public interface IViewCollar2
     {
-        List<Collar2VmFull> CollarList { set; }
+        List<Collar2VmFull> CollarList { set; get; }
 
         void Show();
         void Close();
