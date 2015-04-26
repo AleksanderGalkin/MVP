@@ -21,6 +21,6 @@ namespace GeoDB.View
         event EventHandler<EventArgs> clickHeader;
         event EventHandler<EventArgs> clickCloseForm;
 
-        event EventHandler<EventArgs> showData;
+
     }
 }

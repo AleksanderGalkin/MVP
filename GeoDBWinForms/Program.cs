@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
-using GeoDB.Presenter;
 using Ninject;
 using GeoDB.View;
 using GeoDB.Service.DataAccess.Interface;
 using GeoDB.Model;
+using GeoDB.Presenter;
+using GeoDB.Service.DataAccess;
+
+
 
 namespace GeoDBWinForms
 {
@@ -20,9 +23,10 @@ namespace GeoDBWinForms
         {
             IKernel ninjectKernel = new StandardKernel();
             ninjectKernel.Bind<IViewCollar2>().To<ViewCollar2>();
+            ninjectKernel.Bind<IBaseService<COLLAR2>>().To<CollarEntityService>();
             IViewCollar2 view =  ninjectKernel.Get<IViewCollar2>();
             IBaseService<COLLAR2> model = ninjectKernel.Get<IBaseService<COLLAR2>>();
-            PDrillHoles presenter = new PDrillHoles(view, model,10);
+            PDrillHoles presenter = new PDrillHoles(view, model,20);
             presenter.Show();
         }
     }

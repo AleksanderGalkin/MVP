@@ -24,7 +24,6 @@ namespace GeoDBWinForms
             get { return dataGVCollar2.DataSource as List<Collar2VmFull>; }
         }
         public event EventHandler<EventArgs> clickCollarList;
-        public event EventHandler<EventArgs> showData;
         public event EventHandler<EventArgs> clickCloseForm;
         public event EventHandler<EventArgs> clickHeader;
         public event EventHandler<EventArgs> clickFilters;
@@ -54,12 +53,19 @@ namespace GeoDBWinForms
             Application.Run(this);
         }
 
-        private void btShowData_Click(object sender, EventArgs e)
+        private void dataGVCollar2_RowLeave(object sender, DataGridViewCellEventArgs e)
         {
-            if (showData != null)
+            MessageBox.Show(e.RowIndex.ToString()+" ");
+        }
+
+        private void btCloseForm_Click(object sender, EventArgs e)
+        {
+            if (clickCloseForm != null)
             {
-                showData(this, EventArgs.Empty);
+                clickCloseForm(this, EventArgs.Empty);
             }
         }
+
+
     }
 }

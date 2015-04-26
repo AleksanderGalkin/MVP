@@ -48,6 +48,7 @@
             this.dataGVCollar2.Name = "dataGVCollar2";
             this.dataGVCollar2.Size = new System.Drawing.Size(624, 338);
             this.dataGVCollar2.TabIndex = 0;
+            this.dataGVCollar2.RowLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGVCollar2_RowLeave);
             // 
             // btShowData
             // 
@@ -57,7 +58,6 @@
             this.btShowData.TabIndex = 1;
             this.btShowData.Text = "button1";
             this.btShowData.UseVisualStyleBackColor = true;
-            this.btShowData.Click += new System.EventHandler(this.btShowData_Click);
             // 
             // splitContainer1
             // 
@@ -91,6 +91,7 @@
             this.btCloseForm.TabIndex = 2;
             this.btCloseForm.Text = "Закрыть";
             this.btCloseForm.UseVisualStyleBackColor = true;
+            this.btCloseForm.Click += new System.EventHandler(this.btCloseForm_Click);
             // 
             // ViewCollar2
             // 

@@ -5,8 +5,8 @@
   <ExcludeCategories>false</ExcludeCategories>
   <Nodes>
     <Node UniqueName="[0-1000]E:\GIT\AleksanderGalkin\MVP\GeoDBTests\GeoDBTests.csproj" Expanded="true" />
-    <Node UniqueName="[0-1004]E:\GIT\AleksanderGalkin\MVP\GeoDBTests\bin\Debug\GeoDBTests.dll" Expanded="true" />
-    <Node UniqueName="[0-1005]GeoDBTests" Expanded="true" />
+    <Node UniqueName="[0-1008]E:\GIT\AleksanderGalkin\MVP\GeoDBTests\bin\Debug\GeoDBTests.exe" Expanded="true" />
+    <Node UniqueName="[0-1009]GeoDBTests" Expanded="true" />
     <Node UniqueName="[0-1001]GeoDBTests.PDrillHolesTest" Expanded="true" />
   </Nodes>
 </VisualState>

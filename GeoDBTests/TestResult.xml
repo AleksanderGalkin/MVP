@@ -1,23 +1,55 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--This file represents the results of running a test suite-->
-<test-results name="E:\GIT\AleksanderGalkin\MVP\GeoDBTests\GeoDBTests.csproj" total="2" errors="0" failures="1" not-run="0" inconclusive="0" ignored="0" skipped="0" invalid="0" date="2015-04-25" time="18:45:09">
+<test-results name="E:\GIT\AleksanderGalkin\MVP\GeoDBTests\GeoDBTests.csproj" total="6" errors="4" failures="0" not-run="0" inconclusive="0" ignored="0" skipped="0" invalid="0" date="2015-04-26" time="09:42:59">
   <environment nunit-version="2.6.3.13283" clr-version="2.0.50727.5485" os-version="Microsoft Windows NT 6.1.7601 Service Pack 1" platform="Win32NT" cwd="E:\GIT\AleksanderGalkin\MVP\GeoDBTests" machine-name="OGK-WD-128" user="GalkinAP" user-domain="MOS" />
   <culture-info current-culture="ru-RU" current-uiculture="ru-RU" />
-  <test-suite type="Project" name="E:\GIT\AleksanderGalkin\MVP\GeoDBTests\GeoDBTests.csproj" executed="True" result="Failure" success="False" time="0.016" asserts="0">
+  <test-suite type="Project" name="E:\GIT\AleksanderGalkin\MVP\GeoDBTests\GeoDBTests.csproj" executed="True" result="Failure" success="False" time="1.601" asserts="0">
     <results>
-      <test-suite type="Assembly" name="E:\GIT\AleksanderGalkin\MVP\GeoDBTests\bin\Debug\GeoDBTests.dll" executed="True" result="Failure" success="False" time="0.016" asserts="0">
+      <test-suite type="Assembly" name="E:\GIT\AleksanderGalkin\MVP\GeoDBTests\bin\Debug\GeoDBTests.exe" executed="True" result="Failure" success="False" time="1.585" asserts="0">
         <results>
-          <test-suite type="Namespace" name="GeoDBTests" executed="True" result="Failure" success="False" time="0.016" asserts="0">
+          <test-suite type="Namespace" name="GeoDBTests" executed="True" result="Failure" success="False" time="1.585" asserts="0">
             <results>
-              <test-suite type="TestFixture" name="PDrillHolesTest" executed="True" result="Failure" success="False" time="0.015" asserts="0">
+              <test-suite type="TestFixture" name="PDrillHolesTest" executed="True" result="Failure" success="False" time="1.582" asserts="0">
                 <results>
-                  <test-case name="GeoDBTests.PDrillHolesTest.ShowFirstPageTest" executed="True" result="Success" success="True" time="0.006" asserts="3" />
-                  <test-case name="GeoDBTests.PDrillHolesTest.ShowSecondPageTest" executed="True" result="Failure" success="False" time="0.007" asserts="1">
+                  <test-case name="GeoDBTests.PDrillHolesTest.ShowFirstPageTest" executed="True" result="Success" success="True" time="0.801" asserts="3" />
+                  <test-case name="GeoDBTests.PDrillHolesTest.ShowFirstPageTestWithEmptyModel" executed="True" result="Success" success="True" time="0.005" asserts="2" />
+                  <test-case name="GeoDBTests.PDrillHolesTest.ShowFirstScreenAfterFourthPageTest" executed="True" result="Error" success="False" time="0.230" asserts="0">
                     <failure>
-                      <message><![CDATA[  Expected: 9
-  But was:  10
-]]></message>
-                      <stack-trace><![CDATA[в GeoDBTests.PDrillHolesTest.ShowSecondPageTest() в E:\GIT\AleksanderGalkin\MVP\GeoDBTests\PDrillHolesTest.cs:строка 69
+                      <message><![CDATA[System.ArgumentOutOfRangeException : Индекс за пределами диапазона. Индекс должен быть положительным числом, а его размер не должен превышать размер коллекции.
+Имя параметра: index]]></message>
+                      <stack-trace><![CDATA[в System.Collections.Generic.List`1.get_Item(Int32 index)
+в System.Linq.Enumerable.ElementAt[TSource](IEnumerable`1 source, Int32 index)
+в GeoDBTests.PDrillHolesTest.ShowFirstScreenAfterFourthPageTest() в E:\GIT\AleksanderGalkin\MVP\GeoDBTests\PDrillHolesTest.cs:строка 133
+]]></stack-trace>
+                    </failure>
+                  </test-case>
+                  <test-case name="GeoDBTests.PDrillHolesTest.ShowFourthPageTest" executed="True" result="Error" success="False" time="0.014" asserts="0">
+                    <failure>
+                      <message><![CDATA[System.ArgumentOutOfRangeException : Индекс за пределами диапазона. Индекс должен быть положительным числом, а его размер не должен превышать размер коллекции.
+Имя параметра: index]]></message>
+                      <stack-trace><![CDATA[в System.Collections.Generic.List`1.get_Item(Int32 index)
+в System.Linq.Enumerable.ElementAt[TSource](IEnumerable`1 source, Int32 index)
+в GeoDBTests.PDrillHolesTest.ShowFourthPageTest() в E:\GIT\AleksanderGalkin\MVP\GeoDBTests\PDrillHolesTest.cs:строка 98
+]]></stack-trace>
+                    </failure>
+                  </test-case>
+                  <test-case name="GeoDBTests.PDrillHolesTest.ShowPrevScreenAfterFourthPageTest" executed="True" result="Error" success="False" time="0.013" asserts="0">
+                    <failure>
+                      <message><![CDATA[System.ArgumentOutOfRangeException : Индекс за пределами диапазона. Индекс должен быть положительным числом, а его размер не должен превышать размер коллекции.
+Имя параметра: index]]></message>
+                      <stack-trace><![CDATA[в System.Collections.Generic.List`1.get_Item(Int32 index)
+в System.Linq.Enumerable.ElementAt[TSource](IEnumerable`1 source, Int32 index)
+в GeoDBTests.PDrillHolesTest.ShowPrevScreenAfterFourthPageTest() в E:\GIT\AleksanderGalkin\MVP\GeoDBTests\PDrillHolesTest.cs:строка 112
+]]></stack-trace>
+                    </failure>
+                  </test-case>
+                  <test-case name="GeoDBTests.PDrillHolesTest.ShowSecondPageTest" executed="True" result="Error" success="False" time="0.005" asserts="0">
+                    <failure>
+                      <message><![CDATA[System.ArgumentOutOfRangeException : Индекс за пределами диапазона. Индекс должен быть положительным числом, а его размер не должен превышать размер коллекции.
+Имя параметра: index]]></message>
+                      <stack-trace><![CDATA[в System.Collections.Generic.List`1.get_Item(Int32 index)
+в System.Linq.Enumerable.ElementAt[TSource](IEnumerable`1 source, Int32 index)
+в GeoDBTests.PDrillHolesTest.ShowSecondPageTest() в E:\GIT\AleksanderGalkin\MVP\GeoDBTests\PDrillHolesTest.cs:строка 78
 ]]></stack-trace>
                     </failure>
                   </test-case>

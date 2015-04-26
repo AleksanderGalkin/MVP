@@ -22,8 +22,9 @@ namespace GeoDB.Presenter
         public PDrillHoles(IViewCollar2 viewCollar2, IBaseService<COLLAR2> model, int rowsToPage)
         {
             _view = viewCollar2;
-            _view.showData += new EventHandler<EventArgs>(OnShowData);
             _view.showNextScreen += new EventHandler<EventArgs>(OnShowNextScreen);
+            _view.showPrevScreen += new EventHandler<EventArgs>(OnShowPrevScreen);
+            _view.clickCloseForm += new EventHandler<EventArgs>(OnClickCloseForm);
             _model = model;
             _rowsToPage = rowsToPage;
             _currentFirsItemInForm = 0;
@@ -52,36 +53,14 @@ namespace GeoDB.Presenter
                     .Take(_rowsToPage)
                     .ToList();
         }
-        public void RefreshView()
-        {
-           
-        }
+
         public void Show()
         {
+            ShowPage();
             _view.Show();
         }
 
-        private void OnShowData(object sender, EventArgs e)
-        {
-            _view.CollarList = (from a in _model.Get()
-                                select new Collar2VmFull
-                               {
-                                   id = a.ID,
-                                   bhid = a.BHID,
-                                   gorizont = a.GORIZONT.BENCH_NAME,
-                                   blast = a.RL_EXPLO2.EXPL_LINE_NAME,
-                                   hole = a.HOLE_ID,
-                                   xcollar = a.XCOLLAR,
-                                   ycollar = a.YCOLLAR,
-                                   zcollar = a.ZCOLLAR,
-                                   enddepth = a.ENDDEPTH,
-                                   drillType = a.DRILLING_TYPE.DRILL_TYPE,
-                                   lastUserID = a.LastUserID,
-                                   lastDT = a.LastDT
-                               }).ToList();
-            RefreshView();
-        }
-
+  
         private void OnShowNextScreen(object sender, EventArgs e)
         {
             log.DebugFormat("_currentFirsItemInForm_before_calculation_new_FirstItem: {0}", _currentFirsItemInForm);
@@ -98,6 +77,27 @@ namespace GeoDB.Presenter
             ShowPage();
             
             
+        }
+
+        private void OnShowPrevScreen(object sender, EventArgs e)
+        {
+            log.DebugFormat("_currentFirsItemInForm_before_calculation_new_FirstItem: {0}", _currentFirsItemInForm);
+            log.DebugFormat("_totalItems: {0}", _totalItems);
+            log.DebugFormat("_rowsToPage: {0}", _rowsToPage);
+
+
+            _currentFirsItemInForm = _currentFirsItemInForm - (_rowsToPage - 1);
+            if (_currentFirsItemInForm - (_rowsToPage-1) < 0)
+            {
+                _currentFirsItemInForm = 0;
+            }
+            log.DebugFormat("_currentFirsItemInForm_after_calculation_new_FirstItem: {0}", _currentFirsItemInForm);
+            ShowPage();
+        }
+
+        private void OnClickCloseForm(object sender, EventArgs e)
+        {
+            _view.Close();
         }
 
     }
