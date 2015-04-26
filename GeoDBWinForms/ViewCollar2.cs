@@ -25,12 +25,27 @@ namespace GeoDBWinForms
         }
         public event EventHandler<EventArgs> clickCollarList;
         public event EventHandler<EventArgs> showData;
+        public event EventHandler<EventArgs> clickCloseForm;
+        public event EventHandler<EventArgs> clickHeader;
+        public event EventHandler<EventArgs> clickFilters;
+        public event EventHandler<EventArgs> showNextScreen;
+        public event EventHandler<EventArgs> showPrevScreen;
+        public event EventHandler<EventArgs> openForm;
+
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             if (clickCollarList != null)
             {
                 clickCollarList(this, EventArgs.Empty);
+            }
+        }
+
+        private void dataGridView1_CellContentClick2(object sender, DataGridViewCellEventArgs e)
+        {
+            if (showNextScreen != null)
+            {
+                showNextScreen(this, EventArgs.Empty);
             }
         }
 

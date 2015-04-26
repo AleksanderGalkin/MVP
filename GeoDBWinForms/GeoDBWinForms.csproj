@@ -87,7 +87,9 @@
     <EmbeddedResource Include="ViewCollar2.resx">
       <DependentUpon>ViewCollar2.cs</DependentUpon>
     </EmbeddedResource>
-    <None Include="App.Config" />
+    <None Include="App.Config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Properties\DataSources\ModelDB.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!--This file represents the results of running a test suite-->
+<test-results name="E:\GIT\AleksanderGalkin\MVP\GeoDBTests\GeoDBTests.csproj" total="2" errors="0" failures="1" not-run="0" inconclusive="0" ignored="0" skipped="0" invalid="0" date="2015-04-25" time="18:45:09">
+  <environment nunit-version="2.6.3.13283" clr-version="2.0.50727.5485" os-version="Microsoft Windows NT 6.1.7601 Service Pack 1" platform="Win32NT" cwd="E:\GIT\AleksanderGalkin\MVP\GeoDBTests" machine-name="OGK-WD-128" user="GalkinAP" user-domain="MOS" />
+  <culture-info current-culture="ru-RU" current-uiculture="ru-RU" />
+  <test-suite type="Project" name="E:\GIT\AleksanderGalkin\MVP\GeoDBTests\GeoDBTests.csproj" executed="True" result="Failure" success="False" time="0.016" asserts="0">
+    <results>
+      <test-suite type="Assembly" name="E:\GIT\AleksanderGalkin\MVP\GeoDBTests\bin\Debug\GeoDBTests.dll" executed="True" result="Failure" success="False" time="0.016" asserts="0">
+        <results>
+          <test-suite type="Namespace" name="GeoDBTests" executed="True" result="Failure" success="False" time="0.016" asserts="0">
+            <results>
+              <test-suite type="TestFixture" name="PDrillHolesTest" executed="True" result="Failure" success="False" time="0.015" asserts="0">
+                <results>
+                  <test-case name="GeoDBTests.PDrillHolesTest.ShowFirstPageTest" executed="True" result="Success" success="True" time="0.006" asserts="3" />
+                  <test-case name="GeoDBTests.PDrillHolesTest.ShowSecondPageTest" executed="True" result="Failure" success="False" time="0.007" asserts="1">
+                    <failure>
+                      <message><![CDATA[  Expected: 9
+  But was:  10
+]]></message>
+                      <stack-trace><![CDATA[в GeoDBTests.PDrillHolesTest.ShowSecondPageTest() в E:\GIT\AleksanderGalkin\MVP\GeoDBTests\PDrillHolesTest.cs:строка 69
+]]></stack-trace>
+                    </failure>
+                  </test-case>
+                </results>
+              </test-suite>
+            </results>
+          </test-suite>
+        </results>
+      </test-suite>
+    </results>
+  </test-suite>
+</test-results>

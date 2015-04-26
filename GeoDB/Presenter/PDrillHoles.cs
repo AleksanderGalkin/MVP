@@ -3,37 +3,37 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using GeoDB.Model;
-//using GeoDBWinForms;
 using GeoDB.View;
 using GeoDB.Service.DataAccess;
+using GeoDB.Service.DataAccess.Interface;
+using log4net;
 
 namespace GeoDB.Presenter
 {
     public class PDrillHoles
     {
-        ModelDB db = new ModelDB();
-        private COLLAR2 _model;
+        public static ILog log = LogManager.GetLogger("ConsoleAppender");
         private IViewCollar2 _view;
-        private CollarEntityService _collar2;
+        private IBaseService<COLLAR2> _model;
         private int _rowsToPage;
-        private int _currentPage;
+        private int _currentFirsItemInForm;
         private int _totalItems;
 
-        public PDrillHoles(IViewCollar2 viewCollar2, int rowsToPage)
+        public PDrillHoles(IViewCollar2 viewCollar2, IBaseService<COLLAR2> model, int rowsToPage)
         {
             _view = viewCollar2;
-            _model = new COLLAR2();
-           // _view.showData += new EventHandler<EventArgs>(OnShowData);
-            _collar2 = new CollarEntityService();
+            _view.showData += new EventHandler<EventArgs>(OnShowData);
+            _view.showNextScreen += new EventHandler<EventArgs>(OnShowNextScreen);
+            _model = model;
             _rowsToPage = rowsToPage;
-            _currentPage = 1;
-            _totalItems = _collar2.Count();
+            _currentFirsItemInForm = 0;
+            _totalItems = _model.Count();
         }
 
         public void ShowPage()
         {
             _view.CollarList =
-                (from a in _collar2.Get()
+                (from a in _model.Get()
                  select new Collar2VmFull
                  {
                      id = a.ID,
@@ -48,7 +48,7 @@ namespace GeoDB.Presenter
                      drillType = a.DRILLING_TYPE.DRILL_TYPE,
                      lastUserID = a.LastUserID,
                      lastDT = a.LastDT
-                 }) .Skip(_rowsToPage * (_currentPage - 1))
+                 }) .Skip(_currentFirsItemInForm)
                     .Take(_rowsToPage)
                     .ToList();
         }
@@ -63,7 +63,7 @@ namespace GeoDB.Presenter
 
         private void OnShowData(object sender, EventArgs e)
         {
-            _view.CollarList = (from a in _collar2.Get()
+            _view.CollarList = (from a in _model.Get()
                                 select new Collar2VmFull
                                {
                                    id = a.ID,
@@ -82,6 +82,23 @@ namespace GeoDB.Presenter
             RefreshView();
         }
 
+        private void OnShowNextScreen(object sender, EventArgs e)
+        {
+            log.DebugFormat("_currentFirsItemInForm_before_calculation_new_FirstItem: {0}", _currentFirsItemInForm);
+            log.DebugFormat("_totalItems: {0}", _totalItems);
+            log.DebugFormat("_rowsToPage: {0}", _rowsToPage);
+
+
+            _currentFirsItemInForm = _currentFirsItemInForm + _rowsToPage - 1;
+            if (_currentFirsItemInForm + (_rowsToPage-1) > _model.Count()-1)
+            {
+                _currentFirsItemInForm = (_model.Count() - 1) - (_rowsToPage - 1);
+            }
+            log.DebugFormat("_currentFirsItemInForm_after_calculation_new_FirstItem: {0}", _currentFirsItemInForm);
+            ShowPage();
+            
+            
+        }
 
     }
 }
