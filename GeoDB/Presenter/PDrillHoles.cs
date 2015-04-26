@@ -31,6 +31,14 @@ namespace GeoDB.Presenter
             _totalItems = _model.Count();
         }
 
+        public void SetHeader()
+        {
+            _view.CollarHeader = Collar2VmFull.header;
+        }
+        public void SetRowCount()
+        {
+            _view.rowCount = _model.Count();
+        }
         public void ShowPage()
         {
             _view.CollarList =
@@ -56,6 +64,8 @@ namespace GeoDB.Presenter
 
         public void Show()
         {
+            SetHeader();
+            SetRowCount();
             ShowPage();
             _view.Show();
         }

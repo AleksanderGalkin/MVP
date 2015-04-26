@@ -20,8 +20,29 @@ namespace GeoDBWinForms
 
         public List<Collar2VmFull> CollarList
         {
-            set { dataGVCollar2.DataSource = value; }
-            get { return dataGVCollar2.DataSource as List<Collar2VmFull>; }
+            get;
+            set;
+            //  set { dataGVCollar2.DataSource = value; }
+            //  get { return dataGVCollar2.DataSource as List<Collar2VmFull>; }
+        }
+
+        public int rowCount
+        {
+            set { dataGVCollar2.RowCount = value; }
+            get { return dataGVCollar2.RowCount; }
+        }
+
+        public List<DGVHeader> CollarHeader
+        {
+            set
+            {
+                dataGVCollar2.Columns.Clear();
+                foreach (var i in value)
+                {
+                    dataGVCollar2.Columns.Add(i.fieldName, i.fieldHeader);
+                }
+            }
+            
         }
         public event EventHandler<EventArgs> clickCollarList;
         public event EventHandler<EventArgs> clickCloseForm;

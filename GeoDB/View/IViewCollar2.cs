@@ -8,7 +8,9 @@ namespace GeoDB.View
 {
     public interface IViewCollar2
     {
+        List<DGVHeader> CollarHeader { set;  }
         List<Collar2VmFull> CollarList { set; get; }
+        int rowCount { set; get; }
 
         void Show();
         void Close();

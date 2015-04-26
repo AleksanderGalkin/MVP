@@ -67,7 +67,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Model\Collar2VmFull.cs" />
+    <Compile Include="Model\DGVHeader.cs" />
     <Compile Include="Model\Interface\IViewModel.cs" />
     <Compile Include="Model\Model1.Designer.cs">
       <AutoGen>True</AutoGen>

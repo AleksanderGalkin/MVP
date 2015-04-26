@@ -26,6 +26,8 @@ namespace GeoDBTests
         private List<COLLAR2> _modelRecords;
         private List<COLLAR2> _modelRecordsEmpty;
 
+        
+
         [SetUp]
         public void Init()
         {

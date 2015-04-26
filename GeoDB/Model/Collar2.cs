@@ -8,5 +8,46 @@ namespace GeoDB.Model
 {
     public partial class COLLAR2:IBase
     {
+       
     }
+
+    public class Collar2VmFull : IViewModel
+    {
+        public int id { get; set; }
+        public string bhid { get; set; }
+        public int gorizont { get; set; }
+        public string blast { get; set; }
+        public int hole { get; set; }
+        public double xcollar { get; set; }
+        public double ycollar { get; set; }
+        public double zcollar { get; set; }
+        public double enddepth { get; set; }
+        public string drillType { get; set; }
+        public int? lastUserID { get; set; }
+        public DateTime? lastDT { get; set; }
+
+        static public List<DGVHeader> header {
+            get
+            {
+                List<DGVHeader> _header = new List<DGVHeader>();
+                _header.Add(new DGVHeader{ fieldName = "id", fieldHeader = "ID" });
+                _header.Add(new DGVHeader { fieldName = "bhid", fieldHeader = "BHID" });
+                _header.Add(new DGVHeader { fieldName = "gorizont", fieldHeader = "Гор." });
+                _header.Add(new DGVHeader { fieldName = "blast", fieldHeader = "Блок" });
+                _header.Add(new DGVHeader { fieldName = "hole", fieldHeader = "Скв." });
+                _header.Add(new DGVHeader { fieldName = "xcollar", fieldHeader = "X" });
+                _header.Add(new DGVHeader { fieldName = "ycollar", fieldHeader = "Y" });
+                _header.Add(new DGVHeader { fieldName = "zcollar", fieldHeader = "Z" });
+                _header.Add(new DGVHeader { fieldName = "enddepth", fieldHeader = "Длина" });
+                _header.Add(new DGVHeader { fieldName = "drillType", fieldHeader = "Станок" });
+                _header.Add(new DGVHeader { fieldName = "lastUserID", fieldHeader = "Крайний" });
+                _header.Add(new DGVHeader { fieldName = "lastDT", fieldHeader = "Крайняя дата" });
+                return _header;
+            }
+        }
+
+
+    }
+
+
 }

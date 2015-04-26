@@ -42,12 +42,16 @@
             // 
             // dataGVCollar2
             // 
+            this.dataGVCollar2.AllowUserToAddRows = false;
+            this.dataGVCollar2.AllowUserToDeleteRows = false;
             this.dataGVCollar2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGVCollar2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGVCollar2.Location = new System.Drawing.Point(0, 0);
             this.dataGVCollar2.Name = "dataGVCollar2";
+            this.dataGVCollar2.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGVCollar2.Size = new System.Drawing.Size(624, 338);
             this.dataGVCollar2.TabIndex = 0;
+            this.dataGVCollar2.VirtualMode = true;
             this.dataGVCollar2.RowLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGVCollar2_RowLeave);
             // 
             // btShowData
