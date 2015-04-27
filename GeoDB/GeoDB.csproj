@@ -67,6 +67,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\Assays2.cs" />
     <Compile Include="Model\DrillType.cs" />
     <Compile Include="Model\Geologist.cs" />
     <Compile Include="Model\DGVHeader.cs" />

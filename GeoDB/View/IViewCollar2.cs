@@ -9,7 +9,9 @@ namespace GeoDB.View
     public interface IViewCollar2
     {
         List<DGVHeader> CollarHeader { set;  }
+        List<DGVHeader> AssaysHeader { set; }
         Dictionary<int,Collar2VmFull> CollarList { set; get; }
+        Dictionary<int, Assays2VmFull> AssaysList { set; get; }
         int minShowedRow { set; get; }
         int maxShowedRow { set; get; }
         int rowCount { set; get; }

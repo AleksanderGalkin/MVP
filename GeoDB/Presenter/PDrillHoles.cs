@@ -20,7 +20,11 @@ namespace GeoDB.Presenter
         private int _currentFirsItemInForm;
         private int _totalItems;
 
-        public PDrillHoles(IViewCollar2 viewCollar2, IBaseService<COLLAR2> model, IBaseService<GEOLOGIST> modelGeologist, int rowsToPage)
+        public PDrillHoles(IViewCollar2 viewCollar2
+                        , IBaseService<COLLAR2> modelCollar
+                        , IBaseService<ASSAYS2> modelAssays
+                        , IBaseService<GEOLOGIST> modelGeologist
+                        , int rowsToPage)
         {
             _view = viewCollar2;
             _view.CollarList = new Dictionary<int, Collar2VmFull>();
@@ -28,7 +32,7 @@ namespace GeoDB.Presenter
             _view.showPrevScreen += new EventHandler<EventArgs>(OnShowPrevScreen);
             _view.showAnyScreen += new EventHandler<NumRowEventArgs>(OnShowAnyScreen);
             _view.clickCloseForm += new EventHandler<EventArgs>(OnClickCloseForm);
-            _model = model;
+            _model = modelCollar;
             _modelGeologist = modelGeologist;
             _rowsToPage = rowsToPage;
             _currentFirsItemInForm = 0;
