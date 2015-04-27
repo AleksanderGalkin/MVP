@@ -24,9 +24,11 @@ namespace GeoDBWinForms
             IKernel ninjectKernel = new StandardKernel();
             ninjectKernel.Bind<IViewCollar2>().To<ViewCollar2>();
             ninjectKernel.Bind<IBaseService<COLLAR2>>().To<CollarEntityService>();
+            ninjectKernel.Bind<IBaseService<GEOLOGIST>>().To<GeologistEntityService>();
             IViewCollar2 view =  ninjectKernel.Get<IViewCollar2>();
             IBaseService<COLLAR2> model = ninjectKernel.Get<IBaseService<COLLAR2>>();
-            PDrillHoles presenter = new PDrillHoles(view, model,20);
+            IBaseService<GEOLOGIST> modelGeologist = ninjectKernel.Get<IBaseService<GEOLOGIST>>();
+            PDrillHoles presenter = new PDrillHoles(view, model,modelGeologist,20);
             presenter.Show();
         }
     }

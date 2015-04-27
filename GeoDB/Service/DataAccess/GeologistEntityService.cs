@@ -7,29 +7,29 @@ using GeoDB.Model;
 
 namespace GeoDB.Service.DataAccess
 {
-    public class CollarEntityService : IBaseService<COLLAR2>
+    public class GeologistEntityService : IBaseService<GEOLOGIST>
     {
         ModelDB db = new ModelDB();
 
-        public IEnumerable<COLLAR2> Get()
+        public IEnumerable<GEOLOGIST> Get()
         {
-            IEnumerable<COLLAR2> result = (from a in db.COLLAR2
+            IEnumerable<GEOLOGIST> result = (from a in db.GEOLOGIST
                               select a).ToList();
 
             return result;
         }
 
-        public COLLAR2 Get(int id)
+        public GEOLOGIST Get(int id)
         {
-            COLLAR2 result = (from a in db.COLLAR2
-                                    where a.ID == id
+            GEOLOGIST result = (from a in db.GEOLOGIST
+                                    where a.GEOLOGIST_ID == id
                                     select a).FirstOrDefault();
             return result;
         }
 
         public int Count()
         {
-            int result = (from a in db.COLLAR2
+            int result = (from a in db.GEOLOGIST
                               select a).Count();
             return result;
         }

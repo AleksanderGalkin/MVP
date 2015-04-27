@@ -23,7 +23,7 @@ namespace GeoDB.Model
         public double zcollar { get; set; }
         public double enddepth { get; set; }
         public string drillType { get; set; }
-        public int? lastUserID { get; set; }
+        public string lastUserID { get; set; }
         public DateTime? lastDT { get; set; }
 
         static public List<DGVHeader> header {

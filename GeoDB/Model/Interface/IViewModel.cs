@@ -7,7 +7,7 @@ namespace GeoDB.Model.Interface
 {
     interface IViewModel
     {
-        int? lastUserID { get; set; }
+        string lastUserID { get; set; }
         DateTime? lastDT { get; set; }
     }
 }

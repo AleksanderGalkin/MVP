@@ -18,7 +18,7 @@ namespace GeoDBWinForms
             InitializeComponent();
         }
 
-        public List<Collar2VmFull> CollarList
+        public Dictionary<int, Collar2VmFull> CollarList
         {
             get;
             set;
@@ -31,7 +31,9 @@ namespace GeoDBWinForms
             set { dataGVCollar2.RowCount = value; }
             get { return dataGVCollar2.RowCount; }
         }
-
+        public int minShowedRow { get; set; }
+        public int maxShowedRow { get; set; }
+        
         public List<DGVHeader> CollarHeader
         {
             set
@@ -50,6 +52,7 @@ namespace GeoDBWinForms
         public event EventHandler<EventArgs> clickFilters;
         public event EventHandler<EventArgs> showNextScreen;
         public event EventHandler<EventArgs> showPrevScreen;
+        public event EventHandler<NumRowEventArgs> showAnyScreen;
         public event EventHandler<EventArgs> openForm;
 
 
@@ -74,16 +77,54 @@ namespace GeoDBWinForms
             Application.Run(this);
         }
 
-        private void dataGVCollar2_RowLeave(object sender, DataGridViewCellEventArgs e)
-        {
-            MessageBox.Show(e.RowIndex.ToString()+" ");
-        }
 
         private void btCloseForm_Click(object sender, EventArgs e)
         {
             if (clickCloseForm != null)
             {
                 clickCloseForm(this, EventArgs.Empty);
+            }
+        }
+
+        private void dataGVCollar2_CellValueNeeded(object sender, DataGridViewCellValueEventArgs e)
+        {
+
+            Collar2VmFull tmp;
+            if (CollarList.TryGetValue(e.RowIndex, out tmp))
+            {
+                string propName = Collar2VmFull.header.ElementAt(e.ColumnIndex).fieldName;
+                e.Value = tmp.GetType().GetProperty(propName).GetValue(tmp, null);
+            }
+            else
+            {
+                if (e.RowIndex == maxShowedRow+1)
+                {
+                    if (showNextScreen != null)
+                    {
+                        showNextScreen(this, EventArgs.Empty);
+                    }
+                }
+                else if (e.RowIndex == minShowedRow-1)
+                {
+                    if (showPrevScreen != null)
+                    {
+                        showPrevScreen(this, EventArgs.Empty);
+                    }
+                }
+                else
+                {
+                    if (showAnyScreen != null)
+                    {
+                        showAnyScreen(this, new NumRowEventArgs (e.RowIndex));
+                    }
+                }
+
+                if (CollarList.TryGetValue(e.RowIndex, out tmp))
+                {
+                    string propName = Collar2VmFull.header.ElementAt(e.ColumnIndex).fieldName;
+                    e.Value = tmp.GetType().GetProperty(propName).GetValue(tmp, null);
+                }
+                
             }
         }
 

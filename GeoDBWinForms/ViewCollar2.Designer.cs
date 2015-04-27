@@ -52,7 +52,7 @@
             this.dataGVCollar2.Size = new System.Drawing.Size(624, 338);
             this.dataGVCollar2.TabIndex = 0;
             this.dataGVCollar2.VirtualMode = true;
-            this.dataGVCollar2.RowLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGVCollar2_RowLeave);
+            this.dataGVCollar2.CellValueNeeded += new System.Windows.Forms.DataGridViewCellValueEventHandler(this.dataGVCollar2_CellValueNeeded);
             // 
             // btShowData
             // 

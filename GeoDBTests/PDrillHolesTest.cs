@@ -23,6 +23,7 @@ namespace GeoDBTests
         private int _itemToPage;
         private IBaseService<COLLAR2> _model;
         private IBaseService<COLLAR2> _modelEmpty;
+        private IBaseService<GEOLOGIST> _modelGeologist;
         private List<COLLAR2> _modelRecords;
         private List<COLLAR2> _modelRecordsEmpty;
 
@@ -46,21 +47,25 @@ namespace GeoDBTests
             }
 
             _view=Substitute.For<IViewCollar2>();
-            _view.CollarList = new List<Collar2VmFull>();
+            _view.CollarList = new Dictionary<int,Collar2VmFull>();
             _viewEmpty = Substitute.For<IViewCollar2>();
-            _viewEmpty.CollarList = new List<Collar2VmFull>();
+            _viewEmpty.CollarList = new Dictionary<int, Collar2VmFull>();
 
             
             _model = Substitute.For<IBaseService<COLLAR2>>();
             _model.Get().Returns(_modelRecords);
             _model.Count().Returns(_modelRecords.Count);
 
+            _modelGeologist = Substitute.For<IBaseService<GEOLOGIST>>();
+            _modelGeologist.Get().Returns(new List<GEOLOGIST>());
+            _modelGeologist.Count().Returns(0);
+
             _modelEmpty = Substitute.For<IBaseService<COLLAR2>>();
             _modelEmpty.Get().Returns(_modelRecordsEmpty);
             _modelEmpty.Count().Returns(_modelRecordsEmpty.Count);
 
-            _PDrillHoles = new PDrillHoles(_view, _model, _itemToPage);
-            _PDrillHolesWithEmptyModel = new PDrillHoles(_viewEmpty, _modelEmpty, _itemToPage);
+            _PDrillHoles = new PDrillHoles(_view, _model,_modelGeologist, _itemToPage);
+            _PDrillHolesWithEmptyModel = new PDrillHoles(_viewEmpty, _modelEmpty,_modelGeologist, _itemToPage);
             
         }
 
@@ -81,8 +86,8 @@ namespace GeoDBTests
             int FIRST_ITEM_BEFORE_LAST_EVENT = 0;
             int firstItem = FIRST_ITEM_BEFORE_LAST_EVENT + _itemToPage - 1;
             int lastItem = firstItem + _itemToPage - 1;
-            Assert.That(_view.CollarList.ElementAt(0).id, Is.EqualTo(firstItem));
-            Assert.That(_view.CollarList.ElementAt(_itemToPage - 1).id, Is.EqualTo(lastItem));
+            Assert.That(_view.CollarList.ElementAt(0).Value.id, Is.EqualTo(firstItem));
+            Assert.That(_view.CollarList.ElementAt(_itemToPage - 1).Value.id, Is.EqualTo(lastItem));
         
         }
 
@@ -101,8 +106,8 @@ namespace GeoDBTests
                 firstItem = (_model.Count() - 1) - (_itemToPage - 1);
                 lastItem = firstItem + _itemToPage - 1;
             }
-            Assert.That(_view.CollarList.ElementAt(0).id, Is.EqualTo(firstItem));
-            Assert.That(_view.CollarList.ElementAt(_itemToPage - 1).id, Is.EqualTo(lastItem));
+            Assert.That(_view.CollarList.ElementAt(0).Value.id, Is.EqualTo(firstItem));
+            Assert.That(_view.CollarList.ElementAt(_itemToPage - 1).Value.id, Is.EqualTo(lastItem));
         }
 
         [Test]
@@ -115,13 +120,14 @@ namespace GeoDBTests
             int FIRST_ITEM_BEFORE_LAST_EVENT = 10;
             int firstItem = FIRST_ITEM_BEFORE_LAST_EVENT - (_itemToPage - 1);
             int lastItem = firstItem + _itemToPage - 1;
-            Assert.That(_view.CollarList.ElementAt(0).id, Is.EqualTo(firstItem));
-            Assert.That(_view.CollarList.ElementAt(_itemToPage - 1).id, Is.EqualTo(lastItem));
+            Assert.That(_view.CollarList.ElementAt(0).Value.id, Is.EqualTo(firstItem));
+            Assert.That(_view.CollarList.ElementAt(_itemToPage - 1).Value.id, Is.EqualTo(lastItem));
         }
 
         [Test]
         public void ShowFirstScreenAfterFourthPageTest()
         {
+            _PDrillHoles.ShowPage();
             _view.showNextScreen += Raise.Event();
             _view.showNextScreen += Raise.Event();
             _view.showNextScreen += Raise.Event();
@@ -136,8 +142,8 @@ namespace GeoDBTests
                 firstItem = 0;
                 lastItem = firstItem + _itemToPage - 1;
             }
-            Assert.That(_view.CollarList.ElementAt(0).id, Is.EqualTo(firstItem));
-            Assert.That(_view.CollarList.ElementAt(_itemToPage - 1).id, Is.EqualTo(lastItem));
+            Assert.That(_view.CollarList.ElementAt(0).Value.id, Is.EqualTo(firstItem));
+            Assert.That(_view.CollarList.ElementAt(_itemToPage - 1).Value.id, Is.EqualTo(lastItem));
         }
 
         [Test]
