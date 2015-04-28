@@ -87,6 +87,7 @@
     <Compile Include="Service\DataAccess\DrillingTypeEntityService.cs" />
     <Compile Include="Service\DataAccess\Interface\IBaseService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="View\IViewAssays2.cs" />
     <Compile Include="View\IViewCollar2.cs" />
   </ItemGroup>
   <ItemGroup>
