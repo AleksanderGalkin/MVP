@@ -116,9 +116,15 @@ namespace GeoDBWinForms
         public Dictionary<int, Assays2VmFull> AssaysList
         { get; set; }
 
+        private void SetRowCountTo0()
+        {
+            dataGVAssays2.RowCount = 0;
+        }
+        delegate void dSetRowCountTo0();
+
         public int rowAssaysCount
         {
-            set { dataGVAssays2.RowCount = value; }
+            set {dataGVAssays2.RowCount = value > 0 ? value : 1 ;}
             get { return dataGVAssays2.RowCount; }
         }
         public int minAssaysRow { get; set; }
@@ -189,6 +195,13 @@ namespace GeoDBWinForms
         private void dataGVCollar2_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
         {
 
+        }
+
+        private void dataGridView1_CellContentClick_1(object sender, DataGridViewCellEventArgs e)
+        {
+            DataGridViewCellStyle style = new DataGridViewCellStyle();
+            style.Font = new Font( , FontStyle.Strikeout);
+            dataGridView1.Columns[0].HeaderCell.Style = style;
         }
 
     }

@@ -81,8 +81,8 @@
     <Compile Include="Model\Collar2.cs" />
     <Compile Include="Model\Interface\IBase.cs" />
     <Compile Include="Model\NumRowEventArgs.cs" />
+    <Compile Include="Presenter\AbsBrowser.cs" />
     <Compile Include="Presenter\PDrillHoles.cs" />
-    <Compile Include="Presenter\PDrillHoles_TO_DEL.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Service\DataAccess\CollarEntityService.cs" />
     <Compile Include="Service\DataAccess\AssaysEntityService.cs" />

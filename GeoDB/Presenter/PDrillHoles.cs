@@ -12,149 +12,16 @@ using GeoDB.Extensions;
 
 namespace GeoDB.Presenter
 {
-    public class BrowseCollar
+    public class BrowseCollar:AbsBrowser<COLLAR2,Collar2VmFull>
     {
-        public static ILog log = LogManager.GetLogger("ConsoleAppender");
-
-        private IBaseService<COLLAR2> _model;
-        private IBaseService<GEOLOGIST> _modelGeologist;
-        private IEnumerable<Collar2VmFull> _filteredViewModel;
-        private int _bufferRowCount;
-        private int _wholeModelRowCount;
-        private int _currentFirstRowInForm;
-        private Dictionary<int, Collar2VmFull> _buffer;
-
-        private DGVHeaderComparer _myDGVHeaderComparer;
-        private Dictionary<DGVHeader, LinqExtensionFilterCriterion> _filter;
-
-        public event EventHandler<EventArgs> generatedNewPartOfBuffer;
-        public event EventHandler<EventArgs> refreshedViewModel;
         public BrowseCollar
-            (
-                          IBaseService<COLLAR2> modelCollar
-                        , IBaseService<GEOLOGIST> modelGeologist
-                        , int rowsToBuffer
-            )
-        {
-            _buffer = new Dictionary<int, Collar2VmFull>();
-            _model = modelCollar;
-            _bufferRowCount = rowsToBuffer;
-            _currentFirstRowInForm = 0;
-            _myDGVHeaderComparer = new DGVHeaderComparer();
-            _filter = new Dictionary<DGVHeader, LinqExtensionFilterCriterion>(_myDGVHeaderComparer);
-            _modelGeologist = modelGeologist;
-            CreateFilteredModel();
-            GeneratePage();
-        }
-
-
-        #region Public
-        public List<DGVHeader> GetCollarHeader()
-        {
-            return Collar2VmFull.header;
-        }
-        public Dictionary<int, Collar2VmFull> GetNewBuffer()
-        {
-            return _buffer;
-        }
-        public int GetWholeModelRowCount()
-        {
-            return _wholeModelRowCount;
-        }
-
-        public void AddFilter(DGVHeader Column, LinqExtensionFilterCriterion Criterion)
-        {
-            _filter.Add(Column,Criterion);
-            CreateFilteredModel();
-        }
-        
-        public void OnShowNextScreen(object sender, EventArgs e)
-        {
-            log.DebugFormat("_currentFirsItemInForm_before_calculation_new_FirstItem: {0}", _currentFirstRowInForm);
-
-            log.DebugFormat("_rowsToPage: {0}", _bufferRowCount);
-
-
-            _currentFirstRowInForm = _currentFirstRowInForm + _bufferRowCount - 1;
-            if (_currentFirstRowInForm + (_bufferRowCount - 1) > _model.Count() - 1)
-            {
-                _currentFirstRowInForm = (_model.Count() - 1) - (_bufferRowCount - 1);
-            }
-            log.DebugFormat("_currentFirsItemInForm_after_calculation_new_FirstItem: {0}", _currentFirstRowInForm);
-            GeneratePage();
-            if (generatedNewPartOfBuffer != null)
-            {
-                generatedNewPartOfBuffer(this, EventArgs.Empty);
-            }
-
-        }
-
-        public void OnShowPrevScreen(object sender, EventArgs e)
-        {
-            log.DebugFormat("_currentFirsItemInForm_before_calculation_new_FirstItem: {0}", _currentFirstRowInForm);
-
-            log.DebugFormat("_rowsToPage: {0}", _bufferRowCount);
-
-
-            _currentFirstRowInForm = _currentFirstRowInForm - (_bufferRowCount - 1);
-            if (_currentFirstRowInForm - (_bufferRowCount - 1) < 0)
-            {
-                _currentFirstRowInForm = 0;
-            }
-            log.DebugFormat("_currentFirsItemInForm_after_calculation_new_FirstItem: {0}", _currentFirstRowInForm);
-            GeneratePage();
-            if (generatedNewPartOfBuffer != null)
-            {
-                generatedNewPartOfBuffer(this, EventArgs.Empty);
-            }
-        }
-
-        public void OnShowAnyScreen(object sender, NumRowEventArgs e)
-        {
-            log.DebugFormat("_currentFirsItemInForm_before_calculation_new_FirstItem: {0}", _currentFirstRowInForm);
-
-            log.DebugFormat("_rowsToPage: {0}", _bufferRowCount);
-
-
-            if (e.numRow == (_currentFirstRowInForm + _bufferRowCount))
-            {
-                _currentFirstRowInForm = e.numRow + _bufferRowCount <= _wholeModelRowCount ? e.numRow : _wholeModelRowCount - _bufferRowCount;
-            }
-            else if (e.numRow == _currentFirstRowInForm - 1)
-            {
-                _currentFirstRowInForm = e.numRow - _bufferRowCount >= 0 ? e.numRow - _bufferRowCount + 1 : 0;
-            }
-            else
-            {
-                _currentFirstRowInForm = e.numRow - (_bufferRowCount / 2);
-            }
-
-            log.DebugFormat("_currentFirsItemInForm_after_calculation_new_FirstItem: {0}", _currentFirstRowInForm);
-            GeneratePage();
-            if (generatedNewPartOfBuffer != null)
-            {
-                generatedNewPartOfBuffer(this, EventArgs.Empty);
-            }
-        }
-
-        public void OnClickCollarFilters(object sender, EventArgs e)
-        {
-            AddFilter(new DGVHeader { fieldHeader = "gorizont", fieldName = "gorizont" }
-                                        , new LinqExtensionFilterCriterion(200, 350));
-    
-            GeneratePage();
-            if (generatedNewPartOfBuffer != null)
-            {
-                generatedNewPartOfBuffer(this, EventArgs.Empty);
-            }
-            if (refreshedViewModel != null)
-            {
-                refreshedViewModel(this, EventArgs.Empty);
-            }
-        }
-        #endregion Public
-        #region Private
-        private void CreateFilteredModel()
+         (
+                       IBaseService<COLLAR2> modelCollar
+                     , IBaseService<GEOLOGIST> modelGeologist
+                     , int rowsToBuffer
+         )
+            : base(modelCollar, modelGeologist, rowsToBuffer) { }
+        public override void CreateFilteredModel()
         {
             var temp =
                  (from a in _model.Get()
@@ -184,188 +51,20 @@ namespace GeoDB.Presenter
             _wholeModelRowCount = _filteredViewModel.Count();
         }
 
-        private void GeneratePage()
-        {
-            var bufferMod =
-                    _filteredViewModel.Skip(_currentFirstRowInForm)
-                   .Take(_bufferRowCount)
-                   .ToList();
-
-            int numerator = _currentFirstRowInForm;
-            _buffer.Clear();
-            foreach (var i in bufferMod)
-            {
-                _buffer.Add(numerator++, i);
-            }
-
-
-        }
-        #endregion Private
-
     }
 
-    public class BrowseAssay
+    public class BrowseAssay:AbsBrowser<ASSAYS2,Assays2VmFull>
     {
-        public static ILog log = LogManager.GetLogger("ConsoleAppender");
-
-        private IBaseService<ASSAYS2> _model;
-        private IBaseService<GEOLOGIST> _modelGeologist;
-        private IEnumerable<Assays2VmFull> _filteredViewModel;
-        private int _bufferRowCount;
-        private int _wholeModelRowCount;
-        private int _currentFirstRowInForm;
-        private Dictionary<int, Assays2VmFull> _buffer;
-
-        private DGVHeaderComparer _myDGVHeaderComparer;
-        private Dictionary<DGVHeader, LinqExtensionFilterCriterion> _filter;
-
-        public event EventHandler<EventArgs> generatedNewPartOfBuffer;
-        public event EventHandler<EventArgs> refreshedViewModel;
-
-        private int _bhid_Collar_id;
-
         public BrowseAssay
             (
                           IBaseService<ASSAYS2> modelAssays
                         , IBaseService<GEOLOGIST> modelGeologist
                         , int rowsToBuffer
             )
-        {
-            _buffer = new Dictionary<int, Assays2VmFull>();
-            _model = modelAssays;
-            _bufferRowCount = rowsToBuffer;
-            _currentFirstRowInForm = 0;
-            _myDGVHeaderComparer = new DGVHeaderComparer();
-            _filter = new Dictionary<DGVHeader, LinqExtensionFilterCriterion>(_myDGVHeaderComparer);
-            _modelGeologist = modelGeologist;
-            CreateFilteredModel();
-            GeneratePage();
-        }
+            :base(modelAssays,modelGeologist,rowsToBuffer){}
 
 
-        #region Public
-        public List<DGVHeader> GetHeader()
-        {
-            return Assays2VmFull.header;
-        }
-        public Dictionary<int, Assays2VmFull> GetNewBuffer()
-        {
-            return _buffer;
-        }
-        public int GetWholeModelRowCount()
-        {
-            return _wholeModelRowCount;
-        }
-
-        public void AddFilter(DGVHeader Column, LinqExtensionFilterCriterion Criterion)
-        {
-            _filter.Add(Column, Criterion);
-            CreateFilteredModel();
-        }
-
-        public void OnShowNextScreen(object sender, EventArgs e)
-        {
-            log.DebugFormat("_currentFirsItemInForm_before_calculation_new_FirstItem: {0}", _currentFirstRowInForm);
-
-            log.DebugFormat("_rowsToPage: {0}", _bufferRowCount);
-
-
-            _currentFirstRowInForm = _currentFirstRowInForm + _bufferRowCount - 1;
-            if (_currentFirstRowInForm + (_bufferRowCount - 1) > _wholeModelRowCount - 1)
-            {
-                _currentFirstRowInForm = (_wholeModelRowCount - 1) - (_bufferRowCount - 1);
-            }
-            log.DebugFormat("_currentFirsItemInForm_after_calculation_new_FirstItem: {0}", _currentFirstRowInForm);
-            GeneratePage();
-            if (generatedNewPartOfBuffer != null)
-            {
-                generatedNewPartOfBuffer(this, EventArgs.Empty);
-            }
-
-        }
-
-        public void OnShowPrevScreen(object sender, EventArgs e)
-        {
-            log.DebugFormat("_currentFirsItemInForm_before_calculation_new_FirstItem: {0}", _currentFirstRowInForm);
-
-            log.DebugFormat("_rowsToPage: {0}", _bufferRowCount);
-
-
-            _currentFirstRowInForm = _currentFirstRowInForm - (_bufferRowCount - 1);
-            if (_currentFirstRowInForm - (_bufferRowCount - 1) < 0)
-            {
-                _currentFirstRowInForm = 0;
-            }
-            log.DebugFormat("_currentFirsItemInForm_after_calculation_new_FirstItem: {0}", _currentFirstRowInForm);
-            GeneratePage();
-            if (generatedNewPartOfBuffer != null)
-            {
-                generatedNewPartOfBuffer(this, EventArgs.Empty);
-            }
-        }
-
-        public void OnShowAnyScreen(object sender, NumRowEventArgs e)
-        {
-            log.DebugFormat("_currentFirsItemInForm_before_calculation_new_FirstItem: {0}", _currentFirstRowInForm);
-
-            log.DebugFormat("_rowsToPage: {0}", _bufferRowCount);
-
-            if (e.numRow == (_currentFirstRowInForm + _bufferRowCount))
-            {
-                _currentFirstRowInForm = e.numRow + _bufferRowCount <= _wholeModelRowCount ? e.numRow : _wholeModelRowCount - _bufferRowCount;
-            }
-            else if (e.numRow == _currentFirstRowInForm - 1)
-            {
-                _currentFirstRowInForm = e.numRow - _bufferRowCount >= 0 ? e.numRow - _bufferRowCount + 1 : 0;
-            }
-            else
-            {
-                _currentFirstRowInForm = e.numRow - (_bufferRowCount / 2);
-            }
-
-            log.DebugFormat("_currentFirsItemInForm_after_calculation_new_FirstItem: {0}", _currentFirstRowInForm);
-            GeneratePage();
-            if (generatedNewPartOfBuffer != null)
-            {
-                generatedNewPartOfBuffer(this, EventArgs.Empty);
-            }
-        }
-
-        public void OnClickCollarFilters(object sender, EventArgs e)
-        {
-            AddFilter(new DGVHeader { fieldHeader = "gorizont", fieldName = "gorizont" }
-                                        , new LinqExtensionFilterCriterion(200, 350));
-            CreateFilteredModel();
-            GeneratePage();
-            if (generatedNewPartOfBuffer != null)
-            {
-                generatedNewPartOfBuffer(this, EventArgs.Empty);
-            }
-            if (refreshedViewModel != null)
-            {
-                refreshedViewModel(this, EventArgs.Empty);
-            }
-        }
-
-        public void OnSetRowMasterTable(object sender, NumRowEventArgs e)
-        {
-            _bhid_Collar_id = e.numRow;
-
-            CreateFilteredModel();
-            GeneratePage();
-            if (generatedNewPartOfBuffer != null)
-            {
-                generatedNewPartOfBuffer(this, EventArgs.Empty);
-            }
-            if (refreshedViewModel != null)
-            {
-                refreshedViewModel(this, EventArgs.Empty);
-            }
-        }
-
-        #endregion Public
-        #region Private
-        private void CreateFilteredModel()
+        public override void CreateFilteredModel()
         {
             var temp =
                  (from a in _model.GetByBhid(_bhid_Collar_id)
@@ -408,24 +107,13 @@ namespace GeoDB.Presenter
 
             _wholeModelRowCount = _filteredViewModel.Count();
         }
-
-        private void GeneratePage()
+        public  void OnSetRowMasterTable(object sender, NumRowEventArgs e)
         {
-            var bufferMod =
-                    _filteredViewModel.Skip(_currentFirstRowInForm)
-                   .Take(_bufferRowCount)
-                   .ToList();
-
-            int numerator = _currentFirstRowInForm;
-            _buffer.Clear();
-            foreach (var i in bufferMod)
-            {
-                _buffer.Add(numerator++, i);
-            }
-
-
+            _bhid_Collar_id = e.numRow;
+            CreateFilteredModel();
+            GeneratePage();
+            base.OnSetRowMasterTable(sender, e);
         }
-        #endregion Private
 
     }
     public class PDrillHoles
@@ -455,18 +143,8 @@ namespace GeoDB.Presenter
             _view.showAnyAssaysScreen += new EventHandler<NumRowEventArgs>(_broAssays.OnShowAnyScreen);
             _view.setCurrentRow += new EventHandler<NumRowEventArgs>(_broAssays.OnSetRowMasterTable);
 
-
-
             _view.clickCloseForm += new EventHandler<EventArgs>(OnClickCloseForm);
-            _view.openForm += new EventHandler<EventArgs>(OnOpenForm);
-
-
-
         }
-   
-
-        #region Form properties and events
-
         private void OnCollarGeneratedNewPartOfBuffer(object sender, EventArgs e)
         {
             _view.CollarList = _broCollar.GetNewBuffer();
@@ -475,7 +153,6 @@ namespace GeoDB.Presenter
         private void OnCollarRefreshedViewModel(object sender,EventArgs e)
         {
             _view.RefreshCollar();
-
         }
 
         private void OnAssaysGeneratedNewPartOfBuffer(object sender, EventArgs e)
@@ -492,16 +169,10 @@ namespace GeoDB.Presenter
         {
             _view.Close();
         }
-        private void OnOpenForm(object sender, EventArgs e)
-        {
-
-        }
-
-
 
         public void Show()
         {
-            _view.CollarHeader = _broCollar.GetCollarHeader();
+            _view.CollarHeader = _broCollar.GetHeader();
             _view.rowCollarCount = _broCollar.GetWholeModelRowCount();
             _view.CollarList = _broCollar.GetNewBuffer();
             _view.AssaysHeader = _broAssays.GetHeader();
@@ -509,8 +180,5 @@ namespace GeoDB.Presenter
             _view.AssaysList = _broAssays.GetNewBuffer();
             _view.Show();
         }
-        #endregion Form properties and events
-
-
     }
 }
