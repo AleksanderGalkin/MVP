@@ -26,7 +26,10 @@ namespace GeoDB.Service.DataAccess
                                     select a).FirstOrDefault();
             return result;
         }
-
+        public IEnumerable<DRILLING_TYPE> GetByBhid(int bhid)
+        {
+            throw new InvalidOperationException("Not implement operation");
+        }
         public int Count()
         {
             int result = (from a in db.DRILLING_TYPE

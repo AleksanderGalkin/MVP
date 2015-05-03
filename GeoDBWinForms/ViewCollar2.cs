@@ -11,7 +11,7 @@ using GeoDB.View;
 
 namespace GeoDBWinForms
 {
-    public partial class ViewCollar2 : Form,IViewCollar2
+    public partial class ViewCollar2 : Form,IViewDrillHoles2
     {
         public ViewCollar2()
         {
@@ -22,17 +22,15 @@ namespace GeoDBWinForms
         {
             get;
             set;
-            //  set { dataGVCollar2.DataSource = value; }
-            //  get { return dataGVCollar2.DataSource as List<Collar2VmFull>; }
         }
 
-        public int rowCount
+        public int rowCollarCount
         {
             set { dataGVCollar2.RowCount = value; }
             get { return dataGVCollar2.RowCount; }
         }
-        public int minShowedRow { get; set; }
-        public int maxShowedRow { get; set; }
+        public int minCollarRow { get; set; }
+        public int maxCollarRow { get; set; }
         
         public List<DGVHeader> CollarHeader
         {
@@ -46,37 +44,39 @@ namespace GeoDBWinForms
             }
             
         }
-        public event EventHandler<EventArgs> clickCollarList;
-        public event EventHandler<EventArgs> clickCloseForm;
-        public event EventHandler<EventArgs> clickHeader;
-        public event EventHandler<EventArgs> clickFilters;
-        public event EventHandler<EventArgs> showNextScreen;
-        public event EventHandler<EventArgs> showPrevScreen;
-        public event EventHandler<NumRowEventArgs> showAnyScreen;
+        public event EventHandler<EventArgs> clickCollarData;
+        
+        public event EventHandler<EventArgs> clickCollarHeader;
+        public event EventHandler<EventArgs> clickCollarFilters;
+        public event EventHandler<EventArgs> showNextCollarScreen;
+        public event EventHandler<EventArgs> showPrevCollarScreen;
+        public event EventHandler<NumRowEventArgs> showAnyCollarScreen;
+        public event EventHandler<NumRowEventArgs> setCurrentRow;
         public event EventHandler<EventArgs> openForm;
-
+        public event EventHandler<EventArgs> clickCloseForm;
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (clickCollarList != null)
+            if (clickCollarData != null)
             {
-                clickCollarList(this, EventArgs.Empty);
+                clickCollarData(this, EventArgs.Empty);
             }
         }
 
-        private void dataGridView1_CellContentClick2(object sender, DataGridViewCellEventArgs e)
-        {
-            if (showNextScreen != null)
-            {
-                showNextScreen(this, EventArgs.Empty);
-            }
-        }
 
         public new void Show()
         {
             Application.Run(this);
         }
 
+        public void RefreshCollar()
+        {
+            dataGVCollar2.Refresh();
+        }
+        public void RefreshAssays()
+        {
+            dataGVAssays2.Refresh();
+        }
 
         private void btCloseForm_Click(object sender, EventArgs e)
         {
@@ -97,27 +97,11 @@ namespace GeoDBWinForms
             }
             else
             {
-                if (e.RowIndex == maxShowedRow+1)
+                if (showAnyCollarScreen != null)
                 {
-                    if (showNextScreen != null)
-                    {
-                        showNextScreen(this, EventArgs.Empty);
-                    }
+                    showAnyCollarScreen(this, new NumRowEventArgs(e.RowIndex));
                 }
-                else if (e.RowIndex == minShowedRow-1)
-                {
-                    if (showPrevScreen != null)
-                    {
-                        showPrevScreen(this, EventArgs.Empty);
-                    }
-                }
-                else
-                {
-                    if (showAnyScreen != null)
-                    {
-                        showAnyScreen(this, new NumRowEventArgs (e.RowIndex));
-                    }
-                }
+                
 
                 if (CollarList.TryGetValue(e.RowIndex, out tmp))
                 {
@@ -128,6 +112,84 @@ namespace GeoDBWinForms
             }
         }
 
+
+        public Dictionary<int, Assays2VmFull> AssaysList
+        { get; set; }
+
+        public int rowAssaysCount
+        {
+            set { dataGVAssays2.RowCount = value; }
+            get { return dataGVAssays2.RowCount; }
+        }
+        public int minAssaysRow { get; set; }
+        public int maxAssaysRow { get; set; }
+
+        public List<DGVHeader> AssaysHeader
+        {
+            set
+            {
+                dataGVAssays2.Columns.Clear();
+                foreach (var i in value)
+                {
+                    dataGVAssays2.Columns.Add(i.fieldName, i.fieldHeader);
+                }
+            }
+
+        }
+
+        public event EventHandler<EventArgs> clickAssaysData;
+
+        public event EventHandler<EventArgs> clickAssaysHeader;
+        public event EventHandler<EventArgs> clickAssaysFilters;
+        public event EventHandler<EventArgs> showNextAssaysScreen;
+        public event EventHandler<EventArgs> showPrevAssaysScreen;
+        public event EventHandler<NumRowEventArgs> showAnyAssaysScreen;
+
+
+        private void dataGVAssays2_CellValueNeeded(object sender, DataGridViewCellValueEventArgs e)
+        {
+
+            Assays2VmFull tmp;
+            if (AssaysList.TryGetValue(e.RowIndex, out tmp))
+            {
+                string propName = Assays2VmFull.header.ElementAt(e.ColumnIndex).fieldName;
+                e.Value = tmp.GetType().GetProperty(propName).GetValue(tmp, null);
+            }
+            else
+            {
+             
+                if (showAnyAssaysScreen != null)
+                {
+                    showAnyAssaysScreen(this, new NumRowEventArgs(e.RowIndex));
+                }
+           
+                if (AssaysList.TryGetValue(e.RowIndex, out tmp))
+                {
+                    string propName = Assays2VmFull.header.ElementAt(e.ColumnIndex).fieldName;
+                    e.Value = tmp.GetType().GetProperty(propName).GetValue(tmp, null);
+                }
+
+            }
+        }
+
+        private void dataGVCollar2_RowEnter(object sender, DataGridViewCellEventArgs e)
+        {
+            if (setCurrentRow != null)
+            {
+               int  CollarID = (int)(dataGVCollar2[0, e.RowIndex].Value);
+               setCurrentRow(this, new NumRowEventArgs(CollarID));
+            }
+        }
+
+        private void btShowData_Click(object sender, EventArgs e)
+        {
+            clickCollarFilters(this, EventArgs.Empty);
+        }
+
+        private void dataGVCollar2_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
+        {
+
+        }
 
     }
 }

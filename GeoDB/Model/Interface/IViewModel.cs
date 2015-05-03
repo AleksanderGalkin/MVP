@@ -5,7 +5,7 @@ using System.Text;
 
 namespace GeoDB.Model.Interface
 {
-    interface IViewModel
+    public interface IViewModel
     {
         string lastUserID { get; set; }
         DateTime? lastDT { get; set; }

@@ -14,24 +14,24 @@ namespace GeoDB.Model
     public class Assays2VmFull : IViewModel
     {
         
-        public string bhid { get; set; }
+        public int bhid { get; set; }
         public string sample { get; set; }
-        public double from { get; set; }
+        public double from_ { get; set; }
         public double to { get; set; }
         public double length { get; set; }
         public string zblock { get; set; }
         public string lito { get; set; }
         public string rang { get; set; }
-        public double ves { get; set; }
-        public double au { get; set; }
-        public double au_cut { get; set; }
-        public double as_ { get; set; }
-        public double sb { get; set; }
-        public double s { get; set; }
-        public double ca { get; set; }
-        public double fe { get; set; }
-        public double ag { get; set; }
-        public double c { get; set; }
+        public double? ves { get; set; }
+        public double? au { get; set; }
+        public double? au_cut { get; set; }
+        public double? as_ { get; set; }
+        public double? sb { get; set; }
+        public double? s { get; set; }
+        public double? ca { get; set; }
+        public double? fe { get; set; }
+        public double? ag { get; set; }
+        public double? c { get; set; }
         public DateTime end_date { get; set; }
         public string blank { get; set; }
         public string journal { get; set; }
@@ -48,7 +48,7 @@ namespace GeoDB.Model
                 
                 _header.Add(new DGVHeader { fieldName = "bhid", fieldHeader = "BHID" });
                 _header.Add(new DGVHeader { fieldName = "sample", fieldHeader = "Проба" });
-                _header.Add(new DGVHeader { fieldName = "from", fieldHeader = "От" });
+                _header.Add(new DGVHeader { fieldName = "from_", fieldHeader = "От" });
                 _header.Add(new DGVHeader { fieldName = "to", fieldHeader = "До" });
                 _header.Add(new DGVHeader { fieldName = "length", fieldHeader = "Длина" });
                 _header.Add(new DGVHeader { fieldName = "zblock", fieldHeader = "З.Блок" });

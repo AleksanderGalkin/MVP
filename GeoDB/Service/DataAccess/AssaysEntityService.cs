@@ -4,38 +4,41 @@ using System.Linq;
 using System.Text;
 using GeoDB.Service.DataAccess.Interface;
 using GeoDB.Model;
-using System.Data.Objects;
 
 namespace GeoDB.Service.DataAccess
 {
-    public class CollarEntityService : IBaseService<COLLAR2>
+    public class AssaysEntityService : IBaseService<ASSAYS2>
     {
         ModelDB db = new ModelDB();
 
-        public IEnumerable<COLLAR2> Get()
+        public IEnumerable<ASSAYS2> Get()
         {
-            IEnumerable<COLLAR2> result = (from a in db.COLLAR2
+            IEnumerable<ASSAYS2> result = (from a in db.ASSAYS2
                               select a).ToList();
 
             return result;
         }
 
-        public COLLAR2 Get(int id)
+        public ASSAYS2 Get(int id)
         {
-            COLLAR2 result = (from a in db.COLLAR2
+            ASSAYS2 result = (from a in db.ASSAYS2
                                     where a.ID == id
                                     select a).FirstOrDefault();
             return result;
         }
 
-        public IEnumerable<COLLAR2> GetByBhid(int bhid)
+        public IEnumerable<ASSAYS2> GetByBhid(int bhid)
         {
-            throw new InvalidOperationException("Not implement operation");
+            IEnumerable<ASSAYS2> result = (from a in db.ASSAYS2
+                                           where a.BHID==bhid
+                                           select a).ToList();
+
+            return result;
         }
 
         public int Count()
         {
-            int result = (from a in db.COLLAR2
+            int result = (from a in db.ASSAYS2
                               select a).Count();
             return result;
         }
