@@ -34,9 +34,9 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.dataGVAssays2 = new System.Windows.Forms.DataGridView();
-            this.btCloseForm = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.Example = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.btCloseForm = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGVCollar2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -130,17 +130,6 @@
             this.dataGVAssays2.VirtualMode = true;
             this.dataGVAssays2.CellValueNeeded += new System.Windows.Forms.DataGridViewCellValueEventHandler(this.dataGVAssays2_CellValueNeeded);
             // 
-            // btCloseForm
-            // 
-            this.btCloseForm.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btCloseForm.Location = new System.Drawing.Point(509, 21);
-            this.btCloseForm.Name = "btCloseForm";
-            this.btCloseForm.Size = new System.Drawing.Size(75, 23);
-            this.btCloseForm.TabIndex = 2;
-            this.btCloseForm.Text = "Закрыть";
-            this.btCloseForm.UseVisualStyleBackColor = true;
-            this.btCloseForm.Click += new System.EventHandler(this.btCloseForm_Click);
-            // 
             // dataGridView1
             // 
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -151,11 +140,23 @@
             this.dataGridView1.Size = new System.Drawing.Size(216, 76);
             this.dataGridView1.TabIndex = 3;
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick_1);
+            this.dataGridView1.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dataGridView1_CellPainting);
             // 
             // Example
             // 
             this.Example.HeaderText = "Пример";
             this.Example.Name = "Example";
+            // 
+            // btCloseForm
+            // 
+            this.btCloseForm.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.btCloseForm.Location = new System.Drawing.Point(509, 21);
+            this.btCloseForm.Name = "btCloseForm";
+            this.btCloseForm.Size = new System.Drawing.Size(75, 23);
+            this.btCloseForm.TabIndex = 2;
+            this.btCloseForm.Text = "Закрыть";
+            this.btCloseForm.UseVisualStyleBackColor = true;
+            this.btCloseForm.Click += new System.EventHandler(this.btCloseForm_Click);
             // 
             // ViewCollar2
             // 

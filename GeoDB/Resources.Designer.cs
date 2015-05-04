@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace GeoDBWinForms.Properties {
+namespace GeoDB {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace GeoDBWinForms.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("GeoDBWinForms.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("GeoDB.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -57,46 +57,6 @@ namespace GeoDBWinForms.Properties {
             }
             set {
                 resourceCulture = value;
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Very_Basic_ArrowDown_icon {
-            get {
-                object obj = ResourceManager.GetObject("Very_Basic_ArrowDown_icon", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Very_Basic_ArrowUp_icon {
-            get {
-                object obj = ResourceManager.GetObject("Very_Basic_ArrowUp_icon", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Very_Basic_Filter_Filled_icon {
-            get {
-                object obj = ResourceManager.GetObject("Very_Basic_Filter_Filled_icon", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Very_Basic_Filter_Not_Filled {
-            get {
-                object obj = ResourceManager.GetObject("Very_Basic_Filter_Not_Filled", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
             }
         }
     }

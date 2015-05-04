@@ -84,6 +84,11 @@
     <Compile Include="Presenter\AbsBrowser.cs" />
     <Compile Include="Presenter\PDrillHoles.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Service\DataAccess\CollarEntityService.cs" />
     <Compile Include="Service\DataAccess\AssaysEntityService.cs" />
     <Compile Include="Service\DataAccess\GeologistEntityService.cs" />
@@ -94,7 +99,12 @@
     <Compile Include="View\IViewAssays2.cs" />
     <Compile Include="View\IViewCollar2.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">
       <Visible>False</Visible>

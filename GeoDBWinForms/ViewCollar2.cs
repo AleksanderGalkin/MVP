@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using GeoDB.Model;
 using GeoDB.View;
+using System.Reflection;
 
 namespace GeoDBWinForms
 {
@@ -197,11 +198,23 @@ namespace GeoDBWinForms
 
         }
 
-        private void dataGridView1_CellContentClick_1(object sender, DataGridViewCellEventArgs e)
+        private void dataGridView1_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
         {
-            DataGridViewCellStyle style = new DataGridViewCellStyle();
-            style.Font = new Font( , FontStyle.Strikeout);
-            dataGridView1.Columns[0].HeaderCell.Style = style;
+            if (e.RowIndex < 0 && e.ColumnIndex == 0)
+            {
+                Image res = Properties.Resources.ResourceManager.GetObject("Very_Basic_Filter_Filled_icon") as Image;
+                Point pt = e.CellBounds.Location;  // where you want the bitmap in the cell
+
+                int offset = e.CellBounds.Width - res.Width;
+                pt.X += offset;
+                pt.Y += 2;
+                Rectangle b = e.CellBounds;
+                e.PaintBackground(b, true);
+                e.Paint(b, DataGridViewPaintParts.ContentForeground);
+                e.Graphics.DrawImage(res,new Rectangle(pt,new Size(15,15)));
+                e.Handled = true;
+
+            }
         }
 
     }
