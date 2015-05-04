@@ -150,8 +150,6 @@ namespace GeoDBTests
             Assert.That(buffer.ElementAt(4).Value.id, Is.EqualTo(14));
         }
 
-
-
         [Test]
         public void GetWholeModelRowCountWithoutFiltersAssaysTest()
         {
@@ -175,5 +173,10 @@ namespace GeoDBTests
             Assert.That(_browseAssays.GetWholeModelRowCount(), Is.EqualTo(2));
         }
 
+        [Test]
+        public void SortingFirstOpeningTest()
+        {
+            _PDrillHoles.GetSortedNumField();
+        }
     }
 }

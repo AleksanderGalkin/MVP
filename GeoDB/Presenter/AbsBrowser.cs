@@ -26,10 +26,11 @@ namespace GeoDB.Presenter
 
         private DGVHeaderComparer _myDGVHeaderComparer;
         protected Dictionary<DGVHeader, LinqExtensionFilterCriterion> _filter;
+        protected Dictionary<DGVHeader, LinqExtensionFilterCriterion> _sorter;
         protected int _bhid_Collar_id;
         public event EventHandler<EventArgs> generatedNewPartOfBuffer;
         public event EventHandler<EventArgs> refreshedViewModel;
-
+        
 
         public AbsBrowser
             (
@@ -153,6 +154,10 @@ namespace GeoDB.Presenter
             }
         }
 
+        public int GetSortedNumField()
+        {
+            _sorter.
+        }
      
 
  #endregion Public
