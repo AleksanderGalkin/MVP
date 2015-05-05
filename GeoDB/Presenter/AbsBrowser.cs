@@ -26,10 +26,12 @@ namespace GeoDB.Presenter
 
         private DGVHeaderComparer _myDGVHeaderComparer;
         protected Dictionary<DGVHeader, LinqExtensionFilterCriterion> _filter;
-        protected Dictionary<DGVHeader, LinqExtensionFilterCriterion> _sorter;
+        protected  LinqExtensionSorterCriterion _sorter;
         protected int _bhid_Collar_id;
         public event EventHandler<EventArgs> generatedNewPartOfBuffer;
         public event EventHandler<EventArgs> refreshedViewModel;
+        public event EventHandler<EventArgs> sortedViewModel;
+        public event EventHandler<EventArgs> filteredViewModel;
         
 
         public AbsBrowser
@@ -46,6 +48,7 @@ namespace GeoDB.Presenter
             _myDGVHeaderComparer = new DGVHeaderComparer();
             _filter = new Dictionary<DGVHeader, LinqExtensionFilterCriterion>(_myDGVHeaderComparer);
             _modelGeologist = modelGeologist;
+            _sorter = typeof(S).GetProperty("DefaultSortedField").GetValue(typeof(S), null) as LinqExtensionSorterCriterion; 
             CreateFilteredModel();
             GeneratePage();
         }
@@ -63,7 +66,23 @@ namespace GeoDB.Presenter
         {
             return _wholeModelRowCount;
         }
-
+        public bool[] GetFilteredCollarNumField()
+        {
+            List<DGVHeader> header = GetHeader();
+            bool[] result = new bool[header.Count];
+            for (int i = 0; i < header.Count; i++)
+            {
+                if (_filter.ContainsKey(header[i]))
+                {
+                    result[i] = true;
+                }
+                else
+                {
+                    result[i] = false;
+                }
+            }
+          return result;
+        }
         public void AddFilter(DGVHeader Column, LinqExtensionFilterCriterion Criterion)
         {
             _filter.Add(Column, Criterion);
@@ -119,7 +138,8 @@ namespace GeoDB.Presenter
 
             if (e.numRow == (_currentFirstRowInForm + _bufferRowCount))
             {
-                _currentFirstRowInForm = e.numRow + _bufferRowCount <= _wholeModelRowCount ? e.numRow : _wholeModelRowCount - _bufferRowCount;
+                _currentFirstRowInForm = e.numRow + _bufferRowCount <= _wholeModelRowCount ? e.numRow-1 : _wholeModelRowCount - _bufferRowCount;
+                
             }
             else if (e.numRow == _currentFirstRowInForm - 1)
             {
@@ -140,25 +160,59 @@ namespace GeoDB.Presenter
 
         public void OnClickCollarFilters(object sender, EventArgs e)
         {
-            AddFilter(new DGVHeader { fieldHeader = "gorizont", fieldName = "gorizont" }
+            AddFilter(new DGVHeader { fieldName = "gorizont", fieldHeader = "Гор." }
                                         , new LinqExtensionFilterCriterion(200, 350));
 
             GeneratePage();
+
+            if (filteredViewModel != null)
+            {
+                filteredViewModel(this, EventArgs.Empty);
+            }
+            //if (generatedNewPartOfBuffer != null)
+            //{
+            //    generatedNewPartOfBuffer(this, EventArgs.Empty);
+            //}
+            //if (refreshedViewModel != null)
+            //{
+            //    refreshedViewModel(this, EventArgs.Empty);
+            //}
+        }
+
+        public void OnSetSortedField(object sender, NumSortedFieldEventArgs e)
+        {
+            List<DGVHeader> temp = typeof(S).GetProperty("header").GetValue(typeof(S), null) as List<DGVHeader>;
+
+            _sorter.Set(temp.ElementAt(e.numField), e.order);
+            CreateFilteredModel();
+            GeneratePage();
+            
             if (generatedNewPartOfBuffer != null)
             {
                 generatedNewPartOfBuffer(this, EventArgs.Empty);
+            }
+            if (sortedViewModel != null)
+            {
+                sortedViewModel(this, EventArgs.Empty);
             }
             if (refreshedViewModel != null)
             {
                 refreshedViewModel(this, EventArgs.Empty);
             }
-        }
 
+        }
         public int GetSortedNumField()
         {
-            _sorter.
+            List<DGVHeader> header = GetHeader();
+            int i = header.FindIndex(x => x.fieldName.Equals(_sorter._firstField.fieldName));
+            return i;
         }
-     
+        public LinqExtensionSorterCriterion.TypeCriterion
+                   GetSortedCriterion()
+        {
+            return _sorter._firstTypeCriterion;
+        }
+    
 
  #endregion Public
 

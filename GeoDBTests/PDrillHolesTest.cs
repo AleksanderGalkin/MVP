@@ -176,7 +176,9 @@ namespace GeoDBTests
         [Test]
         public void SortingFirstOpeningTest()
         {
-            _PDrillHoles.GetSortedNumField();
+            Assert.That(_browseCollar.GetSortedNumField(), Is.EqualTo(11));
         }
+
+        
     }
 }

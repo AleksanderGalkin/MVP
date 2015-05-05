@@ -46,8 +46,8 @@ namespace GeoDB.Presenter
                       lastDT = a.LastDT
                   });
 
-            _filteredViewModel = temp.FilteredBy(_filter);
-
+            temp = temp.FilteredBy(_filter);
+            _filteredViewModel = temp.SortBy(_sorter);
             _wholeModelRowCount = _filteredViewModel.Count();
         }
 
@@ -103,7 +103,7 @@ namespace GeoDB.Presenter
                       lastDT = a.LastDT
                   });
 
-            _filteredViewModel = temp.FilteredBy(_filter);
+            _filteredViewModel = temp.FilteredBy(_filter).SortBy(_sorter);
 
             _wholeModelRowCount = _filteredViewModel.Count();
         }
@@ -134,6 +134,9 @@ namespace GeoDB.Presenter
             _broCollar = new BrowseCollar(modelCollar, modelGeologist, rowsToBuffer);
             _broCollar.generatedNewPartOfBuffer += new EventHandler<EventArgs>(OnCollarGeneratedNewPartOfBuffer);
             _broCollar.refreshedViewModel += new EventHandler<EventArgs>(OnCollarRefreshedViewModel);
+            _broCollar.sortedViewModel += new EventHandler<EventArgs>(OnCollarSortedViewModel);
+            _broCollar.filteredViewModel += new EventHandler<EventArgs>(OnCollarFilteredViewModel);
+            _view.clickCollarHeader += new EventHandler<NumSortedFieldEventArgs>(_broCollar.OnSetSortedField);
             _view.showAnyCollarScreen += new EventHandler<NumRowEventArgs>(_broCollar.OnShowAnyScreen);
             _view.clickCollarFilters += new EventHandler<EventArgs>(_broCollar.OnClickCollarFilters);
 
@@ -154,7 +157,18 @@ namespace GeoDB.Presenter
         {
             _view.RefreshCollar();
         }
-
+        private void OnCollarSortedViewModel(object sender, EventArgs e)
+        {
+            _view.sortedCollarNumField = _broCollar.GetSortedNumField();
+            _view.SortedCollarCriterion = _broCollar.GetSortedCriterion();
+        }
+        private void OnCollarFilteredViewModel(object sender, EventArgs e)
+        {
+            _view.CollarList= _broCollar.GetNewBuffer();
+            _view.rowCollarCount = _broCollar.GetWholeModelRowCount();
+            _view.filteredCollarNumField = _broCollar.GetFilteredCollarNumField();
+            _view.RefreshCollar();
+        }
         private void OnAssaysGeneratedNewPartOfBuffer(object sender, EventArgs e)
         {
             _view.AssaysList = _broAssays.GetNewBuffer();
@@ -173,6 +187,9 @@ namespace GeoDB.Presenter
         public void Show()
         {
             _view.CollarHeader = _broCollar.GetHeader();
+            _view.sortedCollarNumField = _broCollar.GetSortedNumField();
+            _view.SortedCollarCriterion = _broCollar.GetSortedCriterion();
+            _view.filteredCollarNumField = _broCollar.GetFilteredCollarNumField();
             _view.rowCollarCount = _broCollar.GetWholeModelRowCount();
             _view.CollarList = _broCollar.GetNewBuffer();
             _view.AssaysHeader = _broAssays.GetHeader();

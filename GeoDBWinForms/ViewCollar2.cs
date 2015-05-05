@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using GeoDB.Model;
 using GeoDB.View;
 using System.Reflection;
+using GeoDB.Extensions;
 
 namespace GeoDBWinForms
 {
@@ -45,9 +46,16 @@ namespace GeoDBWinForms
             }
             
         }
+
+        public int sortedCollarNumField { set; get; }
+        public LinqExtensionSorterCriterion.TypeCriterion
+            SortedCollarCriterion { set; get; }
+        public bool[] filteredCollarNumField { set; get; }
+        
+
         public event EventHandler<EventArgs> clickCollarData;
         
-        public event EventHandler<EventArgs> clickCollarHeader;
+        public event EventHandler<NumSortedFieldEventArgs> clickCollarHeader;
         public event EventHandler<EventArgs> clickCollarFilters;
         public event EventHandler<EventArgs> showNextCollarScreen;
         public event EventHandler<EventArgs> showPrevCollarScreen;
@@ -74,11 +82,18 @@ namespace GeoDBWinForms
         {
             dataGVCollar2.Refresh();
         }
+        public void UpdateCollarHeaderState()
+        {
+           
+        }
         public void RefreshAssays()
         {
             dataGVAssays2.Refresh();
         }
+        public void UpdateAssaysHeaderState()
+        {
 
+        }
         private void btCloseForm_Click(object sender, EventArgs e)
         {
             if (clickCloseForm != null)
@@ -144,9 +159,13 @@ namespace GeoDBWinForms
 
         }
 
+        public int sortedAssaysNumfield { set; get; }
+        public LinqExtensionSorterCriterion.TypeCriterion
+            SortedAssaysCriterion { set; get; }
+
         public event EventHandler<EventArgs> clickAssaysData;
 
-        public event EventHandler<EventArgs> clickAssaysHeader;
+        public event EventHandler<NumSortedFieldEventArgs> clickAssaysHeader;
         public event EventHandler<EventArgs> clickAssaysFilters;
         public event EventHandler<EventArgs> showNextAssaysScreen;
         public event EventHandler<EventArgs> showPrevAssaysScreen;
@@ -193,28 +212,77 @@ namespace GeoDBWinForms
             clickCollarFilters(this, EventArgs.Empty);
         }
 
-        private void dataGVCollar2_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
+
+        private void dataGVCollar2_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
         {
 
-        }
-
-        private void dataGridView1_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
-        {
-            if (e.RowIndex < 0 && e.ColumnIndex == 0)
+            if (e.RowIndex < 0 && e.ColumnIndex > -1)
             {
-                Image res = Properties.Resources.ResourceManager.GetObject("Very_Basic_Filter_Filled_icon") as Image;
-                Point pt = e.CellBounds.Location;  // where you want the bitmap in the cell
 
-                int offset = e.CellBounds.Width - res.Width;
-                pt.X += offset;
-                pt.Y += 2;
+               
+                int width = e.CellBounds.Width;
                 Rectangle b = e.CellBounds;
                 e.PaintBackground(b, true);
                 e.Paint(b, DataGridViewPaintParts.ContentForeground);
-                e.Graphics.DrawImage(res,new Rectangle(pt,new Size(15,15)));
-                e.Handled = true;
+                {
+                    Image imgFilter;
+                    Point ptFilter = e.CellBounds.Location;
 
+                    if (filteredCollarNumField[e.ColumnIndex])
+                    {
+                        imgFilter = Properties.Resources.ResourceManager.GetObject("Very_Basic_Filter_Filled_icon") as Image;
+                    }
+                    else
+                    {
+                        imgFilter = Properties.Resources.ResourceManager.GetObject("Very_Basic_Filter_Not_Filled") as Image;
+                    }
+                    int offsetFilter = width - imgFilter.Width;
+                    width = offsetFilter;
+                    ptFilter.X += offsetFilter;
+                    ptFilter.Y += 2;
+                    e.Graphics.DrawImage(imgFilter, new Rectangle(ptFilter, new Size(15, 15)));
+                }
+                if (e.ColumnIndex == sortedCollarNumField)
+                {
+                    Image imgSort;
+                    Point ptSort = e.CellBounds.Location;
+                    if (SortedCollarCriterion == LinqExtensionSorterCriterion.TypeCriterion.Ascending)
+                    {
+                        imgSort = Properties.Resources.ResourceManager.GetObject("Very_Basic_ArrowUp_icon") as Image;
+                    }
+                    else
+                    {
+                        imgSort = Properties.Resources.ResourceManager.GetObject("Very_Basic_ArrowDown_icon") as Image;
+                    }
+                    int offsetSort = width - imgSort.Width;
+                    ptSort.X += offsetSort;
+                    ptSort.Y += 2;
+                    e.Graphics.DrawImage(imgSort, new Rectangle(ptSort, new Size(15, 15)));
+                }
+                e.Handled = true;
+                
             }
+        }
+
+        private void dataGVCollar2_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            LinqExtensionSorterCriterion.TypeCriterion temp;
+            if (sortedCollarNumField == e.ColumnIndex)
+            {
+                if (SortedCollarCriterion == LinqExtensionSorterCriterion.TypeCriterion.Ascending)
+                {
+                    temp = LinqExtensionSorterCriterion.TypeCriterion.Descending;
+                }
+                else
+                {
+                    temp = LinqExtensionSorterCriterion.TypeCriterion.Ascending;
+                }
+            }
+            else
+            {
+                temp = LinqExtensionSorterCriterion.TypeCriterion.Ascending;
+            }
+            clickCollarHeader(this, new NumSortedFieldEventArgs(e.ColumnIndex, temp));
         }
 
     }

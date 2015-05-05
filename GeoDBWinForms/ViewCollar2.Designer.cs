@@ -63,7 +63,9 @@
             this.dataGVCollar2.TabIndex = 0;
             this.dataGVCollar2.VirtualMode = true;
             this.dataGVCollar2.CellValueNeeded += new System.Windows.Forms.DataGridViewCellValueEventHandler(this.dataGVCollar2_CellValueNeeded);
+            this.dataGVCollar2.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGVCollar2_ColumnHeaderMouseClick);
             this.dataGVCollar2.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGVCollar2_RowEnter);
+            this.dataGVCollar2.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dataGVCollar2_CellPainting);
             // 
             // btShowData
             // 
@@ -139,7 +141,7 @@
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.Size = new System.Drawing.Size(216, 76);
             this.dataGridView1.TabIndex = 3;
-            this.dataGridView1.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dataGridView1_CellPainting);
+            
             // 
             // Example
             // 

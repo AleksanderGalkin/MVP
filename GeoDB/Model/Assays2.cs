@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using GeoDB.Model.Interface;
+using GeoDB.Extensions;
 
 namespace GeoDB.Model
 {
@@ -73,6 +74,18 @@ namespace GeoDB.Model
                 _header.Add(new DGVHeader { fieldName = "lastDT", fieldHeader = "Крайняя дата" });
                 _header.Add(new DGVHeader { fieldName = "id", fieldHeader = "ID" });
                 return _header;
+            }
+        }
+
+        static public LinqExtensionSorterCriterion DefaultSortedField
+        {
+            get
+            {
+                LinqExtensionSorterCriterion temp = new LinqExtensionSorterCriterion();
+                temp.Set(
+                                new DGVHeader { fieldName = "lastDT", fieldHeader = "Крайняя дата" }
+                               , LinqExtensionSorterCriterion.TypeCriterion.Descending);
+                return temp;
             }
         }
 

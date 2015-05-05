@@ -67,8 +67,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions\LinqExtensionSorter.cs" />
     <Compile Include="Extensions\LinqExtensionFilter.cs" />
     <Compile Include="Model\Assays2.cs" />
+    <Compile Include="Model\NumSortedFieldEventArgs.cs" />
     <Compile Include="Model\DrillType.cs" />
     <Compile Include="Model\Geologist.cs" />
     <Compile Include="Model\DGVHeader.cs" />
@@ -97,7 +99,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="View\IBrowseAnyModel.cs" />
     <Compile Include="View\IViewAssays2.cs" />
-    <Compile Include="View\IViewCollar2.cs" />
+    <Compile Include="View\IViewDrillHoles2.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources.resx">
