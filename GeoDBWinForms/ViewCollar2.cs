@@ -15,25 +15,19 @@ namespace GeoDBWinForms
 {
     public partial class ViewCollar2 : Form,IViewDrillHoles2
     {
+        // Collar interface
+        #region Collar
         public ViewCollar2()
         {
             InitializeComponent();
         }
-
         public Dictionary<int, Collar2VmFull> CollarList
-        {
-            get;
-            set;
-        }
-
+        {private  get; set;}
         public int rowCollarCount
         {
             set { dataGVCollar2.RowCount = value; }
-            get { return dataGVCollar2.RowCount; }
+            private get { return dataGVCollar2.RowCount; }
         }
-        public int minCollarRow { get; set; }
-        public int maxCollarRow { get; set; }
-        
         public List<DGVHeader> CollarHeader
         {
             set
@@ -46,23 +40,17 @@ namespace GeoDBWinForms
             }
             
         }
-
-        public int sortedCollarNumField { set; get; }
+        public int sortedCollarNumField { set; private get; }
         public LinqExtensionSorterCriterion.TypeCriterion
-            SortedCollarCriterion { set; get; }
-        public bool[] filteredCollarNumField { set; get; }
+            SortedCollarCriterion { set; private get; }
+        public bool[] filteredCollarNumField { set; private get; }
         
 
         public event EventHandler<EventArgs> clickCollarData;
-        
         public event EventHandler<NumSortedFieldEventArgs> clickCollarHeader;
         public event EventHandler<EventArgs> clickCollarFilters;
-        public event EventHandler<EventArgs> showNextCollarScreen;
-        public event EventHandler<EventArgs> showPrevCollarScreen;
         public event EventHandler<NumRowEventArgs> showAnyCollarScreen;
         public event EventHandler<NumRowEventArgs> setCurrentRow;
-        public event EventHandler<EventArgs> openForm;
-        public event EventHandler<EventArgs> clickCloseForm;
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -71,37 +59,6 @@ namespace GeoDBWinForms
                 clickCollarData(this, EventArgs.Empty);
             }
         }
-
-
-        public new void Show()
-        {
-            Application.Run(this);
-        }
-
-        public void RefreshCollar()
-        {
-            dataGVCollar2.Refresh();
-        }
-        public void UpdateCollarHeaderState()
-        {
-           
-        }
-        public void RefreshAssays()
-        {
-            dataGVAssays2.Refresh();
-        }
-        public void UpdateAssaysHeaderState()
-        {
-
-        }
-        private void btCloseForm_Click(object sender, EventArgs e)
-        {
-            if (clickCloseForm != null)
-            {
-                clickCloseForm(this, EventArgs.Empty);
-            }
-        }
-
         private void dataGVCollar2_CellValueNeeded(object sender, DataGridViewCellValueEventArgs e)
         {
 
@@ -127,10 +84,37 @@ namespace GeoDBWinForms
                 
             }
         }
+        # endregion Collar
 
+        public event EventHandler<EventArgs> openForm;
+        public event EventHandler<EventArgs> clickCloseForm;
+        public new void Show()
+        {
+            Application.Run(this);
+        }
+
+        public void RefreshCollar()
+        {
+            dataGVCollar2.Refresh();
+        }
+        public void RefreshAssays()
+        {
+            dataGVAssays2.Refresh();
+        }
+        private void btCloseForm_Click(object sender, EventArgs e)
+        {
+            if (clickCloseForm != null)
+            {
+                clickCloseForm(this, EventArgs.Empty);
+            }
+        }
+
+
+        // Assays interface
+        #region Assays 
 
         public Dictionary<int, Assays2VmFull> AssaysList
-        { get; set; }
+        { private get; set; }
 
         private void SetRowCountTo0()
         {
@@ -141,10 +125,8 @@ namespace GeoDBWinForms
         public int rowAssaysCount
         {
             set {dataGVAssays2.RowCount = value > 0 ? value : 1 ;}
-            get { return dataGVAssays2.RowCount; }
+            private get { return dataGVAssays2.RowCount; }
         }
-        public int minAssaysRow { get; set; }
-        public int maxAssaysRow { get; set; }
 
         public List<DGVHeader> AssaysHeader
         {
@@ -159,16 +141,14 @@ namespace GeoDBWinForms
 
         }
 
-        public int sortedAssaysNumfield { set; get; }
+        public int sortedAssaysNumfield { set; private get; }
         public LinqExtensionSorterCriterion.TypeCriterion
-            SortedAssaysCriterion { set; get; }
+            SortedAssaysCriterion { set; private get; }
 
         public event EventHandler<EventArgs> clickAssaysData;
 
         public event EventHandler<NumSortedFieldEventArgs> clickAssaysHeader;
         public event EventHandler<EventArgs> clickAssaysFilters;
-        public event EventHandler<EventArgs> showNextAssaysScreen;
-        public event EventHandler<EventArgs> showPrevAssaysScreen;
         public event EventHandler<NumRowEventArgs> showAnyAssaysScreen;
 
 
@@ -284,6 +264,6 @@ namespace GeoDBWinForms
             }
             clickCollarHeader(this, new NumSortedFieldEventArgs(e.ColumnIndex, temp));
         }
-
+        #endregion Assays // Assays interrface
     }
 }

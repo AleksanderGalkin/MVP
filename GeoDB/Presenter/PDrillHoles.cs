@@ -131,6 +131,7 @@ namespace GeoDB.Presenter
                         , int rowsToBuffer)
         {
             _view = viewCollar2;
+
             _broCollar = new BrowseCollar(modelCollar, modelGeologist, rowsToBuffer);
             _broCollar.generatedNewPartOfBuffer += new EventHandler<EventArgs>(OnCollarGeneratedNewPartOfBuffer);
             _broCollar.refreshedViewModel += new EventHandler<EventArgs>(OnCollarRefreshedViewModel);
@@ -150,7 +151,7 @@ namespace GeoDB.Presenter
         }
         private void OnCollarGeneratedNewPartOfBuffer(object sender, EventArgs e)
         {
-            _view.CollarList = _broCollar.GetNewBuffer();
+            _view.CollarList = _broCollar.GetBuffer();
             _view.rowCollarCount = _broCollar.GetWholeModelRowCount();
         }
         private void OnCollarRefreshedViewModel(object sender,EventArgs e)
@@ -164,14 +165,14 @@ namespace GeoDB.Presenter
         }
         private void OnCollarFilteredViewModel(object sender, EventArgs e)
         {
-            _view.CollarList= _broCollar.GetNewBuffer();
+            _view.CollarList= _broCollar.GetBuffer();
             _view.rowCollarCount = _broCollar.GetWholeModelRowCount();
             _view.filteredCollarNumField = _broCollar.GetFilteredCollarNumField();
-            _view.RefreshCollar();
+
         }
         private void OnAssaysGeneratedNewPartOfBuffer(object sender, EventArgs e)
         {
-            _view.AssaysList = _broAssays.GetNewBuffer();
+            _view.AssaysList = _broAssays.GetBuffer();
             _view.rowAssaysCount = _broAssays.GetWholeModelRowCount();
         }
         private void OnAssaysRefreshedViewModel(object sender, EventArgs e)
@@ -191,10 +192,10 @@ namespace GeoDB.Presenter
             _view.SortedCollarCriterion = _broCollar.GetSortedCriterion();
             _view.filteredCollarNumField = _broCollar.GetFilteredCollarNumField();
             _view.rowCollarCount = _broCollar.GetWholeModelRowCount();
-            _view.CollarList = _broCollar.GetNewBuffer();
+            _view.CollarList = _broCollar.GetBuffer();
             _view.AssaysHeader = _broAssays.GetHeader();
             _view.rowAssaysCount = _broAssays.GetWholeModelRowCount();
-            _view.AssaysList = _broAssays.GetNewBuffer();
+            _view.AssaysList = _broAssays.GetBuffer();
             _view.Show();
         }
     }

@@ -116,7 +116,7 @@ namespace GeoDBTests
         {
             _browseCollar.AddFilter(new DGVHeader { fieldName = "id", fieldHeader = "id" },
                                     new LinqExtensionFilterCriterion(-1));
-            Assert.DoesNotThrow(()=>_browseCollar.GetNewBuffer());
+            Assert.DoesNotThrow(()=>_browseCollar.GetBuffer());
             Assert.That(_browseCollar.GetWholeModelRowCount(), Is.EqualTo(0));
             
         }
@@ -124,7 +124,7 @@ namespace GeoDBTests
         [Test]
         public void GetNewBufferFirstPageTest()
         {
-            IDictionary<int,Collar2VmFull> buffer=_browseCollar.GetNewBuffer();
+            IDictionary<int,Collar2VmFull> buffer=_browseCollar.GetBuffer();
             Assert.That(buffer.Count, Is.EqualTo(5));
             Assert.That(buffer.ElementAt(0).Value.id, Is.EqualTo(0));
             Assert.That(buffer.ElementAt(4).Value.id, Is.EqualTo(4));
@@ -133,7 +133,7 @@ namespace GeoDBTests
         [Test]
         public void GetNewBufferPrevPageTest()
         {
-            IDictionary<int, Collar2VmFull> buffer = _browseCollar.GetNewBuffer();
+            IDictionary<int, Collar2VmFull> buffer = _browseCollar.GetBuffer();
             _browseCollar.OnShowAnyScreen(this, new NumRowEventArgs(13));
             _browseCollar.OnShowAnyScreen(this, new NumRowEventArgs(10));
             Assert.That(buffer.Count, Is.EqualTo(5));
@@ -143,7 +143,7 @@ namespace GeoDBTests
         [Test]
         public void GetNewBufferLastPageTest()
         {
-            IDictionary<int, Collar2VmFull> buffer = _browseCollar.GetNewBuffer();
+            IDictionary<int, Collar2VmFull> buffer = _browseCollar.GetBuffer();
             _browseCollar.OnShowAnyScreen(this, new NumRowEventArgs(10));
             _browseCollar.OnShowAnyScreen(this, new NumRowEventArgs(13));
             Assert.That(buffer.Count, Is.EqualTo(5));
@@ -161,7 +161,7 @@ namespace GeoDBTests
             _view.setCurrentRow += new EventHandler<NumRowEventArgs>(_browseAssays.OnSetRowMasterTable);
             _view.setCurrentRow += Raise.Event<EventHandler<NumRowEventArgs>>(new NumRowEventArgs(13));
             Assert.That(_browseAssays.GetWholeModelRowCount(),Is.EqualTo(1));
-            Assert.That(_browseAssays.GetNewBuffer().ElementAt(0).Value.bhid, Is.EqualTo(13));
+            Assert.That(_browseAssays.GetBuffer().ElementAt(0).Value.bhid, Is.EqualTo(13));
         }
         [Test]
         public void TwoAssaysToOneCollarTest()

@@ -7,6 +7,8 @@ using GeoDB.Model.Interface;
 using GeoDB.Service.DataAccess.Interface;
 using GeoDB.Model;
 using GeoDB.Extensions;
+using GeoDB.View;
+
 
 namespace GeoDB.Presenter
 {
@@ -27,7 +29,7 @@ namespace GeoDB.Presenter
         private DGVHeaderComparer _myDGVHeaderComparer;
         protected Dictionary<DGVHeader, LinqExtensionFilterCriterion> _filter;
         protected  LinqExtensionSorterCriterion _sorter;
-        protected int _bhid_Collar_id;
+        protected int _bhid_Collar_id; // foreign key for Assays
         public event EventHandler<EventArgs> generatedNewPartOfBuffer;
         public event EventHandler<EventArgs> refreshedViewModel;
         public event EventHandler<EventArgs> sortedViewModel;
@@ -58,7 +60,7 @@ namespace GeoDB.Presenter
         {
             return typeof(S).GetProperty("header").GetValue(typeof(S),null) as List<DGVHeader>;
         }
-        public Dictionary<int, S> GetNewBuffer()
+        public Dictionary<int, S> GetBuffer()
         {
             return _buffer;
         }
@@ -87,48 +89,11 @@ namespace GeoDB.Presenter
         {
             _filter.Add(Column, Criterion);
             CreateFilteredModel();
-        }
-        public void OnShowNextScreen(object sender, EventArgs e)
-        {
-            log.DebugFormat("_currentFirsItemInForm_before_calculation_new_FirstItem: {0}", _currentFirstRowInForm);
-
-            log.DebugFormat("_rowsToPage: {0}", _bufferRowCount);
-
-
-            _currentFirstRowInForm = _currentFirstRowInForm + _bufferRowCount - 1;
-            if (_currentFirstRowInForm + (_bufferRowCount - 1) > _model.Count() - 1)
+            if (filteredViewModel != null)
             {
-                _currentFirstRowInForm = (_model.Count() - 1) - (_bufferRowCount - 1);
-            }
-            log.DebugFormat("_currentFirsItemInForm_after_calculation_new_FirstItem: {0}", _currentFirstRowInForm);
-            GeneratePage();
-            if (generatedNewPartOfBuffer != null)
-            {
-                generatedNewPartOfBuffer(this, EventArgs.Empty);
-            }
-
-        }
-
-        public void OnShowPrevScreen(object sender, EventArgs e)
-        {
-            log.DebugFormat("_currentFirsItemInForm_before_calculation_new_FirstItem: {0}", _currentFirstRowInForm);
-
-            log.DebugFormat("_rowsToPage: {0}", _bufferRowCount);
-
-
-            _currentFirstRowInForm = _currentFirstRowInForm - (_bufferRowCount - 1);
-            if (_currentFirstRowInForm - (_bufferRowCount - 1) < 0)
-            {
-                _currentFirstRowInForm = 0;
-            }
-            log.DebugFormat("_currentFirsItemInForm_after_calculation_new_FirstItem: {0}", _currentFirstRowInForm);
-            GeneratePage();
-            if (generatedNewPartOfBuffer != null)
-            {
-                generatedNewPartOfBuffer(this, EventArgs.Empty);
+                filteredViewModel(this, EventArgs.Empty);
             }
         }
-
         public void OnShowAnyScreen(object sender, NumRowEventArgs e)
         {
             log.DebugFormat("_currentFirsItemInForm_before_calculation_new_FirstItem: {0}", _currentFirstRowInForm);
@@ -149,34 +114,18 @@ namespace GeoDB.Presenter
             {
                 _currentFirstRowInForm = e.numRow - (_bufferRowCount / 2) < 0 ? 0 : e.numRow - (_bufferRowCount / 2);
             }
-
-            log.DebugFormat("_currentFirsItemInForm_after_calculation_new_FirstItem: {0}", _currentFirstRowInForm);
             GeneratePage();
-            if (generatedNewPartOfBuffer != null)
-            {
-                generatedNewPartOfBuffer(this, EventArgs.Empty);
-            }
         }
 
         public void OnClickCollarFilters(object sender, EventArgs e)
         {
             AddFilter(new DGVHeader { fieldName = "gorizont", fieldHeader = "Гор." }
-                                        , new LinqExtensionFilterCriterion(200, 350));
-
+                                       , new LinqExtensionFilterCriterion(200, 350));
             GeneratePage();
-
-            if (filteredViewModel != null)
+            if (refreshedViewModel != null)
             {
-                filteredViewModel(this, EventArgs.Empty);
+                refreshedViewModel(this, EventArgs.Empty);
             }
-            //if (generatedNewPartOfBuffer != null)
-            //{
-            //    generatedNewPartOfBuffer(this, EventArgs.Empty);
-            //}
-            //if (refreshedViewModel != null)
-            //{
-            //    refreshedViewModel(this, EventArgs.Empty);
-            //}
         }
 
         public void OnSetSortedField(object sender, NumSortedFieldEventArgs e)
@@ -186,11 +135,6 @@ namespace GeoDB.Presenter
             _sorter.Set(temp.ElementAt(e.numField), e.order);
             CreateFilteredModel();
             GeneratePage();
-            
-            if (generatedNewPartOfBuffer != null)
-            {
-                generatedNewPartOfBuffer(this, EventArgs.Empty);
-            }
             if (sortedViewModel != null)
             {
                 sortedViewModel(this, EventArgs.Empty);
@@ -219,34 +163,7 @@ namespace GeoDB.Presenter
   #region Absract
   
         abstract public void CreateFilteredModel();
-       // {
-            //var temp =
-            //     (from a in _model.Get()
-            //      join b in _modelGeologist.Get()
-            //      on a.LastUserID equals b.GEOLOGIST_ID
-            //      into louter
-            //      from item in louter.DefaultIfEmpty(new GEOLOGIST { GEOLOGIST_NAME = String.Empty })
 
-            //      select new S
-            //      {
-            //          id = a.ID,
-            //          bhid = a.BHID,
-            //          gorizont = a.GORIZONT.BENCH_NAME,
-            //          blast = a.RL_EXPLO2.EXPL_LINE_NAME,
-            //          hole = a.HOLE_ID,
-            //          xcollar = a.XCOLLAR,
-            //          ycollar = a.YCOLLAR,
-            //          zcollar = a.ZCOLLAR,
-            //          enddepth = a.ENDDEPTH,
-            //          drillType = a.DRILLING_TYPE.DRILL_TYPE,
-            //          lastUserID = item.GEOLOGIST_NAME,
-            //          lastDT = a.LastDT
-            //      });
-
-            //_filteredViewModel = temp.FilteredBy(_filter);
-
-            //_wholeModelRowCount = _filteredViewModel.Count();
-       // }
 #endregion Abstract
 #region protected
         protected void GeneratePage()
@@ -263,17 +180,15 @@ namespace GeoDB.Presenter
                 _buffer.Add(numerator++, i);
             }
 
-
-        }
- #endregion Private
-#region Virtual
-        public virtual void OnSetRowMasterTable(object sender, EventArgs e)
-        {
-
             if (generatedNewPartOfBuffer != null)
             {
                 generatedNewPartOfBuffer(this, EventArgs.Empty);
             }
+        }
+#endregion protected
+#region Virtual
+        public virtual void OnSetRowMasterTable(object sender, EventArgs e)
+        {
             if (refreshedViewModel != null)
             {
                 refreshedViewModel(this, EventArgs.Empty);
