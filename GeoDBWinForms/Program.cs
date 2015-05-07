@@ -32,6 +32,8 @@ namespace GeoDBWinForms
             IBaseService<GEOLOGIST> modelGeologist = ninjectKernel.Get<IBaseService<GEOLOGIST>>();
             PDrillHoles presenter = new PDrillHoles(view, modelCollar,modelAssays,modelGeologist,20);
             presenter.Show();
+  
+
         }
     }
 }

@@ -84,6 +84,100 @@ namespace GeoDBWinForms
                 
             }
         }
+
+        private void dataGVCollar2_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
+        {
+
+            if (e.RowIndex < 0 && e.ColumnIndex > -1)
+            {
+
+
+                int width = e.CellBounds.Width;
+                Rectangle b = e.CellBounds;
+                e.PaintBackground(b, true);
+                e.Paint(b, DataGridViewPaintParts.ContentForeground);
+                {
+                    Image imgFilter;
+                    Point ptFilter = e.CellBounds.Location;
+
+                    if (filteredCollarNumField[e.ColumnIndex])
+                    {
+                        imgFilter = Properties.Resources.ResourceManager.GetObject("Very_Basic_Filter_Filled_icon") as Image;
+                    }
+                    else
+                    {
+                        imgFilter = Properties.Resources.ResourceManager.GetObject("Very_Basic_Filter_Not_Filled") as Image;
+                    }
+                    int offsetFilter = width - imgFilter.Width;
+                    width = offsetFilter;
+                    ptFilter.X += offsetFilter;
+                    ptFilter.Y += 2;
+                    e.Graphics.DrawImage(imgFilter, new Rectangle(ptFilter, new Size(15, 15)));
+                }
+                if (e.ColumnIndex == sortedCollarNumField)
+                {
+                    Image imgSort;
+                    Point ptSort = e.CellBounds.Location;
+                    if (SortedCollarCriterion == LinqExtensionSorterCriterion.TypeCriterion.Ascending)
+                    {
+                        imgSort = Properties.Resources.ResourceManager.GetObject("Very_Basic_ArrowUp_icon") as Image;
+                    }
+                    else
+                    {
+                        imgSort = Properties.Resources.ResourceManager.GetObject("Very_Basic_ArrowDown_icon") as Image;
+                    }
+                    int offsetSort = width - imgSort.Width;
+                    ptSort.X += offsetSort;
+                    ptSort.Y += 2;
+                    e.Graphics.DrawImage(imgSort, new Rectangle(ptSort, new Size(15, 15)));
+                }
+                e.Handled = true;
+
+            }
+        }
+        private void dataGVCollar2_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                LinqExtensionSorterCriterion.TypeCriterion temp;
+                if (sortedCollarNumField == e.ColumnIndex)
+                {
+                    if (SortedCollarCriterion == LinqExtensionSorterCriterion.TypeCriterion.Ascending)
+                    {
+                        temp = LinqExtensionSorterCriterion.TypeCriterion.Descending;
+                    }
+                    else
+                    {
+                        temp = LinqExtensionSorterCriterion.TypeCriterion.Ascending;
+                    }
+                }
+                else
+                {
+                    temp = LinqExtensionSorterCriterion.TypeCriterion.Ascending;
+                }
+                clickCollarHeader(this, new NumSortedFieldEventArgs(e.ColumnIndex, temp));
+            }
+            else if (e.Button == MouseButtons.Right)
+            {
+                Panel p = new Panel();
+                Rectangle HeaderRectangle = (sender as DataGridView).GetCellDisplayRectangle(e.ColumnIndex,-1,true);
+                p.Location = HeaderRectangle.Location;
+                p.Enabled = true;
+                p.Visible = true;
+                
+                p.Show();
+
+                ContextMenuStrip cm = new ContextMenuStrip();
+                ToolStripDropDownButton fruitToolStripDropDownButton = new ToolStripDropDownButton("Fruit", null, null, "Fruit");
+                ToolStripTextBox tb = new ToolStripTextBox("sd");
+                cm.Items.Add(fruitToolStripDropDownButton);
+                cm.Items.Add(tb);
+
+                (sender as DataGridView).ContextMenuStrip = cm;
+            }
+
+        }
+
         # endregion Collar
 
         public event EventHandler<EventArgs> openForm;
@@ -148,7 +242,7 @@ namespace GeoDBWinForms
         public event EventHandler<EventArgs> clickAssaysData;
 
         public event EventHandler<NumSortedFieldEventArgs> clickAssaysHeader;
-        public event EventHandler<EventArgs> clickAssaysFilters;
+        public event EventHandler<EventArgs> clickAssaysFilters; 
         public event EventHandler<NumRowEventArgs> showAnyAssaysScreen;
 
 
@@ -182,7 +276,7 @@ namespace GeoDBWinForms
         {
             if (setCurrentRow != null)
             {
-               int  CollarID = (int)(dataGVCollar2[0, e.RowIndex].Value);
+                int CollarID = (int)(dataGVCollar2[dataGVCollar2.Columns["ID"].Index, e.RowIndex].Value);
                setCurrentRow(this, new NumRowEventArgs(CollarID));
             }
         }
@@ -193,77 +287,7 @@ namespace GeoDBWinForms
         }
 
 
-        private void dataGVCollar2_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
-        {
 
-            if (e.RowIndex < 0 && e.ColumnIndex > -1)
-            {
-
-               
-                int width = e.CellBounds.Width;
-                Rectangle b = e.CellBounds;
-                e.PaintBackground(b, true);
-                e.Paint(b, DataGridViewPaintParts.ContentForeground);
-                {
-                    Image imgFilter;
-                    Point ptFilter = e.CellBounds.Location;
-
-                    if (filteredCollarNumField[e.ColumnIndex])
-                    {
-                        imgFilter = Properties.Resources.ResourceManager.GetObject("Very_Basic_Filter_Filled_icon") as Image;
-                    }
-                    else
-                    {
-                        imgFilter = Properties.Resources.ResourceManager.GetObject("Very_Basic_Filter_Not_Filled") as Image;
-                    }
-                    int offsetFilter = width - imgFilter.Width;
-                    width = offsetFilter;
-                    ptFilter.X += offsetFilter;
-                    ptFilter.Y += 2;
-                    e.Graphics.DrawImage(imgFilter, new Rectangle(ptFilter, new Size(15, 15)));
-                }
-                if (e.ColumnIndex == sortedCollarNumField)
-                {
-                    Image imgSort;
-                    Point ptSort = e.CellBounds.Location;
-                    if (SortedCollarCriterion == LinqExtensionSorterCriterion.TypeCriterion.Ascending)
-                    {
-                        imgSort = Properties.Resources.ResourceManager.GetObject("Very_Basic_ArrowUp_icon") as Image;
-                    }
-                    else
-                    {
-                        imgSort = Properties.Resources.ResourceManager.GetObject("Very_Basic_ArrowDown_icon") as Image;
-                    }
-                    int offsetSort = width - imgSort.Width;
-                    ptSort.X += offsetSort;
-                    ptSort.Y += 2;
-                    e.Graphics.DrawImage(imgSort, new Rectangle(ptSort, new Size(15, 15)));
-                }
-                e.Handled = true;
-                
-            }
-        }
-
-        private void dataGVCollar2_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
-        {
-            LinqExtensionSorterCriterion.TypeCriterion temp;
-            if (sortedCollarNumField == e.ColumnIndex)
-            {
-                if (SortedCollarCriterion == LinqExtensionSorterCriterion.TypeCriterion.Ascending)
-                {
-                    temp = LinqExtensionSorterCriterion.TypeCriterion.Descending;
-                }
-                else
-                {
-                    temp = LinqExtensionSorterCriterion.TypeCriterion.Ascending;
-                }
-            }
-            else
-            {
-                temp = LinqExtensionSorterCriterion.TypeCriterion.Ascending;
-            }
-            clickCollarHeader(this, new NumSortedFieldEventArgs(e.ColumnIndex, temp));
-        }
         #endregion Assays // Assays interrface
     }
 }

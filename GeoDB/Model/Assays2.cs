@@ -47,7 +47,7 @@ namespace GeoDB.Model
             {
                 List<DGVHeader> _header = new List<DGVHeader>();
                 
-                _header.Add(new DGVHeader { fieldName = "bhid", fieldHeader = "BHID" });
+               // _header.Add(new DGVHeader { fieldName = "bhid", fieldHeader = "BHID" });
                 _header.Add(new DGVHeader { fieldName = "sample", fieldHeader = "Проба" });
                 _header.Add(new DGVHeader { fieldName = "from_", fieldHeader = "От" });
                 _header.Add(new DGVHeader { fieldName = "to", fieldHeader = "До" });

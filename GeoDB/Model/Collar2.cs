@@ -32,7 +32,7 @@ namespace GeoDB.Model
             {
                 List<DGVHeader> _header = new List<DGVHeader>();
                 
-                _header.Add(new DGVHeader{ fieldName = "id", fieldHeader = "ID" });
+               
                 _header.Add(new DGVHeader { fieldName = "bhid", fieldHeader = "BHID" });
                 _header.Add(new DGVHeader { fieldName = "gorizont", fieldHeader = "Гор." });
                 _header.Add(new DGVHeader { fieldName = "blast", fieldHeader = "Блок" });
@@ -44,6 +44,7 @@ namespace GeoDB.Model
                 _header.Add(new DGVHeader { fieldName = "drillType", fieldHeader = "Станок" });
                 _header.Add(new DGVHeader { fieldName = "lastUserID", fieldHeader = "Крайний" });
                 _header.Add(new DGVHeader { fieldName = "lastDT", fieldHeader = "Крайняя дата" });
+                _header.Add(new DGVHeader { fieldName = "id", fieldHeader = "ID" });
                 return _header;
             }
         }

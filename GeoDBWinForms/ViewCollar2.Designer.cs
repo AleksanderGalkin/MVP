@@ -34,8 +34,6 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.dataGVAssays2 = new System.Windows.Forms.DataGridView();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.Example = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btCloseForm = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGVCollar2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -47,7 +45,6 @@
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGVAssays2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // dataGVCollar2
@@ -62,10 +59,10 @@
             this.dataGVCollar2.Size = new System.Drawing.Size(624, 169);
             this.dataGVCollar2.TabIndex = 0;
             this.dataGVCollar2.VirtualMode = true;
+            this.dataGVCollar2.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dataGVCollar2_CellPainting);
             this.dataGVCollar2.CellValueNeeded += new System.Windows.Forms.DataGridViewCellValueEventHandler(this.dataGVCollar2_CellValueNeeded);
             this.dataGVCollar2.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGVCollar2_ColumnHeaderMouseClick);
             this.dataGVCollar2.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGVCollar2_RowEnter);
-            this.dataGVCollar2.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dataGVCollar2_CellPainting);
             // 
             // btShowData
             // 
@@ -93,7 +90,6 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.AutoScroll = true;
-            this.splitContainer1.Panel2.Controls.Add(this.dataGridView1);
             this.splitContainer1.Panel2.Controls.Add(this.btCloseForm);
             this.splitContainer1.Panel2.Controls.Add(this.btShowData);
             this.splitContainer1.Panel2MinSize = 100;
@@ -132,22 +128,6 @@
             this.dataGVAssays2.VirtualMode = true;
             this.dataGVAssays2.CellValueNeeded += new System.Windows.Forms.DataGridViewCellValueEventHandler(this.dataGVAssays2_CellValueNeeded);
             // 
-            // dataGridView1
-            // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Example});
-            this.dataGridView1.Location = new System.Drawing.Point(42, 12);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(216, 76);
-            this.dataGridView1.TabIndex = 3;
-            
-            // 
-            // Example
-            // 
-            this.Example.HeaderText = "Пример";
-            this.Example.Name = "Example";
-            // 
             // btCloseForm
             // 
             this.btCloseForm.DialogResult = System.Windows.Forms.DialogResult.Cancel;
@@ -181,7 +161,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGVAssays2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -194,7 +173,5 @@
         private System.Windows.Forms.Button btCloseForm;
         private System.Windows.Forms.SplitContainer splitContainer2;
         private System.Windows.Forms.DataGridView dataGVAssays2;
-        private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Example;
     }
 }
