@@ -159,21 +159,8 @@ namespace GeoDBWinForms
             }
             else if (e.Button == MouseButtons.Right)
             {
-                Panel p = new Panel();
-                Rectangle HeaderRectangle = (sender as DataGridView).GetCellDisplayRectangle(e.ColumnIndex,-1,true);
-                p.Location = HeaderRectangle.Location;
-                p.Enabled = true;
-                p.Visible = true;
-                
-                p.Show();
 
-                ContextMenuStrip cm = new ContextMenuStrip();
-                ToolStripDropDownButton fruitToolStripDropDownButton = new ToolStripDropDownButton("Fruit", null, null, "Fruit");
-                ToolStripTextBox tb = new ToolStripTextBox("sd");
-                cm.Items.Add(fruitToolStripDropDownButton);
-                cm.Items.Add(tb);
 
-                (sender as DataGridView).ContextMenuStrip = cm;
             }
 
         }
@@ -185,6 +172,7 @@ namespace GeoDBWinForms
         public new void Show()
         {
             Application.Run(this);
+
         }
 
         public void RefreshCollar()
@@ -289,5 +277,25 @@ namespace GeoDBWinForms
 
 
         #endregion Assays // Assays interrface
+
+        private void ViewCollar2_Load(object sender, EventArgs e)
+        {
+            ContextMenuStrip cm = new ContextMenuStrip();
+            ToolStripMenuItem item1 = new ToolStripMenuItem("Фильтр - равно");
+            ToolStripLabel item11 = new ToolStripLabel("От:");
+            ToolStripTextBox item12 = new ToolStripTextBox("Item12");
+            ToolStripLabel item13 = new ToolStripLabel("До:");
+            ToolStripTextBox item14 = new ToolStripTextBox("Item12");
+            item14.BorderStyle = BorderStyle.FixedSingle;
+
+            item1.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            item1.DropDownItems.Add(item11);
+            item1.DropDownItems.Add(item12);
+            item1.DropDownItems.Add(item13);
+            item1.DropDownItems.Add(item14);
+            cm.Items.Add(item1);
+
+            this.dataGVCollar2.ContextMenuStrip = cm;
+        }
     }
 }

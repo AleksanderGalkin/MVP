@@ -151,6 +151,7 @@
             this.MinimumSize = new System.Drawing.Size(640, 480);
             this.Name = "ViewCollar2";
             this.Text = "Скважины и Пробы";
+            this.Load += new System.EventHandler(this.ViewCollar2_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGVCollar2)).EndInit();
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
