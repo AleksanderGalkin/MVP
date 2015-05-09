@@ -9,11 +9,18 @@ namespace GeoDB.Extensions
 {
     public class LinqExtensionFilterCriterion
     {
-        public enum TypeCriterion { oneArg, twoArg }
+        public enum TypeCriterion { oneArg, twoArg,resetArgs }
         public object min { get; private set; }
         public object max { get; private set; }
         public object only { get; private set; }
         private TypeCriterion _typeCriterion;
+        public LinqExtensionFilterCriterion()
+        {
+            min = null;
+            max = null;
+            only = null;
+            _typeCriterion = TypeCriterion.resetArgs;
+        }
         public LinqExtensionFilterCriterion(object Min, object Max)
         {
             min = Min;
@@ -28,6 +35,7 @@ namespace GeoDB.Extensions
             only = Only;
             _typeCriterion = TypeCriterion.oneArg;
         }
+        
         public void Set( object Min, object Max)
         {
             min = Min;
@@ -39,6 +47,21 @@ namespace GeoDB.Extensions
             min = null;
             max = null;
             only = Only;
+            _typeCriterion = TypeCriterion.oneArg;
+        }
+        public void Set(LinqExtensionFilterCriterion criterion)
+        {
+            this.min = criterion.min;
+            this.max = criterion.max;
+            this.only = criterion.only;
+            this._typeCriterion = criterion._typeCriterion;
+        }
+        public void Reset()
+        {
+            min = null;
+            max = null;
+            only = null;
+            _typeCriterion = TypeCriterion.resetArgs;
         }
         public TypeCriterion GetTypeCriterion()
         {
@@ -59,10 +82,11 @@ namespace GeoDB.Extensions
                 {
                     result = FilteredByOneArg<T>(result, i);
                 }
-                else
+                else if (i.Value.GetTypeCriterion() == LinqExtensionFilterCriterion.TypeCriterion.twoArg)
                 {
                     result = FilteredByTwoArgs<T>(result, i);
                 }
+
             }
 
             return result;
@@ -71,48 +95,67 @@ namespace GeoDB.Extensions
 
         private static IEnumerable<T> FilteredByTwoArgs<T>(IEnumerable<T> source, KeyValuePair<DGVHeader,LinqExtensionFilterCriterion> criterion)
         {
-            
-            if (criterion.Value.min.GetType() == typeof(int) && criterion.Value.max.GetType() == typeof(int))
+            var keyType = typeof(T).GetProperty(criterion.Key.fieldName).PropertyType;
+
+            if (keyType == typeof(int) || keyType == typeof(int?))
             {
-                return source.Where(x => ((int)(x.GetType().GetProperty(criterion.Key.fieldName).GetValue(x, null)) >= (int)criterion.Value.min)
-                                        && ((int)(x.GetType().GetProperty(criterion.Key.fieldName).GetValue(x, null)) <= (int)criterion.Value.max));
+                var locMin = criterion.Value.min.ToString() != "" ? Convert.ToInt32(criterion.Value.min) : int.MinValue;
+                var locMax = criterion.Value.max.ToString() != "" ? Convert.ToInt32(criterion.Value.max) : int.MaxValue;
+                return source.Where(x => (Convert.ToInt32(x.GetType().GetProperty(criterion.Key.fieldName).GetValue(x, null)) >= locMin)
+                                        && (Convert.ToInt32(x.GetType().GetProperty(criterion.Key.fieldName).GetValue(x, null)) <= locMax));
             }
-            else if (criterion.Value.min.GetType() == typeof(double) && criterion.Value.max.GetType() == typeof(double))
+            else if (keyType == typeof(double) || keyType == typeof(double?))
             {
-                return source.Where(x => ((double)(x.GetType().GetProperty(criterion.Key.fieldName).GetValue(x, null)) >= (double)criterion.Value.min)
-                                         && ((double)(x.GetType().GetProperty(criterion.Key.fieldName).GetValue(x, null)) <= (double)criterion.Value.max));
+                var locMin = criterion.Value.min.ToString() != "" ? Convert.ToDouble(criterion.Value.min) : double.MinValue;
+                var locMax = criterion.Value.max.ToString() != "" ? Convert.ToDouble(criterion.Value.max) : double.MaxValue;
+                return source.Where(x => (Convert.ToDouble(x.GetType().GetProperty(criterion.Key.fieldName).GetValue(x, null)) >= locMin)
+                                         && (Convert.ToDouble(x.GetType().GetProperty(criterion.Key.fieldName).GetValue(x, null)) <= locMax));
             }
-            else if (criterion.Value.min.GetType() == typeof(DateTime) && criterion.Value.max.GetType() == typeof(DateTime))
+            else if (keyType == typeof(DateTime) || keyType == typeof(DateTime?))
             {
-                return source.Where(x => ((DateTime)(x.GetType().GetProperty(criterion.Key.fieldName).GetValue(x, null)) >= (DateTime)criterion.Value.min)
-                                        && ((DateTime)(x.GetType().GetProperty(criterion.Key.fieldName).GetValue(x, null)) <= (DateTime)criterion.Value.max));
+                var locMin = criterion.Value.max.ToString() != "" ? Convert.ToDateTime(criterion.Value.min).Date : DateTime.MinValue;
+                var locMax = criterion.Value.max.ToString() != "" ? Convert.ToDateTime(criterion.Value.max).Date : DateTime.MaxValue;
+                return source.Where(x => (Convert.ToDateTime(x.GetType().GetProperty(criterion.Key.fieldName).GetValue(x, null)).Date >= locMin)
+                                        && (Convert.ToDateTime(x.GetType().GetProperty(criterion.Key.fieldName).GetValue(x, null)).Date <= locMax));
+            }
+            else if (keyType == typeof(string) )
+            {
+                var locMin =(string)criterion.Value.min;
+                var locMax = (string)criterion.Value.max; 
+                return source.Where(x => String.Compare((string)x.GetType().GetProperty(criterion.Key.fieldName).GetValue(x, null), locMin,true)>=0
+                                        && String.Compare((string)x.GetType().GetProperty(criterion.Key.fieldName).GetValue(x, null), locMax, true) <= 0);
             }
             else
             {
-                throw new InvalidOperationException("Only int, double, DateTime types allowed in this signature.");
+                throw new InvalidOperationException("Only int, double, DateTime, string types allowed in this signature.");
             }
 
         }
 
         private static IEnumerable<T> FilteredByOneArg<T>(IEnumerable<T> source, KeyValuePair<DGVHeader, LinqExtensionFilterCriterion> criterion)
         {
+            var keyType = typeof(T).GetProperty(criterion.Key.fieldName).PropertyType;
 
-
-            if (criterion.Value.only.GetType() == typeof(int))
+            if (keyType == typeof(int) || keyType == typeof(int?))
             {
-                return source.Where(x => (int)(x.GetType().GetProperty(criterion.Key.fieldName).GetValue(x, null)) == (int)criterion.Value.only);
+                var locOnly = Convert.ToInt32(criterion.Value.only);
+                return source.Where(x => Convert.ToInt32(x.GetType().GetProperty(criterion.Key.fieldName).GetValue(x, null)) == locOnly);
             }
-            else if (criterion.Value.only.GetType() == typeof(double))
+            else if (keyType == typeof(double) || keyType == typeof(double?))
             {
-                return source.Where(x => (double)(x.GetType().GetProperty(criterion.Key.fieldName).GetValue(x, null)) == (double)criterion.Value.only);
+                var locOnly = Convert.ToDouble(criterion.Value.only);
+                return source.Where(x => Convert.ToDouble(x.GetType().GetProperty(criterion.Key.fieldName).GetValue(x, null)) == locOnly);
             }
-            else if (criterion.Value.only.GetType() == typeof(DateTime))
+            else if (keyType == typeof(DateTime) || keyType == typeof(DateTime?))
             {
-                return source.Where(x => (DateTime)(x.GetType().GetProperty(criterion.Key.fieldName).GetValue(x, null)) == (DateTime)criterion.Value.only);
+                var locOnly = Convert.ToDateTime(criterion.Value.only).Date;
+                return source.Where(x => Convert.ToDateTime(x.GetType().GetProperty(criterion.Key.fieldName).GetValue(x, null)).Date == locOnly);
             }
-            else if (criterion.Value.only.GetType() == typeof(string))
+            else if (keyType == typeof(string))
             {
-                return source.Where(x => (string)(x.GetType().GetProperty(criterion.Key.fieldName).GetValue(x, null)) == (string)criterion.Value.only);
+                var locOnly = Convert.ToString(criterion.Value.only);
+                //return source.Where(x => (String)(x.GetType().GetProperty(criterion.Key.fieldName).GetValue(x, null)) == (string)criterion.Value.only);
+                return source.Where(x => Convert.ToString(x.GetType().GetProperty(criterion.Key.fieldName).GetValue(x, null)).Contains(locOnly));
             }
             else
             {

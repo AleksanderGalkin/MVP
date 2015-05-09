@@ -43,7 +43,7 @@ namespace GeoDBTests
         [Test]
         public void SortingFirstOpeningTest()
         {
-            Assert.That(_broCollar.GetSortedNumField(), Is.EqualTo(11));
+            Assert.That(_broCollar.GetSortedNumField(), Is.EqualTo(10));
         }
 
         [Test]

@@ -15,12 +15,14 @@ namespace GeoDBWinForms
 {
     public partial class ViewCollar2 : Form,IViewDrillHoles2
     {
-        // Collar interface
-        #region Collar
         public ViewCollar2()
         {
             InitializeComponent();
         }
+
+        // Collar interface
+        #region Collar
+
         public Dictionary<int, Collar2VmFull> CollarList
         {private  get; set;}
         public int rowCollarCount
@@ -48,15 +50,18 @@ namespace GeoDBWinForms
 
         public event EventHandler<EventArgs> clickCollarData;
         public event EventHandler<NumSortedFieldEventArgs> clickCollarHeader;
-        public event EventHandler<EventArgs> clickCollarFilters;
+        public event EventHandler<FilterParamsEventArgs> settedCollarFilter;
         public event EventHandler<NumRowEventArgs> showAnyCollarScreen;
         public event EventHandler<NumRowEventArgs> setCurrentRow;
 
+    
+
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (clickCollarData != null)
+            var ev = clickCollarData;
+            if (ev != null)
             {
-                clickCollarData(this, EventArgs.Empty);
+                ev(this, EventArgs.Empty);
             }
         }
         private void dataGVCollar2_CellValueNeeded(object sender, DataGridViewCellValueEventArgs e)
@@ -84,6 +89,7 @@ namespace GeoDBWinForms
                 
             }
         }
+
 
         private void dataGVCollar2_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
         {
@@ -159,7 +165,12 @@ namespace GeoDBWinForms
             }
             else if (e.Button == MouseButtons.Right)
             {
-
+                DataGridView s = sender as DataGridView;
+                Rectangle rectangleHeader = s.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, true);
+                Point contextMenuLocation = rectangleHeader.Location;
+                contextMenuLocation.Offset(e.X, e.Y);
+                ContextMenuStrip contextMenu = GetFilterContextMenu(e.ColumnIndex, settedCollarFilter);
+                contextMenu.Show(s, contextMenuLocation);
 
             }
 
@@ -167,29 +178,6 @@ namespace GeoDBWinForms
 
         # endregion Collar
 
-        public event EventHandler<EventArgs> openForm;
-        public event EventHandler<EventArgs> clickCloseForm;
-        public new void Show()
-        {
-            Application.Run(this);
-
-        }
-
-        public void RefreshCollar()
-        {
-            dataGVCollar2.Refresh();
-        }
-        public void RefreshAssays()
-        {
-            dataGVAssays2.Refresh();
-        }
-        private void btCloseForm_Click(object sender, EventArgs e)
-        {
-            if (clickCloseForm != null)
-            {
-                clickCloseForm(this, EventArgs.Empty);
-            }
-        }
 
 
         // Assays interface
@@ -197,19 +185,11 @@ namespace GeoDBWinForms
 
         public Dictionary<int, Assays2VmFull> AssaysList
         { private get; set; }
-
-        private void SetRowCountTo0()
-        {
-            dataGVAssays2.RowCount = 0;
-        }
-        delegate void dSetRowCountTo0();
-
         public int rowAssaysCount
         {
             set {dataGVAssays2.RowCount = value > 0 ? value : 1 ;}
             private get { return dataGVAssays2.RowCount; }
         }
-
         public List<DGVHeader> AssaysHeader
         {
             set
@@ -222,16 +202,15 @@ namespace GeoDBWinForms
             }
 
         }
-
-        public int sortedAssaysNumfield { set; private get; }
+        public int sortedAssaysNumField { set; private get; }
         public LinqExtensionSorterCriterion.TypeCriterion
             SortedAssaysCriterion { set; private get; }
+        public bool[] filteredAssaysNumField { set; private get; }
 
         public event EventHandler<EventArgs> clickAssaysData;
-
         public event EventHandler<NumSortedFieldEventArgs> clickAssaysHeader;
-        public event EventHandler<EventArgs> clickAssaysFilters; 
         public event EventHandler<NumRowEventArgs> showAnyAssaysScreen;
+        public event EventHandler<FilterParamsEventArgs> settedAssaysFilter;
 
 
         private void dataGVAssays2_CellValueNeeded(object sender, DataGridViewCellValueEventArgs e)
@@ -259,7 +238,6 @@ namespace GeoDBWinForms
 
             }
         }
-
         private void dataGVCollar2_RowEnter(object sender, DataGridViewCellEventArgs e)
         {
             if (setCurrentRow != null)
@@ -268,34 +246,195 @@ namespace GeoDBWinForms
                setCurrentRow(this, new NumRowEventArgs(CollarID));
             }
         }
-
-        private void btShowData_Click(object sender, EventArgs e)
+        private void dataGVAssays2_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
         {
-            clickCollarFilters(this, EventArgs.Empty);
+
+            if (e.RowIndex < 0 && e.ColumnIndex > -1)
+            {
+
+
+                int width = e.CellBounds.Width;
+                Rectangle b = e.CellBounds;
+                e.PaintBackground(b, true);
+                e.Paint(b, DataGridViewPaintParts.ContentForeground);
+                {
+                    Image imgFilter;
+                    Point ptFilter = e.CellBounds.Location;
+
+                    if (filteredAssaysNumField[e.ColumnIndex])
+                    {
+                        imgFilter = Properties.Resources.ResourceManager.GetObject("Very_Basic_Filter_Filled_icon") as Image;
+                    }
+                    else
+                    {
+                        imgFilter = Properties.Resources.ResourceManager.GetObject("Very_Basic_Filter_Not_Filled") as Image;
+                    }
+                    int offsetFilter = width - imgFilter.Width;
+                    width = offsetFilter;
+                    ptFilter.X += offsetFilter;
+                    ptFilter.Y += 2;
+                    e.Graphics.DrawImage(imgFilter, new Rectangle(ptFilter, new Size(15, 15)));
+                }
+                if (e.ColumnIndex == sortedAssaysNumField)
+                {
+                    Image imgSort;
+                    Point ptSort = e.CellBounds.Location;
+                    if (SortedAssaysCriterion == LinqExtensionSorterCriterion.TypeCriterion.Ascending)
+                    {
+                        imgSort = Properties.Resources.ResourceManager.GetObject("Very_Basic_ArrowUp_icon") as Image;
+                    }
+                    else
+                    {
+                        imgSort = Properties.Resources.ResourceManager.GetObject("Very_Basic_ArrowDown_icon") as Image;
+                    }
+                    int offsetSort = width - imgSort.Width;
+                    ptSort.X += offsetSort;
+                    ptSort.Y += 2;
+                    e.Graphics.DrawImage(imgSort, new Rectangle(ptSort, new Size(15, 15)));
+                }
+                e.Handled = true;
+
+            }
         }
+        private void dataGVAssays2_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                LinqExtensionSorterCriterion.TypeCriterion temp;
+                if (sortedAssaysNumField == e.ColumnIndex)
+                {
+                    if (SortedAssaysCriterion == LinqExtensionSorterCriterion.TypeCriterion.Ascending)
+                    {
+                        temp = LinqExtensionSorterCriterion.TypeCriterion.Descending;
+                    }
+                    else
+                    {
+                        temp = LinqExtensionSorterCriterion.TypeCriterion.Ascending;
+                    }
+                }
+                else
+                {
+                    temp = LinqExtensionSorterCriterion.TypeCriterion.Ascending;
+                }
+                var ev = clickAssaysHeader;
+                if (ev != null)
+                {
+                    clickAssaysHeader(this, new NumSortedFieldEventArgs(e.ColumnIndex, temp));
+                }
+            }
+            else if (e.Button == MouseButtons.Right)
+            {
+                DataGridView s = sender as DataGridView;
+                Rectangle rectangleHeader = s.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, true);
+                Point contextMenuLocation = rectangleHeader.Location;
+                contextMenuLocation.Offset(e.X, e.Y);
+                ContextMenuStrip contextMenu = GetFilterContextMenu(e.ColumnIndex, settedAssaysFilter);
+                contextMenu.Show(s, contextMenuLocation);
+
+            }
+
+        }
+
 
 
 
         #endregion Assays // Assays interrface
 
-        private void ViewCollar2_Load(object sender, EventArgs e)
+        public event EventHandler<EventArgs> openForm;
+        public event EventHandler<EventArgs> clickCloseForm;
+
+        public new void Show()
+        {
+            Application.Run(this);
+
+        }
+        public void RefreshCollar()
+        {
+            dataGVCollar2.Refresh();
+        }
+        public void RefreshAssays()
+        {
+            dataGVAssays2.Refresh();
+        }
+        private ContextMenuStrip GetFilterContextMenu(int NumColumn, EventHandler<FilterParamsEventArgs> DelegateEvent)
         {
             ContextMenuStrip cm = new ContextMenuStrip();
-            ToolStripMenuItem item1 = new ToolStripMenuItem("Фильтр - равно");
+
+            ToolStripMenuItem item1 = new ToolStripMenuItem("Фильтр - Интервал");
             ToolStripLabel item11 = new ToolStripLabel("От:");
-            ToolStripTextBox item12 = new ToolStripTextBox("Item12");
+            ToolStripTextBox item12 = new ToolStripTextBox();
+            item12.BorderStyle = BorderStyle.FixedSingle;
             ToolStripLabel item13 = new ToolStripLabel("До:");
-            ToolStripTextBox item14 = new ToolStripTextBox("Item12");
+            ToolStripTextBox item14 = new ToolStripTextBox();
             item14.BorderStyle = BorderStyle.FixedSingle;
+            ToolStripMenuItem item1_ok = new ToolStripMenuItem("Ок");
+            item1_ok.Click += (i, a) =>
+            {
+                FilterParamsEventArgs param = new FilterParamsEventArgs(NumColumn, new LinqExtensionFilterCriterion(item12.Text, item14.Text));
+                var ev = DelegateEvent;
+                if (ev != null)
+                {
+                    DelegateEvent(this, param);
+                }
+            };
 
             item1.DisplayStyle = ToolStripItemDisplayStyle.Text;
             item1.DropDownItems.Add(item11);
             item1.DropDownItems.Add(item12);
             item1.DropDownItems.Add(item13);
             item1.DropDownItems.Add(item14);
+            item1.DropDownItems.Add(item1_ok);
             cm.Items.Add(item1);
 
-            this.dataGVCollar2.ContextMenuStrip = cm;
+            ToolStripMenuItem item2 = new ToolStripMenuItem("Фильтр - Значение");
+            ToolStripLabel item21 = new ToolStripLabel("Равно:");
+            ToolStripTextBox item22 = new ToolStripTextBox();
+            item22.BorderStyle = BorderStyle.FixedSingle;
+
+            ToolStripMenuItem item2_ok = new ToolStripMenuItem("Ок");
+            item2_ok.Click += (i, a) =>
+            {
+                FilterParamsEventArgs param = new FilterParamsEventArgs(NumColumn, new LinqExtensionFilterCriterion(item22.Text));
+                var ev = DelegateEvent;
+                if (ev != null)
+                {
+                    ev(this, param);
+                }
+            };
+
+
+            item2.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            item2.DropDownItems.Add(item21);
+            item2.DropDownItems.Add(item22);
+            item2.DropDownItems.Add(item2_ok);
+            cm.Items.Add(item2);
+
+            ToolStripMenuItem item3_cancel = new ToolStripMenuItem("Сброс");
+            item3_cancel.Click += (i, a) =>
+            {
+                FilterParamsEventArgs param = new FilterParamsEventArgs(NumColumn, new LinqExtensionFilterCriterion());
+                var ev = DelegateEvent;
+                if (ev != null)
+                {
+                    ev(this, param);
+                }
+            };
+
+            cm.Items.Add(item3_cancel);
+
+            return cm;
         }
+        private void btCloseForm_Click(object sender, EventArgs e)
+        {
+            if (clickCloseForm != null)
+            {
+                clickCloseForm(this, EventArgs.Empty);
+            }
+        }
+        private void btShowData_Click(object sender, FilterParamsEventArgs e)
+        {
+            // settedCollarFilter(this, e);
+        }
+
     }
 }

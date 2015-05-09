@@ -104,9 +104,9 @@ namespace GeoDBTests
         [Test]
         public void GetWholeModelRowCountWithFiltersTest()
         {
-            _browseCollar.AddFilter(new DGVHeader { fieldName = "id", fieldHeader = "id" },
+            _browseCollar.ChangeFilter(new DGVHeader { fieldName = "id", fieldHeader = "id" },
                                     new LinqExtensionFilterCriterion(2,4));
-            _browseCollar.AddFilter(new DGVHeader { fieldName = "hole", fieldHeader = "hole" },
+            _browseCollar.ChangeFilter(new DGVHeader { fieldName = "hole", fieldHeader = "hole" },
                         new LinqExtensionFilterCriterion(3,6));
             Assert.That(_browseCollar.GetWholeModelRowCount(), Is.EqualTo(2));
         }
@@ -114,7 +114,7 @@ namespace GeoDBTests
         [Test]
         public void GetWholeModelRowCountWithBadFiltersTest()
         {
-            _browseCollar.AddFilter(new DGVHeader { fieldName = "id", fieldHeader = "id" },
+            _browseCollar.ChangeFilter(new DGVHeader { fieldName = "id", fieldHeader = "id" },
                                     new LinqExtensionFilterCriterion(-1));
             Assert.DoesNotThrow(()=>_browseCollar.GetBuffer());
             Assert.That(_browseCollar.GetWholeModelRowCount(), Is.EqualTo(0));
@@ -173,12 +173,6 @@ namespace GeoDBTests
             Assert.That(_browseAssays.GetWholeModelRowCount(), Is.EqualTo(2));
         }
 
-        [Test]
-        public void SortingFirstOpeningTest()
-        {
-            Assert.That(_browseCollar.GetSortedNumField(), Is.EqualTo(11));
-        }
-
-        
+       
     }
 }

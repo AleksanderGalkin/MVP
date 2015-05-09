@@ -16,6 +16,8 @@ namespace GeoDB.Presenter
         where T:class,IBase,new()
         where S:class,IViewModel
     {
+
+        private List<DGVHeader> _header = typeof(S).GetProperty("header").GetValue(typeof(S), null) as List<DGVHeader>;
         public static ILog log = LogManager.GetLogger("ConsoleAppender");
 
         protected IBaseService<T> _model;
@@ -58,7 +60,7 @@ namespace GeoDB.Presenter
 #region Public
         public List<DGVHeader> GetHeader()
         {
-            return typeof(S).GetProperty("header").GetValue(typeof(S),null) as List<DGVHeader>;
+            return _header;
         }
         public Dictionary<int, S> GetBuffer()
         {
@@ -68,26 +70,36 @@ namespace GeoDB.Presenter
         {
             return _wholeModelRowCount;
         }
-        public bool[] GetFilteredCollarNumField()
+        public bool[] GetFilteredNumField()
         {
             List<DGVHeader> header = GetHeader();
             bool[] result = new bool[header.Count];
+            LinqExtensionFilterCriterion locCriterion;
             for (int i = 0; i < header.Count; i++)
             {
-                if (_filter.ContainsKey(header[i]))
+                result[i] = false;
+                if (_filter.TryGetValue(header[i], out locCriterion))
                 {
-                    result[i] = true;
+                    if (locCriterion.GetTypeCriterion() != LinqExtensionFilterCriterion.TypeCriterion.resetArgs)
+                    {
+                        result[i] = true;
+                    }
                 }
-                else
-                {
-                    result[i] = false;
-                }
+                
             }
           return result;
         }
-        public void AddFilter(DGVHeader Column, LinqExtensionFilterCriterion Criterion)
+        public void ChangeFilter(DGVHeader Column, LinqExtensionFilterCriterion Criterion)
         {
-            _filter.Add(Column, Criterion);
+            LinqExtensionFilterCriterion locCriterion;
+            if (_filter.TryGetValue(Column, out locCriterion))
+            {
+                locCriterion.Set(Criterion);
+            }
+            else
+            {
+                _filter.Add(Column, Criterion);
+            }
             CreateFilteredModel();
             if (filteredViewModel != null)
             {
@@ -117,10 +129,10 @@ namespace GeoDB.Presenter
             GeneratePage();
         }
 
-        public void OnClickCollarFilters(object sender, EventArgs e)
+        public void OnClickFilters(object sender, FilterParamsEventArgs e)
         {
-            AddFilter(new DGVHeader { fieldName = "gorizont", fieldHeader = "Гор." }
-                                       , new LinqExtensionFilterCriterion(200, 350));
+            DGVHeader headerColumn = _header[e.numField];
+            ChangeFilter(headerColumn , e.criterion);
             GeneratePage();
             if (refreshedViewModel != null)
             {
@@ -130,9 +142,7 @@ namespace GeoDB.Presenter
 
         public void OnSetSortedField(object sender, NumSortedFieldEventArgs e)
         {
-            List<DGVHeader> temp = typeof(S).GetProperty("header").GetValue(typeof(S), null) as List<DGVHeader>;
-
-            _sorter.Set(temp.ElementAt(e.numField), e.order);
+            _sorter.Set(_header.ElementAt(e.numField), e.order);
             CreateFilteredModel();
             GeneratePage();
             if (sortedViewModel != null)

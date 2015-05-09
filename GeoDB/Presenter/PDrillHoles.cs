@@ -82,7 +82,7 @@ namespace GeoDB.Presenter
                       to = a.TO,
                       length = a.LENGTH,
                       zblock = a.BLOCK_ZAPASOV != null ? a.BLOCK_ZAPASOV.CATEGORY : "не определено",
-                      lito = a.LITOLOGY.LITO_COD ?? "не определено",
+                      lito = a.LITOLOGY.ROCK ?? "не определено",
                       rang = a.RANG1 != null ? a.RANG1.TYPE_RANG : "не определено",
                       ves = a.VES_SAMPLE,
                       au = a.Au,
@@ -139,13 +139,18 @@ namespace GeoDB.Presenter
             _broCollar.filteredViewModel += new EventHandler<EventArgs>(OnCollarFilteredViewModel);
             _view.clickCollarHeader += new EventHandler<NumSortedFieldEventArgs>(_broCollar.OnSetSortedField);
             _view.showAnyCollarScreen += new EventHandler<NumRowEventArgs>(_broCollar.OnShowAnyScreen);
-            _view.clickCollarFilters += new EventHandler<EventArgs>(_broCollar.OnClickCollarFilters);
+            _view.settedCollarFilter += new EventHandler<FilterParamsEventArgs>(_broCollar.OnClickFilters);
 
             _broAssays = new BrowseAssay(modelAssays, modelGeologist, rowsToBuffer);
             _broAssays.generatedNewPartOfBuffer += new EventHandler<EventArgs>(OnAssaysGeneratedNewPartOfBuffer);
             _broAssays.refreshedViewModel += new EventHandler<EventArgs>(OnAssaysRefreshedViewModel);
+            _broAssays.sortedViewModel += new EventHandler<EventArgs>(OnAssaysSortedViewModel);
+            _broAssays.filteredViewModel += new EventHandler<EventArgs>(OnAssaysFilteredViewModel);
+            _view.clickAssaysHeader += new EventHandler<NumSortedFieldEventArgs>(_broAssays.OnSetSortedField);
             _view.showAnyAssaysScreen += new EventHandler<NumRowEventArgs>(_broAssays.OnShowAnyScreen);
+            _view.settedAssaysFilter += new EventHandler<FilterParamsEventArgs>(_broAssays.OnClickFilters);
             _view.setCurrentRow += new EventHandler<NumRowEventArgs>(_broAssays.OnSetRowMasterTable);
+
 
             _view.clickCloseForm += new EventHandler<EventArgs>(OnClickCloseForm);
         }
@@ -167,7 +172,7 @@ namespace GeoDB.Presenter
         {
             _view.CollarList= _broCollar.GetBuffer();
             _view.rowCollarCount = _broCollar.GetWholeModelRowCount();
-            _view.filteredCollarNumField = _broCollar.GetFilteredCollarNumField();
+            _view.filteredCollarNumField = _broCollar.GetFilteredNumField();
 
         }
         private void OnAssaysGeneratedNewPartOfBuffer(object sender, EventArgs e)
@@ -179,7 +184,19 @@ namespace GeoDB.Presenter
         {
             _view.RefreshAssays();
         }
-        
+        private void OnAssaysSortedViewModel(object sender, EventArgs e)
+        {
+            _view.sortedAssaysNumField = _broAssays.GetSortedNumField();
+            _view.SortedAssaysCriterion = _broAssays.GetSortedCriterion();
+        }
+        private void OnAssaysFilteredViewModel(object sender, EventArgs e)
+        {
+            _view.AssaysList = _broAssays.GetBuffer();
+            _view.rowAssaysCount = _broAssays.GetWholeModelRowCount();
+            _view.filteredAssaysNumField = _broAssays.GetFilteredNumField();
+
+        }
+
         private void OnClickCloseForm(object sender, EventArgs e)
         {
             _view.Close();
@@ -190,10 +207,14 @@ namespace GeoDB.Presenter
             _view.CollarHeader = _broCollar.GetHeader();
             _view.sortedCollarNumField = _broCollar.GetSortedNumField();
             _view.SortedCollarCriterion = _broCollar.GetSortedCriterion();
-            _view.filteredCollarNumField = _broCollar.GetFilteredCollarNumField();
+            _view.filteredCollarNumField = _broCollar.GetFilteredNumField();
             _view.rowCollarCount = _broCollar.GetWholeModelRowCount();
             _view.CollarList = _broCollar.GetBuffer();
+
             _view.AssaysHeader = _broAssays.GetHeader();
+            _view.sortedAssaysNumField = _broAssays.GetSortedNumField();
+            _view.SortedAssaysCriterion = _broAssays.GetSortedCriterion();
+            _view.filteredAssaysNumField = _broAssays.GetFilteredNumField();
             _view.rowAssaysCount = _broAssays.GetWholeModelRowCount();
             _view.AssaysList = _broAssays.GetBuffer();
             _view.Show();

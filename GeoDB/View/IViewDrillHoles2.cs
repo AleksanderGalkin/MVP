@@ -18,19 +18,20 @@ namespace GeoDB.View
         bool[] filteredCollarNumField { set;  }
         event EventHandler<EventArgs> clickCollarData;
         event EventHandler<NumRowEventArgs> showAnyCollarScreen;
-        event EventHandler<EventArgs> clickCollarFilters;
+        event EventHandler<FilterParamsEventArgs> settedCollarFilter;
         event EventHandler<NumSortedFieldEventArgs> clickCollarHeader;
         event EventHandler<NumRowEventArgs> setCurrentRow;
         
         List<DGVHeader> AssaysHeader { set; }
         Dictionary<int, Assays2VmFull> AssaysList { set;  }
         int rowAssaysCount { set;  }
-        int sortedAssaysNumfield { set;  }
+        int sortedAssaysNumField { set;  }
         LinqExtensionSorterCriterion.TypeCriterion
             SortedAssaysCriterion { set;  }
+        bool[] filteredAssaysNumField { set; }
         event EventHandler<EventArgs> clickAssaysData;
         event EventHandler<NumRowEventArgs> showAnyAssaysScreen;
-        event EventHandler<EventArgs> clickAssaysFilters;
+        event EventHandler<FilterParamsEventArgs> settedAssaysFilter;
         event EventHandler<NumSortedFieldEventArgs> clickAssaysHeader;
 
         void Show();

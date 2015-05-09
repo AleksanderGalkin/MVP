@@ -70,6 +70,7 @@
     <Compile Include="Extensions\LinqExtensionSorter.cs" />
     <Compile Include="Extensions\LinqExtensionFilter.cs" />
     <Compile Include="Model\Assays2.cs" />
+    <Compile Include="Model\FilterParamsEventArgs.cs" />
     <Compile Include="Model\NumSortedFieldEventArgs.cs" />
     <Compile Include="Model\DrillType.cs" />
     <Compile Include="Model\Geologist.cs" />

@@ -72,7 +72,6 @@
             this.btShowData.TabIndex = 1;
             this.btShowData.Text = "button1";
             this.btShowData.UseVisualStyleBackColor = true;
-            this.btShowData.Click += new System.EventHandler(this.btShowData_Click);
             // 
             // splitContainer1
             // 
@@ -126,7 +125,9 @@
             this.dataGVAssays2.Size = new System.Drawing.Size(624, 165);
             this.dataGVAssays2.TabIndex = 0;
             this.dataGVAssays2.VirtualMode = true;
+            this.dataGVAssays2.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dataGVAssays2_CellPainting);
             this.dataGVAssays2.CellValueNeeded += new System.Windows.Forms.DataGridViewCellValueEventHandler(this.dataGVAssays2_CellValueNeeded);
+            this.dataGVAssays2.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGVAssays2_ColumnHeaderMouseClick);
             // 
             // btCloseForm
             // 
@@ -151,7 +152,6 @@
             this.MinimumSize = new System.Drawing.Size(640, 480);
             this.Name = "ViewCollar2";
             this.Text = "Скважины и Пробы";
-            this.Load += new System.EventHandler(this.ViewCollar2_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGVCollar2)).EndInit();
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);

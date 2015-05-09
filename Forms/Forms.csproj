@@ -73,12 +73,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ApplicationMVP\ApplicationMVP.csproj">
-      <Project>{34E77F7B-B1DF-47EE-9C8C-04580640BDA5}</Project>
-      <Name>ApplicationMVP</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
