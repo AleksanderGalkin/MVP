@@ -4,17 +4,19 @@ using System.Linq;
 using System.Text;
 using GeoDB.Service.DataAccess.Interface;
 using GeoDB.Model;
+using System.Data.Objects;
 
 namespace GeoDB.Service.DataAccess
 {
-    public class GeologistEntityService : IBaseService<GEOLOGIST>
+    public class GorizontEntityService : IBaseService<GORIZONT>
     {
         ModelDB db = new ModelDB();
-        public int Create(GEOLOGIST obj)
+
+        public int Create(GORIZONT obj)
         {
             try
             {
-                db.AddToGEOLOGIST(obj);
+                db.AddToGORIZONT(obj);
             }
             catch
             {
@@ -22,28 +24,31 @@ namespace GeoDB.Service.DataAccess
             }
             return 0;
         }
-        public IEnumerable<GEOLOGIST> Get()
+
+        public IEnumerable<GORIZONT> Get()
         {
-            IEnumerable<GEOLOGIST> result = (from a in db.GEOLOGIST
+            IEnumerable<GORIZONT> result = (from a in db.GORIZONT
                               select a).ToList();
 
             return result;
         }
 
-        public GEOLOGIST Get(int id)
+        public GORIZONT Get(int id)
         {
-            GEOLOGIST result = (from a in db.GEOLOGIST
-                                    where a.GEOLOGIST_ID == id
+            GORIZONT result = (from a in db.GORIZONT
+                                    where a.BENCH_ID == id
                                     select a).FirstOrDefault();
             return result;
         }
-        public IEnumerable<GEOLOGIST> GetByBhid(int bhid)
+
+        public IEnumerable<GORIZONT> GetByBhid(int bhid)
         {
             throw new InvalidOperationException("Not implement operation");
         }
+
         public int Count()
         {
-            int result = (from a in db.GEOLOGIST
+            int result = (from a in db.GORIZONT
                               select a).Count();
             return result;
         }

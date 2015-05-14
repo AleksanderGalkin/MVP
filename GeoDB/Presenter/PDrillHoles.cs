@@ -122,15 +122,19 @@ namespace GeoDB.Presenter
         private IViewDrillHoles2 _view;
         private BrowseCollar _broCollar;
         private BrowseAssay _broAssays;
+        private PCollar2Crud _preCollar2Crud;
 
         public PDrillHoles
             (IViewDrillHoles2 viewCollar2
                         , IBaseService<COLLAR2> modelCollar
                         , IBaseService<ASSAYS2> modelAssays
                         , IBaseService<GEOLOGIST> modelGeologist
-                        , int rowsToBuffer)
+                        , int rowsToBuffer
+                        , PCollar2Crud PresenterCollar2Crud
+            )
         {
             _view = viewCollar2;
+            _preCollar2Crud = PresenterCollar2Crud;
 
             _broCollar = new BrowseCollar(modelCollar, modelGeologist, rowsToBuffer);
             _broCollar.generatedNewPartOfBuffer += new EventHandler<EventArgs>(OnCollarGeneratedNewPartOfBuffer);
@@ -140,6 +144,7 @@ namespace GeoDB.Presenter
             _view.clickCollarHeader += new EventHandler<NumSortedFieldEventArgs>(_broCollar.OnSetSortedField);
             _view.showAnyCollarScreen += new EventHandler<NumRowEventArgs>(_broCollar.OnShowAnyScreen);
             _view.settedCollarFilter += new EventHandler<FilterParamsEventArgs>(_broCollar.OnClickFilters);
+            _view.clickCollarCreateData += new EventHandler<EventArgs>(OnClickCollarCreateData);
 
             _broAssays = new BrowseAssay(modelAssays, modelGeologist, rowsToBuffer);
             _broAssays.generatedNewPartOfBuffer += new EventHandler<EventArgs>(OnAssaysGeneratedNewPartOfBuffer);
@@ -175,6 +180,12 @@ namespace GeoDB.Presenter
             _view.filteredCollarNumField = _broCollar.GetFilteredNumField();
 
         }
+
+        private void OnClickCollarCreateData(object sender, EventArgs e)
+        {
+            _preCollar2Crud.Show();
+        }
+
         private void OnAssaysGeneratedNewPartOfBuffer(object sender, EventArgs e)
         {
             _view.AssaysList = _broAssays.GetBuffer();

@@ -53,17 +53,8 @@ namespace GeoDBWinForms
         public event EventHandler<FilterParamsEventArgs> settedCollarFilter;
         public event EventHandler<NumRowEventArgs> showAnyCollarScreen;
         public event EventHandler<NumRowEventArgs> setCurrentRow;
+        
 
-    
-
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-            var ev = clickCollarData;
-            if (ev != null)
-            {
-                ev(this, EventArgs.Empty);
-            }
-        }
         private void dataGVCollar2_CellValueNeeded(object sender, DataGridViewCellValueEventArgs e)
         {
 
@@ -174,6 +165,22 @@ namespace GeoDBWinForms
 
             }
 
+        }
+        private void dataGVCollar2_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+            }
+            else if (e.Button == MouseButtons.Right)
+            {
+                DataGridView s = sender as DataGridView;
+                Rectangle rectangleHeader = s.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, true);
+                Point contextMenuLocation = rectangleHeader.Location;
+                contextMenuLocation.Offset(e.X, e.Y);
+                ContextMenuStrip contextMenu = GetDataContextMenu();
+                contextMenu.Show(s, contextMenuLocation);
+
+            }
         }
 
         # endregion Collar
@@ -342,10 +349,13 @@ namespace GeoDBWinForms
 
         public event EventHandler<EventArgs> openForm;
         public event EventHandler<EventArgs> clickCloseForm;
+        public event EventHandler<EventArgs> clickCollarCreateData;
 
         public new void Show()
         {
+            
             Application.Run(this);
+            
 
         }
         public void RefreshCollar()
@@ -424,6 +434,25 @@ namespace GeoDBWinForms
 
             return cm;
         }
+        private ContextMenuStrip GetDataContextMenu()
+        {
+            ContextMenuStrip cm = new ContextMenuStrip();
+            ToolStripMenuItem item1 = new ToolStripMenuItem("Создать");
+            
+            item1.Click += (i, a) =>
+            {
+                
+                var ev =clickCollarCreateData ;
+                if (ev != null)
+                {
+                    ev(this, EventArgs.Empty);
+                }
+            };
+
+            item1.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            cm.Items.Add(item1);
+            return cm;
+        }
         private void btCloseForm_Click(object sender, EventArgs e)
         {
             if (clickCloseForm != null)
@@ -435,6 +464,9 @@ namespace GeoDBWinForms
         {
             // settedCollarFilter(this, e);
         }
+
+
+
 
     }
 }

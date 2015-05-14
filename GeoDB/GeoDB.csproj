@@ -70,6 +70,8 @@
     <Compile Include="Extensions\LinqExtensionSorter.cs" />
     <Compile Include="Extensions\LinqExtensionFilter.cs" />
     <Compile Include="Model\Assays2.cs" />
+    <Compile Include="Model\Rl_Explo2.cs" />
+    <Compile Include="Model\Gorizont.cs" />
     <Compile Include="Model\FilterParamsEventArgs.cs" />
     <Compile Include="Model\NumSortedFieldEventArgs.cs" />
     <Compile Include="Model\DrillType.cs" />
@@ -85,6 +87,7 @@
     <Compile Include="Model\Interface\IBase.cs" />
     <Compile Include="Model\NumRowEventArgs.cs" />
     <Compile Include="Presenter\AbsBrowser.cs" />
+    <Compile Include="Presenter\PCollar2Crud.cs" />
     <Compile Include="Presenter\PDrillHoles.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Resources.Designer.cs">
@@ -94,10 +97,13 @@
     </Compile>
     <Compile Include="Service\DataAccess\CollarEntityService.cs" />
     <Compile Include="Service\DataAccess\AssaysEntityService.cs" />
+    <Compile Include="Service\DataAccess\BlastEntityService.cs" />
+    <Compile Include="Service\DataAccess\GorizontEntityService.cs" />
     <Compile Include="Service\DataAccess\GeologistEntityService.cs" />
     <Compile Include="Service\DataAccess\DrillingTypeEntityService.cs" />
     <Compile Include="Service\DataAccess\Interface\IBaseService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="View\IViewCollar2Crud.cs" />
     <Compile Include="View\IViewDrillHoles2.cs" />
   </ItemGroup>
   <ItemGroup>

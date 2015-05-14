@@ -10,7 +10,18 @@ namespace GeoDB.Service.DataAccess
     public class AssaysEntityService : IBaseService<ASSAYS2>
     {
         ModelDB db = new ModelDB();
-
+        public int Create(ASSAYS2 obj)
+        {
+            try
+            {
+                db.AddToASSAYS2(obj);
+            }
+            catch
+            {
+                return 1;
+            }
+            return 0;
+        }
         public IEnumerable<ASSAYS2> Get()
         {
             IEnumerable<ASSAYS2> result = (from a in db.ASSAYS2

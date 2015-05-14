@@ -4,17 +4,19 @@ using System.Linq;
 using System.Text;
 using GeoDB.Service.DataAccess.Interface;
 using GeoDB.Model;
+using System.Data.Objects;
 
 namespace GeoDB.Service.DataAccess
 {
-    public class GeologistEntityService : IBaseService<GEOLOGIST>
+    public class BlastEntityService : IBaseService<RL_EXPLO2>
     {
         ModelDB db = new ModelDB();
-        public int Create(GEOLOGIST obj)
+
+        public int Create(RL_EXPLO2 obj)
         {
             try
             {
-                db.AddToGEOLOGIST(obj);
+                db.AddToRL_EXPLO2(obj);
             }
             catch
             {
@@ -22,28 +24,31 @@ namespace GeoDB.Service.DataAccess
             }
             return 0;
         }
-        public IEnumerable<GEOLOGIST> Get()
+
+        public IEnumerable<RL_EXPLO2> Get()
         {
-            IEnumerable<GEOLOGIST> result = (from a in db.GEOLOGIST
+            IEnumerable<RL_EXPLO2> result = (from a in db.RL_EXPLO2
                               select a).ToList();
 
             return result;
         }
 
-        public GEOLOGIST Get(int id)
+        public RL_EXPLO2 Get(int id)
         {
-            GEOLOGIST result = (from a in db.GEOLOGIST
-                                    where a.GEOLOGIST_ID == id
+            RL_EXPLO2 result = (from a in db.RL_EXPLO2
+                                    where a.EX_LINE_COD == id
                                     select a).FirstOrDefault();
             return result;
         }
-        public IEnumerable<GEOLOGIST> GetByBhid(int bhid)
+
+        public IEnumerable<RL_EXPLO2> GetByBhid(int bhid)
         {
             throw new InvalidOperationException("Not implement operation");
         }
+
         public int Count()
         {
-            int result = (from a in db.GEOLOGIST
+            int result = (from a in db.RL_EXPLO2
                               select a).Count();
             return result;
         }

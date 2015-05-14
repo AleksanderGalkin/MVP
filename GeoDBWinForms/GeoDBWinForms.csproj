@@ -76,6 +76,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewCollar2Crud.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ViewCollar2Crud.Designer.cs">
+      <DependentUpon>ViewCollar2Crud.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -88,6 +94,9 @@
     </Compile>
     <EmbeddedResource Include="ViewCollar2.resx">
       <DependentUpon>ViewCollar2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ViewCollar2Crud.resx">
+      <DependentUpon>ViewCollar2Crud.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="App.Config">
       <SubType>Designer</SubType>

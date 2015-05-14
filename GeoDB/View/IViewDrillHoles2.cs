@@ -21,7 +21,8 @@ namespace GeoDB.View
         event EventHandler<FilterParamsEventArgs> settedCollarFilter;
         event EventHandler<NumSortedFieldEventArgs> clickCollarHeader;
         event EventHandler<NumRowEventArgs> setCurrentRow;
-        
+        event EventHandler<EventArgs> clickCollarCreateData;
+
         List<DGVHeader> AssaysHeader { set; }
         Dictionary<int, Assays2VmFull> AssaysList { set;  }
         int rowAssaysCount { set;  }

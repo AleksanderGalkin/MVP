@@ -59,6 +59,7 @@
             this.dataGVCollar2.Size = new System.Drawing.Size(624, 169);
             this.dataGVCollar2.TabIndex = 0;
             this.dataGVCollar2.VirtualMode = true;
+            this.dataGVCollar2.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGVCollar2_CellMouseClick);
             this.dataGVCollar2.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dataGVCollar2_CellPainting);
             this.dataGVCollar2.CellValueNeeded += new System.Windows.Forms.DataGridViewCellValueEventHandler(this.dataGVCollar2_CellValueNeeded);
             this.dataGVCollar2.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGVCollar2_ColumnHeaderMouseClick);

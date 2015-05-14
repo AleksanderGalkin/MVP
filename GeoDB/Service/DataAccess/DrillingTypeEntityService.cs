@@ -10,7 +10,18 @@ namespace GeoDB.Service.DataAccess
     public class DrillingTypeEntityService : IBaseService<DRILLING_TYPE>
     {
         ModelDB db = new ModelDB();
-
+        public int Create(DRILLING_TYPE obj)
+        {
+            try
+            {
+                db.AddToDRILLING_TYPE(obj);
+            }
+            catch
+            {
+                return 1;
+            }
+            return 0;
+        }
         public IEnumerable<DRILLING_TYPE> Get()
         {
             IEnumerable<DRILLING_TYPE> result = (from a in db.DRILLING_TYPE
