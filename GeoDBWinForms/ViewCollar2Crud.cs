@@ -50,7 +50,8 @@ namespace GeoDBWinForms
             }
             private get
             {
-                return gorizontList ;
+                return cbGorizont.Items.Cast<KeyValuePair<int, string>>() as Dictionary<int, string>;
+               
             }
         }
         public int gorizontID {
@@ -60,7 +61,14 @@ namespace GeoDBWinForms
             }
             set
             {
-                cbGorizont.SelectedItem = gorizontList.Select(x=>x.Key==value).FirstOrDefault();
+                if (gorizontList != null)
+                {
+                    cbGorizont.SelectedItem = gorizontList.Select(x => x.Key == value).FirstOrDefault();
+                }
+                else
+                {
+                    cbGorizont.SelectedIndex = -1;
+                }
             }
         }
         
@@ -79,7 +87,8 @@ namespace GeoDBWinForms
             }
             private get
             {
-                return blastList;
+                return cbBlast.Items.Cast<KeyValuePair<int, string>>() as Dictionary<int, string>;
+
             }
         }
         public int blast
@@ -90,7 +99,14 @@ namespace GeoDBWinForms
             }
             set
             {
-                cbBlast.SelectedItem = blastList.Select(x => x.Key == value).FirstOrDefault();
+                if (blastList != null)
+                {
+                    cbBlast.SelectedItem = blastList.Select(x => x.Key == value).FirstOrDefault();
+                }
+                else
+                {
+                    cbBlast.SelectedIndex = -1;
+                }
             }
         }
 
@@ -163,7 +179,7 @@ namespace GeoDBWinForms
             }
             private get
             {
-                return drillTypeList;
+                return cbDrillType.Items.Cast<KeyValuePair<int, string>>() as Dictionary<int, string>;
             }
         }
         public int drillType
@@ -174,7 +190,14 @@ namespace GeoDBWinForms
             }
             set
             {
-                cbDrillType.SelectedItem = drillTypeList.Select(x => x.Key == value).FirstOrDefault();
+                if (drillTypeList != null)
+                {
+                    cbDrillType.SelectedItem = drillTypeList.Select(x => x.Key == value).FirstOrDefault();
+                }
+                else
+                {
+                    cbDrillType.SelectedIndex = -1;
+                }
             }
         }
 
