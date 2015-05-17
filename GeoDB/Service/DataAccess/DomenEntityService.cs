@@ -8,55 +8,52 @@ using System.Data.Objects;
 
 namespace GeoDB.Service.DataAccess
 {
-    public class GorizontEntityService : IBaseService<GORIZONT>
+    public class DomenEntityService : IBaseService<DOMEN>
     {
         ModelDB db = new ModelDB();
 
-        public void Create(GORIZONT obj)
+        public void Create(DOMEN obj)
         {
-                db.AddToGORIZONT(obj);
+                db.AddToDOMEN(obj);
                 db.SaveChanges();
         }
-        public void Modify(GORIZONT obj)
+        public void Modify(DOMEN obj)
         {
-
                 db.SaveChanges();
         }
-        public void Delete(GORIZONT obj)
+        public void Delete(DOMEN obj)
         {
                 db.DeleteObject(obj);
                 db.SaveChanges();
         }
-
-        public void Refresh(GORIZONT obj)
+        public void Refresh(DOMEN obj)
         {
             db.Refresh(RefreshMode.StoreWins, obj);
         }
-
-        public IEnumerable<GORIZONT> Get()
+        public IEnumerable<DOMEN> Get()
         {
-            IEnumerable<GORIZONT> result = (from a in db.GORIZONT
+            IEnumerable<DOMEN> result = (from a in db.DOMEN
                               select a).ToList();
 
             return result;
         }
 
-        public GORIZONT Get(int id)
+        public DOMEN Get(int id)
         {
-            GORIZONT result = (from a in db.GORIZONT
-                                    where a.BENCH_ID == id
+            DOMEN result = (from a in db.DOMEN
+                                    where a.ID == id
                                     select a).FirstOrDefault();
             return result;
         }
 
-        public IEnumerable<GORIZONT> GetByBhid(int bhid)
+        public IEnumerable<DOMEN> GetByBhid(int bhid)
         {
             throw new InvalidOperationException("Not implement operation");
         }
 
         public int Count()
         {
-            int result = (from a in db.GORIZONT
+            int result = (from a in db.DOMEN
                               select a).Count();
             return result;
         }

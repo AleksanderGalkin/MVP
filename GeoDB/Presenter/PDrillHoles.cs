@@ -145,6 +145,8 @@ namespace GeoDB.Presenter
             _view.showAnyCollarScreen += new EventHandler<NumRowEventArgs>(_broCollar.OnShowAnyScreen);
             _view.settedCollarFilter += new EventHandler<FilterParamsEventArgs>(_broCollar.OnClickFilters);
             _view.clickCollarCreateData += new EventHandler<EventArgs>(OnClickCollarCreateData);
+            _view.clickCollarEditData += new EventHandler<NumRowEventArgs>(OnClickCollarEditData);
+            _view.clickCollarDeleteData += new EventHandler<NumRowEventArgs>(OnClickCollarDeleteData);
 
             _broAssays = new BrowseAssay(modelAssays, modelGeologist, rowsToBuffer);
             _broAssays.generatedNewPartOfBuffer += new EventHandler<EventArgs>(OnAssaysGeneratedNewPartOfBuffer);
@@ -184,8 +186,20 @@ namespace GeoDB.Presenter
         private void OnClickCollarCreateData(object sender, EventArgs e)
         {
             _preCollar2Crud.Show();
+            _broCollar.Refresh();
         }
 
+        private void OnClickCollarEditData(object sender, NumRowEventArgs e)
+        {
+            _preCollar2Crud.Show(e.numRow);
+            _broCollar.Refresh();
+        }
+
+        private void OnClickCollarDeleteData(object sender, NumRowEventArgs e)
+        {
+            _preCollar2Crud.ShowForDelete(e.numRow);
+            _broCollar.Refresh();
+        }
         private void OnAssaysGeneratedNewPartOfBuffer(object sender, EventArgs e)
         {
             _view.AssaysList = _broAssays.GetBuffer();

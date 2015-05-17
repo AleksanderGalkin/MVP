@@ -12,20 +12,25 @@ namespace GeoDB.Service.DataAccess
     {
         ModelDB db = new ModelDB();
 
-        public int Create(COLLAR2 obj)
+        public void Create(COLLAR2 obj)
         {
-            try
-            {
                 db.AddToCOLLAR2(obj);
                 db.SaveChanges();
-            }
-            catch
-            {
-                return 1;
-            }
-            return 0;
         }
 
+        public void Modify(COLLAR2 obj)
+        {
+                db.SaveChanges();
+        }
+        public void Delete(COLLAR2 obj)
+        {
+                db.DeleteObject(obj);
+                db.SaveChanges();
+        }
+        public void Refresh(COLLAR2 obj)
+        {
+            db.Refresh(RefreshMode.StoreWins, obj);
+        }
         public IEnumerable<COLLAR2> Get()
         {
             IEnumerable<COLLAR2> result = (from a in db.COLLAR2

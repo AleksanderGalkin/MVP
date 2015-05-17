@@ -12,19 +12,24 @@ namespace GeoDB.Service.DataAccess
     {
         ModelDB db = new ModelDB();
 
-        public int Create(RL_EXPLO2 obj)
+        public void Create(RL_EXPLO2 obj)
         {
-            try
-            {
                 db.AddToRL_EXPLO2(obj);
-            }
-            catch
-            {
-                return 1;
-            }
-            return 0;
+                db.SaveChanges();
         }
-
+        public void Modify(RL_EXPLO2 obj)
+        {
+                db.SaveChanges();
+        }
+        public void Delete(RL_EXPLO2 obj)
+        {
+                db.DeleteObject(obj);
+                db.SaveChanges();
+        }
+        public void Refresh(RL_EXPLO2 obj)
+        {
+            db.Refresh(RefreshMode.StoreWins, obj);
+        }
         public IEnumerable<RL_EXPLO2> Get()
         {
             IEnumerable<RL_EXPLO2> result = (from a in db.RL_EXPLO2

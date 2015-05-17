@@ -4,23 +4,30 @@ using System.Linq;
 using System.Text;
 using GeoDB.Service.DataAccess.Interface;
 using GeoDB.Model;
+using System.Data.Objects;
 
 namespace GeoDB.Service.DataAccess
 {
     public class GeologistEntityService : IBaseService<GEOLOGIST>
     {
         ModelDB db = new ModelDB();
-        public int Create(GEOLOGIST obj)
+        public void Create(GEOLOGIST obj)
         {
-            try
-            {
                 db.AddToGEOLOGIST(obj);
-            }
-            catch
-            {
-                return 1;
-            }
-            return 0;
+                db.SaveChanges();
+        }
+        public void Modify(GEOLOGIST obj)
+        {
+                db.SaveChanges();
+        }
+        public void Delete(GEOLOGIST obj)
+        {
+                db.DeleteObject(obj);
+                db.SaveChanges();
+        }
+        public void Refresh(GEOLOGIST obj)
+        {
+            db.Refresh(RefreshMode.StoreWins, obj);
         }
         public IEnumerable<GEOLOGIST> Get()
         {

@@ -166,7 +166,17 @@ namespace GeoDB.Presenter
         {
             return _sorter._firstTypeCriterion;
         }
-    
+        public void Refresh()
+        {
+            CreateFilteredModel();
+            GeneratePage();
+            var ev = refreshedViewModel;
+            if (ev != null)
+            {
+                ev (this, EventArgs.Empty);
+            }
+        }
+
 
  #endregion Public
 

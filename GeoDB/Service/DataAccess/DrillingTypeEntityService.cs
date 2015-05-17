@@ -4,23 +4,30 @@ using System.Linq;
 using System.Text;
 using GeoDB.Service.DataAccess.Interface;
 using GeoDB.Model;
+using System.Data.Objects;
 
 namespace GeoDB.Service.DataAccess
 {
     public class DrillingTypeEntityService : IBaseService<DRILLING_TYPE>
     {
         ModelDB db = new ModelDB();
-        public int Create(DRILLING_TYPE obj)
+        public void Create(DRILLING_TYPE obj)
         {
-            try
-            {
                 db.AddToDRILLING_TYPE(obj);
-            }
-            catch
-            {
-                return 1;
-            }
-            return 0;
+                db.SaveChanges();
+        }
+        public void Modify(DRILLING_TYPE obj)
+        {
+                db.SaveChanges();
+        }
+        public void Delete(DRILLING_TYPE obj)
+        {
+                db.DeleteObject(obj);
+                db.SaveChanges();
+        }
+        public void Refresh(DRILLING_TYPE obj)
+        {
+            db.Refresh(RefreshMode.StoreWins, obj);
         }
         public IEnumerable<DRILLING_TYPE> Get()
         {
