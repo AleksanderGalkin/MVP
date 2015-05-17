@@ -4,23 +4,31 @@ using System.Linq;
 using System.Text;
 using GeoDB.Service.DataAccess.Interface;
 using GeoDB.Model;
+using System.Data.Objects;
 
 namespace GeoDB.Service.DataAccess
 {
     public class AssaysEntityService : IBaseService<ASSAYS2>
     {
         ModelDB db = new ModelDB();
-        public int Create(ASSAYS2 obj)
+        public void Create(ASSAYS2 obj)
         {
-            try
-            {
                 db.AddToASSAYS2(obj);
-            }
-            catch
-            {
-                return 1;
-            }
-            return 0;
+                db.SaveChanges();
+        }
+        public void Modify(ASSAYS2 obj)
+        {
+                db.SaveChanges();
+        }
+
+        public void Delete(ASSAYS2 obj)
+        {
+                db.DeleteObject(obj);
+                db.SaveChanges();
+        }
+        public void Refresh(ASSAYS2 obj)
+        {
+            db.Refresh(RefreshMode.StoreWins, obj);
         }
         public IEnumerable<ASSAYS2> Get()
         {

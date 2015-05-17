@@ -53,7 +53,9 @@ namespace GeoDBWinForms
         public event EventHandler<FilterParamsEventArgs> settedCollarFilter;
         public event EventHandler<NumRowEventArgs> showAnyCollarScreen;
         public event EventHandler<NumRowEventArgs> setCurrentRow;
-        
+        public event EventHandler<EventArgs> clickCollarCreateData;
+        public event EventHandler<NumRowEventArgs> clickCollarEditData;
+        public event EventHandler<NumRowEventArgs> clickCollarDeleteData;
 
         private void dataGVCollar2_CellValueNeeded(object sender, DataGridViewCellValueEventArgs e)
         {
@@ -171,13 +173,14 @@ namespace GeoDBWinForms
             if (e.Button == MouseButtons.Left)
             {
             }
-            else if (e.Button == MouseButtons.Right)
+            else if (e.Button == MouseButtons.Right && e.RowIndex != -1)
             {
                 DataGridView s = sender as DataGridView;
+                s.Rows[e.RowIndex].Selected = true;
                 Rectangle rectangleHeader = s.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, true);
                 Point contextMenuLocation = rectangleHeader.Location;
                 contextMenuLocation.Offset(e.X, e.Y);
-                ContextMenuStrip contextMenu = GetDataContextMenu();
+                ContextMenuStrip contextMenu = GetDataContextMenu(e.RowIndex);
                 contextMenu.Show(s, contextMenuLocation);
 
             }
@@ -218,7 +221,9 @@ namespace GeoDBWinForms
         public event EventHandler<NumSortedFieldEventArgs> clickAssaysHeader;
         public event EventHandler<NumRowEventArgs> showAnyAssaysScreen;
         public event EventHandler<FilterParamsEventArgs> settedAssaysFilter;
-
+        public event EventHandler<EventArgs> clickAssaysCreateData;
+        public event EventHandler<NumRowEventArgs> clickAssaysEditData;
+        public event EventHandler<NumRowEventArgs> clickAssaysDeleteData;
 
         private void dataGVAssays2_CellValueNeeded(object sender, DataGridViewCellValueEventArgs e)
         {
@@ -349,7 +354,7 @@ namespace GeoDBWinForms
 
         public event EventHandler<EventArgs> openForm;
         public event EventHandler<EventArgs> clickCloseForm;
-        public event EventHandler<EventArgs> clickCollarCreateData;
+        
 
         public new void Show()
         {
@@ -434,7 +439,7 @@ namespace GeoDBWinForms
 
             return cm;
         }
-        private ContextMenuStrip GetDataContextMenu()
+        private ContextMenuStrip GetDataContextMenu(int NumRow)
         {
             ContextMenuStrip cm = new ContextMenuStrip();
             ToolStripMenuItem item1 = new ToolStripMenuItem("Создать");
@@ -448,9 +453,39 @@ namespace GeoDBWinForms
                     ev(this, EventArgs.Empty);
                 }
             };
-
             item1.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            ToolStripMenuItem item2 = new ToolStripMenuItem("Редактировать");
+
+            item2.Click += (i, a) =>
+            {
+
+                var ev = clickCollarEditData;
+                if (ev != null)
+                {
+                    int CollarID = (int) (dataGVCollar2 [dataGVCollar2.Columns ["ID"] . Index, NumRow] . Value);
+                    ev (this, new NumRowEventArgs (CollarID) );
+                }
+            };
+
+            item2.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            ToolStripMenuItem item3 = new ToolStripMenuItem("Удалить");
+
+            item3.Click += (i, a) =>
+            {
+
+                var ev = clickCollarDeleteData;
+                if (ev != null)
+                {
+                    int CollarID = (int)(dataGVCollar2[dataGVCollar2.Columns["ID"].Index, NumRow].Value);
+                    ev(this, new NumRowEventArgs(CollarID));
+                }
+            };
+
+            item3.DisplayStyle = ToolStripItemDisplayStyle.Text;
+
             cm.Items.Add(item1);
+            cm.Items.Add(item2);
+            cm.Items.Add(item3);
             return cm;
         }
         private void btCloseForm_Click(object sender, EventArgs e)

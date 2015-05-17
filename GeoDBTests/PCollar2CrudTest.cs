@@ -19,6 +19,7 @@ namespace GeoDBTests
         private IBaseService<GORIZONT> _modelGorizont;
         private IBaseService<RL_EXPLO2> _modelBlast;
         private IBaseService<DRILLING_TYPE> _modelDrillType;
+        private IBaseService<DOMEN> _modelDomen;
         private List<COLLAR2> _modelCollarRecords;
 
         [SetUp]
@@ -26,7 +27,7 @@ namespace GeoDBTests
         {
             
             _view = Substitute.For<IViewCollar2Crud>();
-            _view.bhid = "400-002-5";
+           // _view.bhid = "400-002-5";
             _view.gorizontID = 2;
             _view.hole = 5;
             _view.xcollar = 1.1;
@@ -39,7 +40,7 @@ namespace GeoDBTests
             _modelGorizont = Substitute.For<IBaseService<GORIZONT>>();
             _modelCollar.Count().ReturnsForAnyArgs(_modelCollarRecords.Count());
             _modelCollar.When(x => x.Create(Arg.Any<COLLAR2>())).Do(x => _modelCollarRecords.Add(x[0] as COLLAR2));
-            Collar2Crud = new PCollar2Crud(_view, _modelCollar, _modelGorizont, _modelBlast, _modelDrillType);
+            Collar2Crud = new PCollar2Crud(_view, _modelCollar, _modelGorizont, _modelBlast, _modelDrillType, _modelDomen);
         }
 
         [Test]

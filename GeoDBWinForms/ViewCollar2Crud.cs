@@ -8,15 +8,39 @@ using System.Text;
 using System.Windows.Forms;
 using GeoDB.View;
 
+
 namespace GeoDBWinForms
 {
     public partial class ViewCollar2Crud : Form,IViewCollar2Crud
     {
+
         public ViewCollar2Crud()
         {
             InitializeComponent();
         }
 
+
+        private bool _readOnly 
+        {
+            set
+            {
+                var container = this.groupBox1.Controls;
+                foreach (var c in container)
+                {
+                    Type cType= c.GetType();
+
+                    if (cType == typeof(ComboBox))
+                    {
+                        (c as ComboBox).Enabled = !value;
+                    }
+                    if (cType == typeof(TextBox))
+                    {
+                        (c as TextBox).Enabled = !value;
+                    }
+                }
+            }
+
+        }
 
         public string Tittle 
         { 
@@ -26,49 +50,25 @@ namespace GeoDBWinForms
             }
         }
         public int id { get; set; }
-        public string bhid
-        {
-            get
-            {
-                return tbBhid.Text;
-            }
-            set
-            {
-                tbBhid.Text = value;
-            }
-        }
+        
         public Dictionary<int, string> gorizontList
         {
             set
             {
-                foreach (var i in value)
-                {
-                    cbGorizont.Items.Add(new {key=i.Key,display=i.Value});
-                    cbGorizont.ValueMember = "key";
-                    cbGorizont.DisplayMember = "display";
-                }
-            }
-            private get
-            {
-                return cbGorizont.Items.Cast<KeyValuePair<int, string>>() as Dictionary<int, string>;
-               
+
+                cbGorizont.DataSource = value.ToList();
+                cbGorizont.ValueMember = "Key";
+                cbGorizont.DisplayMember = "Value";
             }
         }
-        public int gorizontID {
+        public int? gorizontID {
             get
             {
-                return (int)cbGorizont.SelectedValue;
+                return (int?) cbGorizont.SelectedValue;
             }
             set
             {
-                if (gorizontList != null)
-                {
-                    cbGorizont.SelectedItem = gorizontList.Select(x => x.Key == value).FirstOrDefault();
-                }
-                else
-                {
-                    cbGorizont.SelectedIndex = -1;
-                }
+                cbGorizont.SelectedValue = value ?? -1;
             }
         }
         
@@ -78,40 +78,26 @@ namespace GeoDBWinForms
         {
             set
             {
-                foreach (var i in value)
-                {
-                    cbBlast.Items.Add(new { key = i.Key, display = i.Value });
-                    cbBlast.ValueMember = "key";
-                    cbBlast.DisplayMember = "display";
-                }
+                cbBlast.DataSource = value.ToList();
+                cbBlast.ValueMember = "Key";
+                cbBlast.DisplayMember = "Value";
             }
-            private get
-            {
-                return cbBlast.Items.Cast<KeyValuePair<int, string>>() as Dictionary<int, string>;
 
-            }
         }
-        public int blast
+        public int? blast
         {
             get
             {
-                return cbBlast.SelectedIndex;
+                return (int?)cbBlast.SelectedValue;
             }
             set
             {
-                if (blastList != null)
-                {
-                    cbBlast.SelectedItem = blastList.Select(x => x.Key == value).FirstOrDefault();
-                }
-                else
-                {
-                    cbBlast.SelectedIndex = -1;
-                }
+                cbBlast.SelectedValue = value ?? -1;
             }
         }
 
 
-        public int hole 
+        public int? hole 
         {
             get
             {
@@ -122,7 +108,7 @@ namespace GeoDBWinForms
                 tbHole.Text = value.ToString();
             }
         }
-        public double xcollar 
+        public double? xcollar 
         {
             get
             {
@@ -133,7 +119,7 @@ namespace GeoDBWinForms
                 tbX.Text = value.ToString();
             }
         }
-        public double ycollar
+        public double? ycollar
         {
             get
             {
@@ -144,7 +130,7 @@ namespace GeoDBWinForms
                 tbY.Text = value.ToString();
             }
         }
-        public double zcollar
+        public double? zcollar
         {
             get
             {
@@ -155,7 +141,7 @@ namespace GeoDBWinForms
                 tbZ.Text = value.ToString();
             }
         }
-        public double enddepth
+        public double? enddepth
         {
             get
             {
@@ -170,43 +156,50 @@ namespace GeoDBWinForms
         {
             set
             {
-                foreach (var i in value)
-                {
-                    cbDrillType.Items.Add(new { key = i.Key, display = i.Value });
-                    cbDrillType.ValueMember = "key";
-                    cbDrillType.DisplayMember = "display";
-                }
-            }
-            private get
-            {
-                return cbDrillType.Items.Cast<KeyValuePair<int, string>>() as Dictionary<int, string>;
+                cbDrillType.DataSource = value.ToList();
+                cbDrillType.ValueMember = "Key";
+                cbDrillType.DisplayMember = "Value";
             }
         }
-        public int drillType
+        public int? drillType
         {
             get
             {
-                return cbDrillType.SelectedIndex;
+                return (int?)cbDrillType.SelectedValue;
             }
             set
             {
-                if (drillTypeList != null)
-                {
-                    cbDrillType.SelectedItem = drillTypeList.Select(x => x.Key == value).FirstOrDefault();
-                }
-                else
-                {
-                    cbDrillType.SelectedIndex = -1;
-                }
+                cbDrillType.SelectedValue = value ?? -1;
             }
         }
 
+        public Dictionary<int, string> domenList
+        {
+            set
+            {
+                cbDomen.DataSource = value.ToList();
+                cbDomen.ValueMember = "Key";
+                cbDomen.DisplayMember = "Value";
+            }
+        }
+        public int? domenId
+        {
+            get
+            {
+                return (int?)cbDomen.SelectedValue;
+            }
+            set
+            {
+                cbDomen.SelectedValue = value ?? -1;
+            }
+        }
         public event EventHandler<EventArgs> openForm;
         public event EventHandler<EventArgs> clickOk;
         public event EventHandler<EventArgs> clickCloseForm;
 
-        public new void Show()
+        public new void Show(bool ReadOnly)
         {
+            _readOnly = ReadOnly;
             this.ShowDialog();
         }
         
@@ -225,13 +218,94 @@ namespace GeoDBWinForms
 
         private void btOk_Click(object sender, EventArgs e)
         {
+            this.ValidateChildren();
+            bool canClicked = true;
+            Control.ControlCollection container = (sender as Control).Parent.Controls;
+            foreach (var c in container)
+            { 
+                
+                String textError = errorProviderWarn.GetError((Control)c);
+                if (!String.IsNullOrEmpty(textError))
+                {
+                    canClicked = false;
+                }
+            }
             var ev = clickOk;
-            if (ev != null)
+            if (ev != null && canClicked)
             {
                 ev(this, EventArgs.Empty);
             }
         }
 
+        private void CheckIntValue(Control control)
+        {
+            int result;
+            string chekValue = control.Text;
 
+            if (chekValue == string.Empty || chekValue.Trim().Length == 0)
+            {
+                errorProviderWarn.SetError(control, "Пожалуйста введите значение поля");
+            }
+            else if (!Int32.TryParse(chekValue, out result))
+            {
+                errorProviderWarn.SetError(control, "Введите целое число");
+            }
+            else
+            {
+                errorProviderWarn.SetError(control, "");
+            }
+        }
+        private void tbHole_Validating(object sender, CancelEventArgs e)
+        {
+            Control checkControl = sender as Control;
+            CheckIntValue(checkControl);
+        }
+
+        private void CheckDoubleValue(Control control)
+        {
+            Double result;
+            string chekValue = control.Text;
+
+            if (chekValue == string.Empty || chekValue.Trim().Length == 0)
+            {
+                errorProviderWarn.SetError(control, "Пожалуйста введите значение поля");
+            }
+            else if (!Double.TryParse(chekValue, out result))
+            {
+                errorProviderWarn.SetError(control, "Введите число");
+            }
+            else
+            {
+                errorProviderWarn.SetError(control, "");
+            }
+        }
+        private void tbX_Validating(object sender, CancelEventArgs e)
+        {
+            Control checkControl = sender as Control;
+            CheckDoubleValue(checkControl);
+        }
+
+        private void CheckComboBoxValue(Control control)
+        {
+            Int32 result;
+            object obj = (control as ComboBox).SelectedValue ?? "null";
+            string chekValue = obj.ToString();
+
+            if (!Int32.TryParse(chekValue, out result))
+            {
+                errorProviderWarn.SetError(control, "Пожалуйста сделайте выбор");
+            }
+            else
+            {
+                errorProviderWarn.SetError(control, "");
+            }
+        }
+
+        private void cbGorizont_Validating(object sender, CancelEventArgs e)
+        {
+            Control checkControl = sender as Control;
+            CheckComboBoxValue(checkControl);
+        }
+        
     }
 }

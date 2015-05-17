@@ -22,6 +22,8 @@ namespace GeoDB.View
         event EventHandler<NumSortedFieldEventArgs> clickCollarHeader;
         event EventHandler<NumRowEventArgs> setCurrentRow;
         event EventHandler<EventArgs> clickCollarCreateData;
+        event EventHandler<NumRowEventArgs> clickCollarEditData;
+        event EventHandler<NumRowEventArgs> clickCollarDeleteData;
 
         List<DGVHeader> AssaysHeader { set; }
         Dictionary<int, Assays2VmFull> AssaysList { set;  }
@@ -34,6 +36,9 @@ namespace GeoDB.View
         event EventHandler<NumRowEventArgs> showAnyAssaysScreen;
         event EventHandler<FilterParamsEventArgs> settedAssaysFilter;
         event EventHandler<NumSortedFieldEventArgs> clickAssaysHeader;
+        event EventHandler<EventArgs> clickAssaysCreateData;
+        event EventHandler<NumRowEventArgs> clickAssaysEditData;
+        event EventHandler<NumRowEventArgs> clickAssaysDeleteData;
 
         void Show();
         void Close();
