@@ -17,8 +17,6 @@ namespace GeoDBTests
     [TestFixture]
     public class PDrillHolesTest
     {
-        private PDrillHoles _PDrillHoles;
-        private PDrillHoles _PDrillHolesWithEmptyModel;
         private IViewDrillHoles2 _view;
         private IViewDrillHoles2 _viewEmpty;
         private int _itemToPage;

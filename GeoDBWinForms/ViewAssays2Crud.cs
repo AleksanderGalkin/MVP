@@ -11,16 +11,16 @@ using GeoDB.View;
 
 namespace GeoDBWinForms
 {
-    public partial class ViewCollar2Crud : Form,IViewCollar2Crud
+    public partial class ViewAssays2Crud : Form,IViewAssays2Crud
     {
 
-        public ViewCollar2Crud()
+        public ViewAssays2Crud()
         {
             InitializeComponent();
         }
 
-
-        private bool _readOnly 
+        private bool _readOnly;
+        private bool readOnly 
         {
             set
             {
@@ -37,9 +37,14 @@ namespace GeoDBWinForms
                     {
                         (c as TextBox).Enabled = !value;
                     }
+                    if (cType == typeof(DateTimePicker))
+                    {
+                        (c as DateTimePicker).Enabled = !value;
+                    }
                 }
+                _readOnly = value;
             }
-
+            get { return _readOnly; }
         }
 
         public string Tittle 
@@ -49,159 +54,230 @@ namespace GeoDBWinForms
                 this.Text=value;
             }
         }
-        public int id { get; set; }
+        public int bhid { get; set; }
+
+        public string sample
+        {
+            get
+            {
+                return tbSample.Text.Trim();
+            }
+            set
+            {
+                tbSample.Text = value.Trim();
+            }
+        }
+
+        public double? from_
+        {
+            get
+            {
+                return Convert.ToDouble(tbFrom.Text);
+            }
+            set
+            {
+                tbFrom.Text = value.ToString();
+            }
+        }
+
+        public double? to
+        {
+            get
+            {
+                return Convert.ToDouble(tbTo.Text);
+            }
+            set
+            {
+                tbTo.Text = value.ToString();
+            }
+        }
+
+        public double? length
+        {
+            get
+            {
+                return Convert.ToDouble(tbLength.Text);
+            }
+            set
+            {
+                tbLength.Text = value.ToString();
+            }
+        }
+
+        public Dictionary<int, string> zblokList
+        {
+            set
+            {
+
+                cbZblok.DataSource = value.ToList();
+                cbZblok.ValueMember = "Key";
+                cbZblok.DisplayMember = "Value";
+            }
+        }
+        public int? zblock
+        {
+            get
+            {
+                return (int?) cbZblok.SelectedValue;
+            }
+            set
+            {
+                cbZblok.SelectedValue = value ?? -1;
+            }
+        }
+
+        public Dictionary<int, string> litoList
+        {
+            set
+            {
+
+                cbLito.DataSource = value.ToList();
+                cbLito.ValueMember = "Key";
+                cbLito.DisplayMember = "Value";
+            }
+        }
+        public int? lito
+        {
+            get
+            {
+                return (int?)cbLito.SelectedValue;
+            }
+            set
+            {
+                cbLito.SelectedValue = value ?? -1;
+            }
+        }
         
-        public Dictionary<int, string> gorizontList
+
+        public Dictionary<int, string> rangList
         {
             set
             {
-
-                cbGorizont.DataSource = value.ToList();
-                cbGorizont.ValueMember = "Key";
-                cbGorizont.DisplayMember = "Value";
-            }
-        }
-        public int? gorizontID {
-            get
-            {
-                return (int?) cbGorizont.SelectedValue;
-            }
-            set
-            {
-                cbGorizont.SelectedValue = value ?? -1;
-            }
-        }
-        
-        
-
-        public Dictionary<int, string> blastList
-        {
-            set
-            {
-                cbBlast.DataSource = value.ToList();
-                cbBlast.ValueMember = "Key";
-                cbBlast.DisplayMember = "Value";
+                cbRang.DataSource = value.ToList();
+                cbRang.ValueMember = "Key";
+                cbRang.DisplayMember = "Value";
             }
 
         }
-        public int? blast
+        public int? rang
         {
             get
             {
-                return (int?)cbBlast.SelectedValue;
+                return (int?)cbRang.SelectedValue;
             }
             set
             {
-                cbBlast.SelectedValue = value ?? -1;
+                cbRang.SelectedValue = value ?? -1;
+            }
+        }
+
+        public Dictionary<int, string> blankList
+        {
+            set
+            {
+                cbBlank.DataSource = value.ToList();
+                cbBlank.ValueMember = "Key";
+                cbBlank.DisplayMember = "Value";
+            }
+        }
+        public int? blank
+        {
+            get
+            {
+                return (int?)cbBlank.SelectedValue;
+            }
+            set
+            {
+                cbBlank.SelectedValue = value ?? -1;
+            }
+        }
+
+        public Dictionary<int, string> journalList
+        {
+            set
+            {
+                cbJournal.DataSource = value.ToList();
+                cbJournal.ValueMember = "Key";
+                cbJournal.DisplayMember = "Value";
+            }
+        }
+        public int? journal
+        {
+            get
+            {
+                return (int?)cbJournal.SelectedValue;
+            }
+            set
+            {
+                cbJournal.SelectedValue = value ?? -1;
+            }
+        }
+
+        public Dictionary<int, string> geologistList
+        {
+            set
+            {
+                cbGeologist.DataSource = value.ToList();
+                cbGeologist.ValueMember = "Key";
+                cbGeologist.DisplayMember = "Value";
+            }
+        }
+        public int? geologist
+        {
+            get
+            {
+                return (int?)cbGeologist.SelectedValue;
+            }
+            set
+            {
+                cbGeologist.SelectedValue = value ?? -1;
+            }
+        }
+
+        public Dictionary<string, string> pitList
+        {
+            set
+            {
+                cbPit .DataSource = value.ToList();
+                cbPit.ValueMember = "Key";
+                cbPit.DisplayMember = "Value";
+            }
+        }
+        public string pit
+        {
+            get
+            {
+                return (string)cbPit.SelectedValue;
+            }
+            set
+            {
+                cbPit.SelectedValue = value;
+            }
+        }
+
+        public DateTime end_date
+        {
+            get
+            {
+                return dtpEndDate.Value;
+            }
+            set
+            {
+                dtpEndDate.Value = value;
             }
         }
 
 
-        public int? hole 
-        {
-            get
-            {
-                return  Convert.ToInt32( tbHole.Text) ;
-            }
-            set
-            {
-                tbHole.Text = value.ToString();
-            }
-        }
-        public double? xcollar 
-        {
-            get
-            {
-                return Convert.ToDouble(tbX.Text);
-            }
-            set
-            {
-                tbX.Text = value.ToString();
-            }
-        }
-        public double? ycollar
-        {
-            get
-            {
-                return Convert.ToDouble(tbY.Text);
-            }
-            set
-            {
-                tbY.Text = value.ToString();
-            }
-        }
-        public double? zcollar
-        {
-            get
-            {
-                return Convert.ToDouble(tbZ.Text);
-            }
-            set
-            {
-                tbZ.Text = value.ToString();
-            }
-        }
-        public double? enddepth
-        {
-            get
-            {
-                return Convert.ToDouble(tbEndDepth.Text);
-            }
-            set
-            {
-                tbEndDepth.Text = value.ToString();
-            }
-        }
-        public Dictionary<int, string> drillTypeList
-        {
-            set
-            {
-                cbDrillType.DataSource = value.ToList();
-                cbDrillType.ValueMember = "Key";
-                cbDrillType.DisplayMember = "Value";
-            }
-        }
-        public int? drillType
-        {
-            get
-            {
-                return (int?)cbDrillType.SelectedValue;
-            }
-            set
-            {
-                cbDrillType.SelectedValue = value ?? -1;
-            }
-        }
-
-        public Dictionary<int, string> domenList
-        {
-            set
-            {
-                cbDomen.DataSource = value.ToList();
-                cbDomen.ValueMember = "Key";
-                cbDomen.DisplayMember = "Value";
-            }
-        }
-        public int? domenId
-        {
-            get
-            {
-                return (int?)cbDomen.SelectedValue;
-            }
-            set
-            {
-                cbDomen.SelectedValue = value ?? -1;
-            }
-        }
         public event EventHandler<EventArgs> clickOk;
         public event EventHandler<EventArgs> clickCloseForm;
 
         public  void Show(bool ReadOnly)
         {
-            _readOnly = ReadOnly;
+            readOnly = ReadOnly;
             this.ShowDialog();
         }
         
+
         private void btClose_Click(object sender, EventArgs e)
         {
             var ev = clickCloseForm;
@@ -234,6 +310,8 @@ namespace GeoDBWinForms
 
         private void CheckIntValue(Control control)
         {
+            if (readOnly)
+                return;
             int result;
             string chekValue = control.Text;
 
@@ -258,6 +336,8 @@ namespace GeoDBWinForms
 
         private void CheckDoubleValue(Control control)
         {
+            if (readOnly)
+                return;
             Double result;
             string chekValue = control.Text;
 
@@ -282,6 +362,8 @@ namespace GeoDBWinForms
 
         private void CheckComboBoxValue(Control control)
         {
+            if (readOnly)
+                return;
             Int32 result;
             object obj = (control as ComboBox).SelectedValue ?? "null";
             string chekValue = obj.ToString();

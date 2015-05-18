@@ -16,7 +16,6 @@ namespace GeoDB.View
         LinqExtensionSorterCriterion.TypeCriterion
             SortedCollarCriterion { set;  }
         bool[] filteredCollarNumField { set;  }
-        event EventHandler<EventArgs> clickCollarData;
         event EventHandler<NumRowEventArgs> showAnyCollarScreen;
         event EventHandler<FilterParamsEventArgs> settedCollarFilter;
         event EventHandler<NumSortedFieldEventArgs> clickCollarHeader;
@@ -32,7 +31,6 @@ namespace GeoDB.View
         LinqExtensionSorterCriterion.TypeCriterion
             SortedAssaysCriterion { set;  }
         bool[] filteredAssaysNumField { set; }
-        event EventHandler<EventArgs> clickAssaysData;
         event EventHandler<NumRowEventArgs> showAnyAssaysScreen;
         event EventHandler<FilterParamsEventArgs> settedAssaysFilter;
         event EventHandler<NumSortedFieldEventArgs> clickAssaysHeader;
@@ -44,7 +42,7 @@ namespace GeoDB.View
         void Close();
         void RefreshCollar();
         void RefreshAssays();
-        event EventHandler<EventArgs> openForm;
+
         event EventHandler<EventArgs> clickCloseForm;
 
 

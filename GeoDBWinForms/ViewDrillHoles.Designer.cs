@@ -1,6 +1,6 @@
 ﻿namespace GeoDBWinForms
 {
-    partial class ViewCollar2
+    partial class ViewDrillHoles
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ViewCollar2));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ViewDrillHoles));
             this.dataGVCollar2 = new System.Windows.Forms.DataGridView();
             this.btShowData = new System.Windows.Forms.Button();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
@@ -123,10 +123,13 @@
             this.dataGVAssays2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGVAssays2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGVAssays2.Location = new System.Drawing.Point(0, 0);
+            this.dataGVAssays2.MultiSelect = false;
             this.dataGVAssays2.Name = "dataGVAssays2";
+            this.dataGVAssays2.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGVAssays2.Size = new System.Drawing.Size(624, 165);
             this.dataGVAssays2.TabIndex = 0;
             this.dataGVAssays2.VirtualMode = true;
+            this.dataGVAssays2.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGVAssays2_CellMouseClick);
             this.dataGVAssays2.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dataGVAssays2_CellPainting);
             this.dataGVAssays2.CellValueNeeded += new System.Windows.Forms.DataGridViewCellValueEventHandler(this.dataGVAssays2_CellValueNeeded);
             this.dataGVAssays2.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGVAssays2_ColumnHeaderMouseClick);
@@ -142,7 +145,7 @@
             this.btCloseForm.UseVisualStyleBackColor = true;
             this.btCloseForm.Click += new System.EventHandler(this.btCloseForm_Click);
             // 
-            // ViewCollar2
+            // ViewDrillHoles
             // 
             this.AcceptButton = this.btShowData;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -152,7 +155,7 @@
             this.Controls.Add(this.splitContainer1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(640, 480);
-            this.Name = "ViewCollar2";
+            this.Name = "ViewDrillHoles";
             this.Text = "Скважины и Пробы";
             ((System.ComponentModel.ISupportInitialize)(this.dataGVCollar2)).EndInit();
             this.splitContainer1.Panel1.ResumeLayout(false);

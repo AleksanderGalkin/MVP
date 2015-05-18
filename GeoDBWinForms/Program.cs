@@ -22,7 +22,7 @@ namespace GeoDBWinForms
         static void Main()
         {
             IKernel ninjectKernel = new StandardKernel();
-            ninjectKernel.Bind<IViewDrillHoles2>().To<ViewCollar2>();
+            ninjectKernel.Bind<IViewDrillHoles2>().To<ViewDrillHoles>();
             ninjectKernel.Bind<IViewCollar2Crud>().To<ViewCollar2Crud>();
             ninjectKernel.Bind<IViewAssays2Crud>().To<ViewAssays2Crud>();
             ninjectKernel.Bind<IBaseService<COLLAR2>>().To<CollarEntityService>();
@@ -32,6 +32,14 @@ namespace GeoDBWinForms
             ninjectKernel.Bind<IBaseService<RL_EXPLO2>>().To<BlastEntityService>();
             ninjectKernel.Bind<IBaseService<DRILLING_TYPE>>().To<DrillingTypeEntityService>();
             ninjectKernel.Bind<IBaseService<DOMEN>>().To<DomenEntityService>();
+
+            ninjectKernel.Bind<IBaseService<BLOCK_ZAPASOV>>().To<ZblockEntityService>();
+            ninjectKernel.Bind<IBaseService<LITOLOGY>>().To<LitoEntityService>();
+            ninjectKernel.Bind<IBaseService<RANG>>().To<RangEntityService>();
+            ninjectKernel.Bind<IBaseService<REESTR_VEDOMOSTEI>>().To<BlankEntityService>();
+            ninjectKernel.Bind<IBaseService<JOURNAL>>().To<JournalEntityService>();
+            
+
             IViewDrillHoles2 view =  ninjectKernel.Get<IViewDrillHoles2>();
             IViewCollar2Crud vCollarCrud = ninjectKernel.Get<IViewCollar2Crud>();
             IViewAssays2Crud vAssaysCrud = ninjectKernel.Get<IViewAssays2Crud>();
@@ -42,9 +50,16 @@ namespace GeoDBWinForms
             IBaseService<RL_EXPLO2> modelBlast = ninjectKernel.Get<IBaseService<RL_EXPLO2>>();
             IBaseService<DRILLING_TYPE> modelDrillType = ninjectKernel.Get<IBaseService<DRILLING_TYPE>>();
             IBaseService<DOMEN> modelDomen = ninjectKernel.Get<IBaseService<DOMEN>>();
+
+            IBaseService<BLOCK_ZAPASOV> modelZblock = ninjectKernel.Get<IBaseService<BLOCK_ZAPASOV>>();
+            IBaseService<LITOLOGY> modelLito = ninjectKernel.Get<IBaseService<LITOLOGY>>();
+            IBaseService<RANG> modelRang = ninjectKernel.Get<IBaseService<RANG>>();
+            IBaseService<REESTR_VEDOMOSTEI> modelBlank = ninjectKernel.Get<IBaseService<REESTR_VEDOMOSTEI>>();
+            IBaseService<JOURNAL> modelJournal = ninjectKernel.Get<IBaseService<JOURNAL>>();
+
             PCollar2Crud preCollar2Crud = new PCollar2Crud(vCollarCrud, modelCollar,modelGorizont,modelBlast,modelDrillType,modelDomen);
-            PCollar2Crud preAssays2Crud = new PAssays2Crud(vCollarCrud, modelCollar, modelGorizont, modelBlast, modelDrillType, modelDomen);
-            PDrillHoles presenter = new PDrillHoles(view, modelCollar, modelAssays, modelGeologist, 20, preCollar2Crud);
+            PAssays2Crud preAssays2Crud = new PAssays2Crud(vAssaysCrud, modelAssays, modelZblock, modelLito, modelRang, modelBlank, modelJournal, modelGeologist);
+            PDrillHoles presenter = new PDrillHoles(view, modelCollar, modelAssays, modelGeologist, 20, preCollar2Crud, preAssays2Crud);
             presenter.Show();
   
 

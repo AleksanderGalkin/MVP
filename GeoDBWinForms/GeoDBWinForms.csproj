@@ -68,11 +68,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ViewCollar2.cs">
+    <Compile Include="ViewAssays2Crud.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ViewCollar2.Designer.cs">
-      <DependentUpon>ViewCollar2.cs</DependentUpon>
+    <Compile Include="ViewAssays2Crud.Designer.cs">
+      <DependentUpon>ViewAssays2Crud.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ViewDrillHoles.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ViewDrillHoles.Designer.cs">
+      <DependentUpon>ViewDrillHoles.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -82,6 +88,9 @@
     <Compile Include="ViewCollar2Crud.Designer.cs">
       <DependentUpon>ViewCollar2Crud.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="ViewAssays2Crud.resx">
+      <DependentUpon>ViewAssays2Crud.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -92,8 +101,8 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="ViewCollar2.resx">
-      <DependentUpon>ViewCollar2.cs</DependentUpon>
+    <EmbeddedResource Include="ViewDrillHoles.resx">
+      <DependentUpon>ViewDrillHoles.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ViewCollar2Crud.resx">
       <DependentUpon>ViewCollar2Crud.cs</DependentUpon>

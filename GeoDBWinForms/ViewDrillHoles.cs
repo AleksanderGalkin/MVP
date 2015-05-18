@@ -13,9 +13,9 @@ using GeoDB.Extensions;
 
 namespace GeoDBWinForms
 {
-    public partial class ViewCollar2 : Form,IViewDrillHoles2
+    public partial class ViewDrillHoles : Form,IViewDrillHoles2
     {
-        public ViewCollar2()
+        public ViewDrillHoles()
         {
             InitializeComponent();
         }
@@ -48,7 +48,6 @@ namespace GeoDBWinForms
         public bool[] filteredCollarNumField { set; private get; }
         
 
-        public event EventHandler<EventArgs> clickCollarData;
         public event EventHandler<NumSortedFieldEventArgs> clickCollarHeader;
         public event EventHandler<FilterParamsEventArgs> settedCollarFilter;
         public event EventHandler<NumRowEventArgs> showAnyCollarScreen;
@@ -180,7 +179,7 @@ namespace GeoDBWinForms
                 Rectangle rectangleHeader = s.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, true);
                 Point contextMenuLocation = rectangleHeader.Location;
                 contextMenuLocation.Offset(e.X, e.Y);
-                ContextMenuStrip contextMenu = GetDataContextMenu(e.RowIndex);
+                ContextMenuStrip contextMenu = GetCollarDataContextMenu(e.RowIndex);
                 contextMenu.Show(s, contextMenuLocation);
 
             }
@@ -207,7 +206,12 @@ namespace GeoDBWinForms
                 dataGVAssays2.Columns.Clear();
                 foreach (var i in value)
                 {
-                    dataGVAssays2.Columns.Add(i.fieldName, i.fieldHeader);
+                    DataGridViewTextBoxColumn h = new DataGridViewTextBoxColumn();
+                    h.Name = i.fieldName;
+                    h.HeaderText = i.fieldHeader;
+                    h.MinimumWidth = 40;
+                    h.Width = i.fieldHeader.ToString().Length * 10;
+                    dataGVAssays2.Columns.Add(h);
                 }
             }
 
@@ -217,7 +221,6 @@ namespace GeoDBWinForms
             SortedAssaysCriterion { set; private get; }
         public bool[] filteredAssaysNumField { set; private get; }
 
-        public event EventHandler<EventArgs> clickAssaysData;
         public event EventHandler<NumSortedFieldEventArgs> clickAssaysHeader;
         public event EventHandler<NumRowEventArgs> showAnyAssaysScreen;
         public event EventHandler<FilterParamsEventArgs> settedAssaysFilter;
@@ -347,12 +350,27 @@ namespace GeoDBWinForms
 
         }
 
+        private void dataGVAssays2_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+            }
+            else if (e.Button == MouseButtons.Right && e.RowIndex != -1)
+            {
+                DataGridView s = sender as DataGridView;
+                s.Rows[e.RowIndex].Selected = true;
+                Rectangle rectangleHeader = s.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, true);
+                Point contextMenuLocation = rectangleHeader.Location;
+                contextMenuLocation.Offset(e.X, e.Y);
+                ContextMenuStrip contextMenu = GetAssaysDataContextMenu(e.RowIndex);
+                contextMenu.Show(s, contextMenuLocation);
 
+            }
+        }
 
 
         #endregion Assays // Assays interrface
 
-        public event EventHandler<EventArgs> openForm;
         public event EventHandler<EventArgs> clickCloseForm;
         
 
@@ -439,7 +457,7 @@ namespace GeoDBWinForms
 
             return cm;
         }
-        private ContextMenuStrip GetDataContextMenu(int NumRow)
+        private ContextMenuStrip GetCollarDataContextMenu(int NumRow)
         {
             ContextMenuStrip cm = new ContextMenuStrip();
             ToolStripMenuItem item1 = new ToolStripMenuItem("Создать");
@@ -450,7 +468,7 @@ namespace GeoDBWinForms
                 var ev =clickCollarCreateData ;
                 if (ev != null)
                 {
-                    ev(this, EventArgs.Empty);
+                    ev(this, new NumRowEventArgs(0));
                 }
             };
             item1.DisplayStyle = ToolStripItemDisplayStyle.Text;
@@ -488,6 +506,55 @@ namespace GeoDBWinForms
             cm.Items.Add(item3);
             return cm;
         }
+        private ContextMenuStrip GetAssaysDataContextMenu(int NumRow)
+        {
+            ContextMenuStrip cm = new ContextMenuStrip();
+            ToolStripMenuItem item1 = new ToolStripMenuItem("Создать");
+
+            item1.Click += (i, a) =>
+            {
+
+                var ev = clickAssaysCreateData;
+                if (ev != null)
+                {
+                    ev(this, EventArgs.Empty);
+                }
+            };
+            item1.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            ToolStripMenuItem item2 = new ToolStripMenuItem("Редактировать");
+
+            item2.Click += (i, a) =>
+            {
+
+                var ev = clickAssaysEditData;
+                if (ev != null)
+                {
+                    int AssaysID = (int)(dataGVAssays2[dataGVAssays2.Columns["ID"].Index, NumRow].Value);
+                    ev(this, new NumRowEventArgs(AssaysID));
+                }
+            };
+
+            item2.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            ToolStripMenuItem item3 = new ToolStripMenuItem("Удалить");
+
+            item3.Click += (i, a) =>
+            {
+
+                var ev = clickAssaysDeleteData;
+                if (ev != null)
+                {
+                    int AssaysID = (int)(dataGVAssays2[dataGVAssays2.Columns["ID"].Index, NumRow].Value);
+                    ev(this, new NumRowEventArgs(AssaysID));
+                }
+            };
+
+            item3.DisplayStyle = ToolStripItemDisplayStyle.Text;
+
+            cm.Items.Add(item1);
+            cm.Items.Add(item2);
+            cm.Items.Add(item3);
+            return cm;
+        }
         private void btCloseForm_Click(object sender, EventArgs e)
         {
             if (clickCloseForm != null)
@@ -495,12 +562,6 @@ namespace GeoDBWinForms
                 clickCloseForm(this, EventArgs.Empty);
             }
         }
-        private void btShowData_Click(object sender, FilterParamsEventArgs e)
-        {
-            // settedCollarFilter(this, e);
-        }
-
-
 
 
     }

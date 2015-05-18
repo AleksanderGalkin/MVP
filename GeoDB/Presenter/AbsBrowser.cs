@@ -58,6 +58,10 @@ namespace GeoDB.Presenter
         }
 
 #region Public
+        public int GetForeignKey()
+        {
+            return _bhid_Collar_id;
+        }
         public List<DGVHeader> GetHeader()
         {
             return _header;
@@ -115,16 +119,16 @@ namespace GeoDB.Presenter
 
             if (e.numRow == (_currentFirstRowInForm + _bufferRowCount))
             {
-                _currentFirstRowInForm = e.numRow + _bufferRowCount <= _wholeModelRowCount ? e.numRow-1 : _wholeModelRowCount - _bufferRowCount;
+                _currentFirstRowInForm = (int)e.numRow + _bufferRowCount <= _wholeModelRowCount ? (int)e.numRow - 1 : _wholeModelRowCount - _bufferRowCount;
                 
             }
             else if (e.numRow == _currentFirstRowInForm - 1)
             {
-                _currentFirstRowInForm = e.numRow - _bufferRowCount >= 0 ? e.numRow - _bufferRowCount + 1 : 0;
+                _currentFirstRowInForm = (int)e.numRow - _bufferRowCount >= 0 ? (int)e.numRow - _bufferRowCount + 1 : 0;
             }
             else
             {
-                _currentFirstRowInForm = e.numRow - (_bufferRowCount / 2) < 0 ? 0 : e.numRow - (_bufferRowCount / 2);
+                _currentFirstRowInForm = (int)e.numRow - (_bufferRowCount / 2) < 0 ? 0 : (int)e.numRow - (_bufferRowCount / 2);
             }
             GeneratePage();
         }

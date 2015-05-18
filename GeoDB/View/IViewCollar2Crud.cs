@@ -34,7 +34,6 @@ namespace GeoDB.View
         void Show(bool ReadOnly = false);
         void Refresh();
         void Close();
-        event EventHandler<EventArgs> openForm;
         event EventHandler<EventArgs> clickOk;
         event EventHandler<EventArgs> clickCloseForm;
 
