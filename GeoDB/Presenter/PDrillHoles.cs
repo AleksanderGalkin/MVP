@@ -109,7 +109,7 @@ namespace GeoDB.Presenter
         }
         public  void OnSetRowMasterTable(object sender, NumRowEventArgs e)
         {
-            _bhid_Collar_id = e.numRow;
+            _bhid_Collar_id = e.numRow  ;
             CreateFilteredModel();
             GeneratePage();
             base.OnSetRowMasterTable(sender, e);
@@ -123,18 +123,21 @@ namespace GeoDB.Presenter
         private BrowseCollar _broCollar;
         private BrowseAssay _broAssays;
         private PCollar2Crud _preCollar2Crud;
+        private PAssays2Crud _preAssays2Crud;
 
         public PDrillHoles
-            (IViewDrillHoles2 viewCollar2
+            (           IViewDrillHoles2 viewCollar2
                         , IBaseService<COLLAR2> modelCollar
                         , IBaseService<ASSAYS2> modelAssays
                         , IBaseService<GEOLOGIST> modelGeologist
                         , int rowsToBuffer
                         , PCollar2Crud PresenterCollar2Crud
+                        , PAssays2Crud PresenterAssays2Crud
             )
         {
             _view = viewCollar2;
             _preCollar2Crud = PresenterCollar2Crud;
+            _preAssays2Crud = PresenterAssays2Crud;
 
             _broCollar = new BrowseCollar(modelCollar, modelGeologist, rowsToBuffer);
             _broCollar.generatedNewPartOfBuffer += new EventHandler<EventArgs>(OnCollarGeneratedNewPartOfBuffer);
@@ -157,7 +160,9 @@ namespace GeoDB.Presenter
             _view.showAnyAssaysScreen += new EventHandler<NumRowEventArgs>(_broAssays.OnShowAnyScreen);
             _view.settedAssaysFilter += new EventHandler<FilterParamsEventArgs>(_broAssays.OnClickFilters);
             _view.setCurrentRow += new EventHandler<NumRowEventArgs>(_broAssays.OnSetRowMasterTable);
-
+            _view.clickAssaysCreateData += new EventHandler<EventArgs>(OnClickAssaysCreateData);
+            _view.clickAssaysEditData += new EventHandler<NumRowEventArgs>(OnClickAssaysEditData);
+            _view.clickAssaysDeleteData += new EventHandler<NumRowEventArgs>(OnClickAssaysDeleteData);
 
             _view.clickCloseForm += new EventHandler<EventArgs>(OnClickCloseForm);
         }
@@ -197,7 +202,7 @@ namespace GeoDB.Presenter
 
         private void OnClickCollarDeleteData(object sender, NumRowEventArgs e)
         {
-            _preCollar2Crud.ShowForDelete(e.numRow);
+            _preCollar2Crud.ShowForDelete(e.numRow );
             _broCollar.Refresh();
         }
         private void OnAssaysGeneratedNewPartOfBuffer(object sender, EventArgs e)
@@ -221,7 +226,23 @@ namespace GeoDB.Presenter
             _view.filteredAssaysNumField = _broAssays.GetFilteredNumField();
 
         }
+        private void OnClickAssaysCreateData(object sender, EventArgs e)
+        {
+            _preAssays2Crud.ShowCreate(_broAssays.GetForeignKey());
+            _broAssays.Refresh();
+        }
 
+        private void OnClickAssaysEditData(object sender, NumRowEventArgs e)
+        {
+            _preAssays2Crud.ShowModify(e.numRow);
+            _broAssays.Refresh();
+        }
+
+        private void OnClickAssaysDeleteData(object sender, NumRowEventArgs e)
+        {
+            _preAssays2Crud.ShowForDelete(e.numRow );
+            _broAssays.Refresh();
+        }
         private void OnClickCloseForm(object sender, EventArgs e)
         {
             _view.Close();

@@ -47,13 +47,12 @@ namespace GeoDB.Model
             {
                 List<DGVHeader> _header = new List<DGVHeader>();
                 
-               // _header.Add(new DGVHeader { fieldName = "bhid", fieldHeader = "BHID" });
                 _header.Add(new DGVHeader { fieldName = "sample", fieldHeader = "Проба" });
                 _header.Add(new DGVHeader { fieldName = "from_", fieldHeader = "От" });
                 _header.Add(new DGVHeader { fieldName = "to", fieldHeader = "До" });
                 _header.Add(new DGVHeader { fieldName = "length", fieldHeader = "Длина" });
                 _header.Add(new DGVHeader { fieldName = "zblock", fieldHeader = "З.Блок" });
-                _header.Add(new DGVHeader { fieldName = "lito", fieldHeader = "Лито" });
+                _header.Add(new DGVHeader { fieldName = "lito", fieldHeader = "Литология" });
                 _header.Add(new DGVHeader { fieldName = "rang", fieldHeader = "Ранг" });
                 _header.Add(new DGVHeader { fieldName = "ves", fieldHeader = "Вес" });
                 _header.Add(new DGVHeader { fieldName = "au", fieldHeader = "Au" });
@@ -65,9 +64,9 @@ namespace GeoDB.Model
                 _header.Add(new DGVHeader { fieldName = "fe", fieldHeader = "Fe" });
                 _header.Add(new DGVHeader { fieldName = "ag", fieldHeader = "Ag" });
                 _header.Add(new DGVHeader { fieldName = "c", fieldHeader = "C" });
-                _header.Add(new DGVHeader { fieldName = "end_date", fieldHeader = "Дата" });
-                _header.Add(new DGVHeader { fieldName = "blank", fieldHeader = "Вед." });
-                _header.Add(new DGVHeader { fieldName = "journal", fieldHeader = "Жур." });
+                _header.Add(new DGVHeader { fieldName = "end_date", fieldHeader = "Дата пробы" });
+                _header.Add(new DGVHeader { fieldName = "blank", fieldHeader = "Ведом." });
+                _header.Add(new DGVHeader { fieldName = "journal", fieldHeader = "Журнал" });
                 _header.Add(new DGVHeader { fieldName = "geologist", fieldHeader = "Геолог" });
                 _header.Add(new DGVHeader { fieldName = "pit", fieldHeader = "Карьер" });
                 _header.Add(new DGVHeader { fieldName = "lastUserID", fieldHeader = "Крайний" });
