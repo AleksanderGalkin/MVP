@@ -19,6 +19,19 @@ namespace GeoDBWinForms
             InitializeComponent();
         }
 
+        public Form mdiParent
+        {
+            set
+            {
+                this.MdiParent = value;
+            }
+        }
+        public Form OwnerForm
+        {
+            private get;
+            set;
+        }
+
         private bool _readOnly;
         private bool readOnly 
         {
@@ -274,17 +287,15 @@ namespace GeoDBWinForms
         public  void Show(bool ReadOnly)
         {
             readOnly = ReadOnly;
-            this.ShowDialog();
+            OwnerForm.Enabled = false;
+            this.Location = new System.Drawing.Point(OwnerForm.Location.X + OwnerForm.Width / 3, OwnerForm.Location.Y + OwnerForm.Height / 3);
+            this.Show();
         }
         
 
         private void btClose_Click(object sender, EventArgs e)
         {
-            var ev = clickCloseForm;
-            if (ev != null)
-            {
-                ev(this, EventArgs.Empty);
-            }
+            this.Close();  // further ViewCollar2Crud_FormClosing will trigered
         }
 
         private void btOk_Click(object sender, EventArgs e)
@@ -382,6 +393,18 @@ namespace GeoDBWinForms
         {
             Control checkControl = sender as Control;
             CheckComboBoxValue(checkControl);
+        }
+
+        private void ViewAssays2Crud_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            e.Cancel = true;
+            var ev = clickCloseForm;
+            if (ev != null)
+            {
+                ev(this, EventArgs.Empty);
+            }
+            OwnerForm.Enabled = true;
+            
         }
         
     }

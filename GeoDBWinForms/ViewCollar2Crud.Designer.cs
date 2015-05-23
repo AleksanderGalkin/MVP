@@ -276,9 +276,13 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(406, 278);
             this.Controls.Add(this.groupBox1);
+            this.MaximizeBox = false;
+            this.MaximumSize = new System.Drawing.Size(422, 316);
+            this.MinimizeBox = false;
             this.Name = "ViewCollar2Crud";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "ViewCollar2Crud";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ViewCollar2Crud_FormClosing);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProviderWarn)).EndInit();

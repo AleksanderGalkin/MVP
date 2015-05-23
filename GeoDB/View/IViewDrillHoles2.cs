@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using GeoDB.Model;
 using GeoDB.Extensions;
+using System.Windows.Forms;
 
 namespace GeoDB.View
 {
@@ -38,8 +39,11 @@ namespace GeoDB.View
         event EventHandler<NumRowEventArgs> clickAssaysEditData;
         event EventHandler<NumRowEventArgs> clickAssaysDeleteData;
 
+        Form mdiParent { set; }
+        bool Enabled { set; }
         void Show();
         void Close();
+        void Hide();
         void RefreshCollar();
         void RefreshAssays();
 

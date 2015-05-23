@@ -19,7 +19,7 @@ namespace GeoDBWinForms
         {
             InitializeComponent();
         }
-
+        
         // Collar interface
         #region Collar
 
@@ -372,12 +372,20 @@ namespace GeoDBWinForms
         #endregion Assays // Assays interrface
 
         public event EventHandler<EventArgs> clickCloseForm;
-        
 
+        public Form mdiParent 
+        {
+            set { this.MdiParent = value; }
+        }
+        public new  bool Enabled 
+        {
+            set { base.Enabled = value; }
+        }
         public new void Show()
         {
-            
-            Application.Run(this);
+          //  this.MdiParent = f;
+             base.Show();
+            //Application.Run(this);
             
 
         }
@@ -563,6 +571,66 @@ namespace GeoDBWinForms
             }
         }
 
+        private void ViewDrillHoles_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            e.Cancel = true;
+            var ev = clickCloseForm;
+            if (ev != null)
+            {
+                ev(this, EventArgs.Empty);
+            }
+        }
+
+
+        private bool _maximazed = false;
+        private bool _clickedMaxNorm = false;
+        private Size _normalSize;
+        private Point _normalLocation;
+        private void ViewDrillHoles_Resize(object sender, EventArgs e)
+        {
+            if (_clickedMaxNorm)
+            {
+                if (_maximazed)
+                {
+
+                    WindowState = FormWindowState.Normal;
+                    this.Dock = DockStyle.Fill;
+                }
+                else
+                {
+
+                    WindowState = FormWindowState.Normal;
+                    this.Dock = DockStyle.None;
+                    this.Location = _normalLocation;
+                    this.SetClientSizeCore(_normalSize.Width, _normalSize.Height);
+                }
+                _clickedMaxNorm = false;
+            }
+        }
+        protected override void WndProc(ref Message m)
+        {
+            if (m.Msg == 0x0112) 
+            {
+                if (m.WParam == new IntPtr(0xF030) && !_maximazed) // Maximize event - SC_MAXIMIZE from Winuser.h
+                {
+                    _maximazed = true;
+                    _normalSize = this.Size;
+                    _normalLocation = this.Location;
+                    _clickedMaxNorm = true;
+
+                } else if (m.WParam == new IntPtr(0xF030) && _maximazed) // Maximize event - SC_MAXIMIZE from Winuser.h
+                {
+                    _maximazed = false;
+                    _clickedMaxNorm = true;
+                }
+                //if (m.WParam == new IntPtr(0xF120) || m.WParam == new IntPtr(0xF020)) // event - SC_RESTORE or SC_MINIMIZE from Winuser.h
+                //{
+                //   // _clickedMaxMin = true;
+                //}
+            }
+            base.WndProc(ref m);
+        }
+        
 
     }
 }

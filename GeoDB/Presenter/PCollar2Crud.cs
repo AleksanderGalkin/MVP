@@ -19,13 +19,14 @@ namespace GeoDB.Presenter
         private IBaseService<DRILLING_TYPE> _modelDrillType;
         private IBaseService<DOMEN> _modelDomen;
         private enum ModeFormEnum { creating, modifying, deleting } ;
+        private Form _mdiParent;
         private struct ModeFormDataStru
         {
             public ModeFormEnum _mode;
             public int? id;
         }
         ModeFormDataStru modeFormData;
-
+        public event EventHandler<EventArgs> DataChanged;
         public PCollar2Crud(IViewCollar2Crud View
                             , IBaseService<COLLAR2> Model
                             , IBaseService<GORIZONT> ModelGorizont
@@ -90,6 +91,8 @@ namespace GeoDB.Presenter
                     {
                         _model.Delete(obj);
                     }
+
+
                 }
                 catch(Exception ex)
                 {
@@ -99,18 +102,18 @@ namespace GeoDB.Presenter
                     }
                     MessageBox.Show(String.Format("Что то пошло не так при сохранении./n {0}",ex.InnerException),"Что то пошло не так при сохранении.");
                 }
-
+                var ev = DataChanged;
+                if (ev != null)
+                {
+                    ev(this, EventArgs.Empty);
+                }
             _view.Close();
         }
         private void OnClickCloseForm(object sender, EventArgs e)
         {
-            _view.Close();
+            _view.Hide();
         }
-        private void Create()
-        {
-            MessageBox.Show("ok");
-        }
-        public void Show()
+        public void Show(Form Parent,Form Owner)
         {
             _view.Tittle = "Создание объекта";
             _view.gorizontList = _modelGorizont.Get().ToDictionary(x=>x.BENCH_ID,x=>x.BENCH_NAME.ToString());
@@ -129,9 +132,13 @@ namespace GeoDB.Presenter
             _view.domenId = -1;
             modeFormData._mode = ModeFormEnum.creating;
             modeFormData.id = null;
+            _view.MdiParent = Parent;
+            _view.OwnerForm = Owner;
+            _mdiParent = Parent;
+           
             _view.Show();
         }
-        public void Show(int id)
+        public void Show(int id, Form Parent, Form Owner)
         {
             COLLAR2 obj = _model.Get(id);
 
@@ -152,9 +159,12 @@ namespace GeoDB.Presenter
             _view.domenId = obj.DOMEN;
             modeFormData._mode = ModeFormEnum.modifying;
             modeFormData.id = id;
+            _view.MdiParent = Parent;
+            _mdiParent = Parent;
+            _view.OwnerForm = Owner;
             _view.Show();
         }
-        public void ShowForDelete (int id)
+        public void ShowForDelete(int id, Form Parent, Form Owner)
         {
             COLLAR2 obj = _model.Get(id);
 
@@ -175,6 +185,9 @@ namespace GeoDB.Presenter
             _view.domenId = obj.DOMEN;
             modeFormData._mode = ModeFormEnum.deleting;
             modeFormData.id = id;
+            _view.MdiParent = Parent;
+            _mdiParent = Parent;
+            _view.OwnerForm = Owner;
             _view.Show(true);
         }
     }

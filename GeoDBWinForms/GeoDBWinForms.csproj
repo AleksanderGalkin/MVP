@@ -68,6 +68,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="NavigatorMenu.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="ViewAssays2Crud.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -88,6 +91,12 @@
     <Compile Include="ViewCollar2Crud.Designer.cs">
       <DependentUpon>ViewCollar2Crud.cs</DependentUpon>
     </Compile>
+    <Compile Include="ViewMainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ViewMainForm.Designer.cs">
+      <DependentUpon>ViewMainForm.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="ViewAssays2Crud.resx">
       <DependentUpon>ViewAssays2Crud.cs</DependentUpon>
     </EmbeddedResource>
@@ -106,6 +115,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ViewCollar2Crud.resx">
       <DependentUpon>ViewCollar2Crud.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ViewMainForm.resx">
+      <DependentUpon>ViewMainForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="App.Config">
       <SubType>Designer</SubType>

@@ -20,6 +20,7 @@ namespace GeoDB.Presenter
         private IBaseService<REESTR_VEDOMOSTEI> _modelBlank;
         private IBaseService<JOURNAL> _modelJournal;
         private IBaseService<GEOLOGIST> _modelGeologist;
+        private Form _mdiParent;
 
         private enum ModeFormEnum { creating, modifying, deleting } ;
         private struct ModeFormDataStru
@@ -28,6 +29,8 @@ namespace GeoDB.Presenter
             public int? id;
         }
         ModeFormDataStru modeFormData;
+
+        public event EventHandler<EventArgs> DataChanged;
 
         public PAssays2Crud(IViewAssays2Crud View
                             , IBaseService<ASSAYS2> Model
@@ -103,6 +106,8 @@ namespace GeoDB.Presenter
                     {
                         _model.Delete(obj);
                     }
+
+
                 }
                 catch(Exception ex)
                 {
@@ -113,17 +118,22 @@ namespace GeoDB.Presenter
                     MessageBox.Show(String.Format("Что то пошло не так при сохранении./n {0}",ex.InnerException),"Что то пошло не так при сохранении.");
                 }
 
+                var ev = DataChanged;
+                if (ev != null)
+                {
+                    ev(this, EventArgs.Empty);
+                }
             _view.Close();
         }
         private void OnClickCloseForm(object sender, EventArgs e)
         {
-            _view.Close();
+            _view.Hide();
         }
         private void Create()
         {
             MessageBox.Show("ok");
         }
-        public void ShowCreate(int bhid)
+        public void ShowCreate(int bhid, Form Parent, Form Owner)
         {
             _view.Tittle = "Создание объекта";
             _view.bhid = bhid;
@@ -152,9 +162,12 @@ namespace GeoDB.Presenter
             _view.geologist = -1;
             modeFormData._mode = ModeFormEnum.creating;
             modeFormData.id = null;
+            _view.MdiParent = Parent;
+            _view.OwnerForm = Owner;
+            _mdiParent = Parent;
             _view.Show();
         }
-        public void ShowModify(int id)
+        public void ShowModify(int id, Form Parent, Form Owner)
         {
             ASSAYS2 obj = _model.Get(id);
 
@@ -184,9 +197,12 @@ namespace GeoDB.Presenter
             _view.pit = obj.PIT;
             modeFormData._mode = ModeFormEnum.modifying;
             modeFormData.id = id;
+            _view.MdiParent = Parent;
+            _view.OwnerForm = Owner;
+            _mdiParent = Parent;
             _view.Show();
         }
-        public void ShowForDelete (int id)
+        public void ShowForDelete(int id, Form Parent, Form Owner)
         {
             ASSAYS2 obj = _model.Get(id);
 
@@ -210,6 +226,9 @@ namespace GeoDB.Presenter
             _view.geologist = obj.GEOLOGIST;
             _view.pit = obj.PIT; modeFormData._mode = ModeFormEnum.deleting;
             modeFormData.id = id;
+            _view.MdiParent = Parent;
+            _view.OwnerForm = Owner;
+            _mdiParent = Parent;
             _view.Show(true);
         }
     }

@@ -31,8 +31,11 @@ namespace GeoDB.View
         // string lastUserID { get; set; }
         // DateTime? lastDT { get; set; }
 
+        Form MdiParent {  set; }
+        Form OwnerForm { set; }
         void Show(bool ReadOnly = false);
         void Refresh();
+        void Hide();
         void Close();
         event EventHandler<EventArgs> clickOk;
         event EventHandler<EventArgs> clickCloseForm;

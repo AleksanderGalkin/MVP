@@ -44,19 +44,19 @@
             this.label10 = new System.Windows.Forms.Label();
             this.cbLito = new System.Windows.Forms.ComboBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.errorProviderWarn = new System.Windows.Forms.ErrorProvider(this.components);
-            this.label1 = new System.Windows.Forms.Label();
-            this.cbRang = new System.Windows.Forms.ComboBox();
+            this.Дата = new System.Windows.Forms.Label();
+            this.dtpEndDate = new System.Windows.Forms.DateTimePicker();
+            this.label2 = new System.Windows.Forms.Label();
+            this.cbGeologist = new System.Windows.Forms.ComboBox();
             this.label8 = new System.Windows.Forms.Label();
             this.cbPit = new System.Windows.Forms.ComboBox();
             this.label11 = new System.Windows.Forms.Label();
             this.cbJournal = new System.Windows.Forms.ComboBox();
             this.label12 = new System.Windows.Forms.Label();
             this.cbBlank = new System.Windows.Forms.ComboBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.cbGeologist = new System.Windows.Forms.ComboBox();
-            this.dtpEndDate = new System.Windows.Forms.DateTimePicker();
-            this.Дата = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.cbRang = new System.Windows.Forms.ComboBox();
+            this.errorProviderWarn = new System.Windows.Forms.ErrorProvider(this.components);
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProviderWarn)).BeginInit();
             this.SuspendLayout();
@@ -222,27 +222,39 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Пробы взрывных скважин";
             // 
-            // errorProviderWarn
+            // Дата
             // 
-            this.errorProviderWarn.ContainerControl = this;
+            this.Дата.AutoSize = true;
+            this.Дата.Location = new System.Drawing.Point(148, 195);
+            this.Дата.Name = "Дата";
+            this.Дата.Size = new System.Drawing.Size(42, 13);
+            this.Дата.TabIndex = 33;
+            this.Дата.Text = "Геолог";
             // 
-            // label1
+            // dtpEndDate
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(282, 82);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(31, 13);
-            this.label1.TabIndex = 23;
-            this.label1.Text = "Ранг";
+            this.dtpEndDate.Location = new System.Drawing.Point(151, 216);
+            this.dtpEndDate.Name = "dtpEndDate";
+            this.dtpEndDate.Size = new System.Drawing.Size(128, 20);
+            this.dtpEndDate.TabIndex = 32;
             // 
-            // cbRang
+            // label2
             // 
-            this.cbRang.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbRang.FormattingEnabled = true;
-            this.cbRang.Location = new System.Drawing.Point(285, 103);
-            this.cbRang.Name = "cbRang";
-            this.cbRang.Size = new System.Drawing.Size(88, 21);
-            this.cbRang.TabIndex = 22;
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(30, 195);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(42, 13);
+            this.label2.TabIndex = 31;
+            this.label2.Text = "Геолог";
+            // 
+            // cbGeologist
+            // 
+            this.cbGeologist.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbGeologist.FormattingEnabled = true;
+            this.cbGeologist.Location = new System.Drawing.Point(30, 216);
+            this.cbGeologist.Name = "cbGeologist";
+            this.cbGeologist.Size = new System.Drawing.Size(88, 21);
+            this.cbGeologist.TabIndex = 30;
             // 
             // label8
             // 
@@ -298,39 +310,27 @@
             this.cbBlank.Size = new System.Drawing.Size(88, 21);
             this.cbBlank.TabIndex = 24;
             // 
-            // label2
+            // label1
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(30, 195);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(42, 13);
-            this.label2.TabIndex = 31;
-            this.label2.Text = "Геолог";
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(282, 82);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(31, 13);
+            this.label1.TabIndex = 23;
+            this.label1.Text = "Ранг";
             // 
-            // cbGeologist
+            // cbRang
             // 
-            this.cbGeologist.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbGeologist.FormattingEnabled = true;
-            this.cbGeologist.Location = new System.Drawing.Point(30, 216);
-            this.cbGeologist.Name = "cbGeologist";
-            this.cbGeologist.Size = new System.Drawing.Size(88, 21);
-            this.cbGeologist.TabIndex = 30;
+            this.cbRang.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbRang.FormattingEnabled = true;
+            this.cbRang.Location = new System.Drawing.Point(285, 103);
+            this.cbRang.Name = "cbRang";
+            this.cbRang.Size = new System.Drawing.Size(88, 21);
+            this.cbRang.TabIndex = 22;
             // 
-            // dtpEndDate
+            // errorProviderWarn
             // 
-            this.dtpEndDate.Location = new System.Drawing.Point(151, 216);
-            this.dtpEndDate.Name = "dtpEndDate";
-            this.dtpEndDate.Size = new System.Drawing.Size(128, 20);
-            this.dtpEndDate.TabIndex = 32;
-            // 
-            // Дата
-            // 
-            this.Дата.AutoSize = true;
-            this.Дата.Location = new System.Drawing.Point(148, 195);
-            this.Дата.Name = "Дата";
-            this.Дата.Size = new System.Drawing.Size(42, 13);
-            this.Дата.TabIndex = 33;
-            this.Дата.Text = "Геолог";
+            this.errorProviderWarn.ContainerControl = this;
             // 
             // ViewAssays2Crud
             // 
@@ -339,8 +339,9 @@
             this.ClientSize = new System.Drawing.Size(406, 312);
             this.Controls.Add(this.groupBox1);
             this.Name = "ViewAssays2Crud";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "ViewCollar2Crud";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ViewAssays2Crud_FormClosing);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProviderWarn)).EndInit();

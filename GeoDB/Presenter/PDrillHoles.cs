@@ -9,6 +9,7 @@ using GeoDB.Service.DataAccess.Interface;
 using log4net;
 using GeoDB.Model.Interface;
 using GeoDB.Extensions;
+using System.Windows.Forms;
 
 namespace GeoDB.Presenter
 {
@@ -124,6 +125,7 @@ namespace GeoDB.Presenter
         private BrowseAssay _broAssays;
         private PCollar2Crud _preCollar2Crud;
         private PAssays2Crud _preAssays2Crud;
+        private Form mdiParent;
 
         public PDrillHoles
             (           IViewDrillHoles2 viewCollar2
@@ -165,6 +167,18 @@ namespace GeoDB.Presenter
             _view.clickAssaysDeleteData += new EventHandler<NumRowEventArgs>(OnClickAssaysDeleteData);
 
             _view.clickCloseForm += new EventHandler<EventArgs>(OnClickCloseForm);
+
+            _preCollar2Crud.DataChanged += new EventHandler<EventArgs>(OnPreCollar2Crud_DataChanged);
+            _preAssays2Crud.DataChanged += new EventHandler<EventArgs>(OnPreAssays2Crud_DataChanged);
+            
+        }
+        private void OnPreCollar2Crud_DataChanged(object sender, EventArgs e)
+        {
+            _broCollar.Refresh();
+        }
+        private void OnPreAssays2Crud_DataChanged(object sender, EventArgs e)
+        {
+            _broAssays.Refresh();
         }
         private void OnCollarGeneratedNewPartOfBuffer(object sender, EventArgs e)
         {
@@ -190,19 +204,20 @@ namespace GeoDB.Presenter
 
         private void OnClickCollarCreateData(object sender, EventArgs e)
         {
-            _preCollar2Crud.Show();
+            _preCollar2Crud.Show(mdiParent, _view as Form);
+            _view.Enabled = false;
             _broCollar.Refresh();
         }
 
         private void OnClickCollarEditData(object sender, NumRowEventArgs e)
         {
-            _preCollar2Crud.Show(e.numRow);
+            _preCollar2Crud.Show(e.numRow, mdiParent, _view as Form);
             _broCollar.Refresh();
         }
 
         private void OnClickCollarDeleteData(object sender, NumRowEventArgs e)
         {
-            _preCollar2Crud.ShowForDelete(e.numRow );
+            _preCollar2Crud.ShowForDelete(e.numRow, mdiParent, _view as Form);
             _broCollar.Refresh();
         }
         private void OnAssaysGeneratedNewPartOfBuffer(object sender, EventArgs e)
@@ -228,27 +243,28 @@ namespace GeoDB.Presenter
         }
         private void OnClickAssaysCreateData(object sender, EventArgs e)
         {
-            _preAssays2Crud.ShowCreate(_broAssays.GetForeignKey());
+            _preAssays2Crud.ShowCreate(_broAssays.GetForeignKey(),mdiParent,_view as Form);
             _broAssays.Refresh();
         }
 
         private void OnClickAssaysEditData(object sender, NumRowEventArgs e)
         {
-            _preAssays2Crud.ShowModify(e.numRow);
+            _preAssays2Crud.ShowModify(e.numRow, mdiParent, _view as Form);
             _broAssays.Refresh();
         }
 
         private void OnClickAssaysDeleteData(object sender, NumRowEventArgs e)
         {
-            _preAssays2Crud.ShowForDelete(e.numRow );
+            _preAssays2Crud.ShowForDelete(e.numRow, mdiParent, _view as Form);
             _broAssays.Refresh();
         }
         private void OnClickCloseForm(object sender, EventArgs e)
         {
-            _view.Close();
+            _view.Hide();
         }
 
-        public void Show()
+
+        public void Show(Form f)
         {
             _view.CollarHeader = _broCollar.GetHeader();
             _view.sortedCollarNumField = _broCollar.GetSortedNumField();
@@ -263,6 +279,8 @@ namespace GeoDB.Presenter
             _view.filteredAssaysNumField = _broAssays.GetFilteredNumField();
             _view.rowAssaysCount = _broAssays.GetWholeModelRowCount();
             _view.AssaysList = _broAssays.GetBuffer();
+            _view.mdiParent = f;
+            this.mdiParent = f;
             _view.Show();
         }
     }
