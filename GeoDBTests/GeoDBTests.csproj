@@ -40,7 +40,7 @@
     </Reference>
     <Reference Include="nunit-gui-runner, Version=2.6.3.13283, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Program Files\NUnit 2.6.3\bin\lib\nunit-gui-runner.dll</HintPath>
+      <HintPath>C:\Program Files (x86)\NUnit 2.6.3\bin\lib\nunit-gui-runner.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework, Version=2.6.3.13283, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL" />
     <Reference Include="System" />
@@ -54,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BrowseCollarTest.cs" />
+    <Compile Include="LoginTest.cs" />
     <Compile Include="PCollar2CrudTest.cs" />
     <Compile Include="PDrillHolesTest.cs" />
     <Compile Include="Program.cs" />
@@ -64,11 +65,6 @@
       <Project>{E8C7DA49-1762-44F4-82DE-9DAE305EF6A6}</Project>
       <Name>GeoDB</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.Config_">
-      <SubType>Designer</SubType>
-    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

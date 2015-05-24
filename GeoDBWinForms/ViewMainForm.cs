@@ -41,22 +41,31 @@ namespace GeoDBWinForms
             Popup popup1 = new Popup();
             Item item1 = new Item();
             item1.tittle = "Скважины";
+            item1.image = global::GeoDBWinForms.Properties.Resources.drillhole;
             item1.clickItem += (t, e) =>
             {
                 preDrillHoles.Show(this);
             };
             Item item2 = new Item();
             item2.tittle = "Контроль";
+            item2.image = global::GeoDBWinForms.Properties.Resources.Control;
+            item2.clickItem += (t,e) => {MessageBox.Show("Sorry. Form under construction");};
             popup1.tittle = "Геология";
             popup1.items.Add(item1);
             popup1.items.Add(item2);
             Popup popup2 = new Popup();
             Item item3 = new Item();
-            item3.tittle = "Пробы складов";
+            item3.tittle = "Пробы склада";
+            item3.image = global::GeoDBWinForms.Properties.Resources.test;
+            item3.clickItem += (t, e) => { MessageBox.Show("Sorry. Form under construction"); };
             Item item4 = new Item();
             item4.tittle = "Движение руды";
+            item4.image = global::GeoDBWinForms.Properties.Resources.vaicle;
+            item4.clickItem += (t, e) => { MessageBox.Show("Sorry. Form under construction"); };
             Item item5 = new Item();
             item5.tittle = "Пробы забоев";
+            item5.image = global::GeoDBWinForms.Properties.Resources.test;
+            item5.clickItem += (t, e) => { MessageBox.Show("Sorry. Form under construction"); };
             popup2.tittle = "Склад";
             popup2.items.Add(item3);
             popup2.items.Add(item4);
@@ -65,10 +74,16 @@ namespace GeoDBWinForms
             Popup popup3 = new Popup();
             Item item6 = new Item();
             item6.tittle = "Пользователи";
+            item6.image = global::GeoDBWinForms.Properties.Resources.user;
+            item6.clickItem += (t, e) => { MessageBox.Show("Sorry. Form under construction"); };
             Item item7 = new Item();
             item7.tittle = "Роли";
+            item7.image = global::GeoDBWinForms.Properties.Resources.role;
+            item7.clickItem += (t, e) => { MessageBox.Show("Sorry. Form under construction"); };
             Item item8 = new Item();
             item8.tittle = "Ведомости";
+            item8.image = global::GeoDBWinForms.Properties.Resources.blank;
+            item8.clickItem += (t, e) => { MessageBox.Show("Sorry. Form under construction"); };
             popup3.tittle = "Настройки";
             popup3.items.Add(item6);
             popup3.items.Add(item7);
@@ -84,10 +99,14 @@ namespace GeoDBWinForms
 
         private void Factory()
         {
+            
+
             IKernel ninjectKernel = new StandardKernel();
             ninjectKernel.Bind<IViewDrillHoles2>().To<ViewDrillHoles>();
             ninjectKernel.Bind<IViewCollar2Crud>().To<ViewCollar2Crud>();
             ninjectKernel.Bind<IViewAssays2Crud>().To<ViewAssays2Crud>();
+            ninjectKernel.Bind<IViewLogin>().To<ViewLogin>();
+
             ninjectKernel.Bind<IBaseService<COLLAR2>>().To<CollarEntityService>();
             ninjectKernel.Bind<IBaseService<ASSAYS2>>().To<AssaysEntityService>();
             ninjectKernel.Bind<IBaseService<GEOLOGIST>>().To<GeologistEntityService>();
@@ -106,6 +125,7 @@ namespace GeoDBWinForms
             IViewDrillHoles2 view = ninjectKernel.Get<IViewDrillHoles2>();
             IViewCollar2Crud vCollarCrud = ninjectKernel.Get<IViewCollar2Crud>();
             IViewAssays2Crud vAssaysCrud = ninjectKernel.Get<IViewAssays2Crud>();
+            IViewLogin vLogin =  ninjectKernel.Get<ViewLogin>();
             IBaseService<COLLAR2> modelCollar = ninjectKernel.Get<IBaseService<COLLAR2>>();
             IBaseService<ASSAYS2> modelAssays = ninjectKernel.Get<IBaseService<ASSAYS2>>();
             IBaseService<GEOLOGIST> modelGeologist = ninjectKernel.Get<IBaseService<GEOLOGIST>>();
@@ -123,7 +143,12 @@ namespace GeoDBWinForms
             preCollar2Crud = new PCollar2Crud(vCollarCrud, modelCollar, modelGorizont, modelBlast, modelDrillType, modelDomen);
             preAssays2Crud = new PAssays2Crud(vAssaysCrud, modelAssays, modelZblock, modelLito, modelRang, modelBlank, modelJournal, modelGeologist);
             preDrillHoles = new PDrillHoles(view, modelCollar, modelAssays, modelGeologist, 20, preCollar2Crud, preAssays2Crud);
-            
+
+
+            SecurityContext.SetLoginForm(vLogin);
+            SecurityContext.SuccsessAuthorization += (s, e) => { MessageBox.Show(SecurityContext.GetConnectionString()); };
+            SecurityContext.FailureAuthorization += (s, e) => { MessageBox.Show("Failure Authorization"); };
+            SecurityContext.StartAuthorization();
         }
 
     }

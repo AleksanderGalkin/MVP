@@ -38,7 +38,7 @@
             this.IsMdiContainer = true;
             this.MinimumSize = new System.Drawing.Size(800, 640);
             this.Name = "ViewMainForm";
-            this.Text = "ViewMainForm";
+            this.Text = "Учёт геологических опробований";
             this.ResumeLayout(false);
 
         }

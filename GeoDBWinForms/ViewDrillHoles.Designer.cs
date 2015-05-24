@@ -54,7 +54,7 @@
             this.dataGVCollar2.MultiSelect = false;
             this.dataGVCollar2.Name = "dataGVCollar2";
             this.dataGVCollar2.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGVCollar2.Size = new System.Drawing.Size(624, 169);
+            this.dataGVCollar2.Size = new System.Drawing.Size(624, 302);
             this.dataGVCollar2.TabIndex = 0;
             this.dataGVCollar2.VirtualMode = true;
             this.dataGVCollar2.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGVCollar2_CellMouseClick);
@@ -67,7 +67,6 @@
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
-            this.splitContainer1.IsSplitterFixed = true;
             this.splitContainer1.Location = new System.Drawing.Point(0, 0);
             this.splitContainer1.Name = "splitContainer1";
             this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
@@ -79,9 +78,9 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.AutoScroll = true;
-            this.splitContainer1.Panel2MinSize = 100;
+            this.splitContainer1.Panel2MinSize = 30;
             this.splitContainer1.Size = new System.Drawing.Size(624, 442);
-            this.splitContainer1.SplitterDistance = 338;
+            this.splitContainer1.SplitterDistance = 407;
             this.splitContainer1.TabIndex = 2;
             // 
             // splitContainer2
@@ -98,8 +97,8 @@
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.dataGVAssays2);
-            this.splitContainer2.Size = new System.Drawing.Size(624, 338);
-            this.splitContainer2.SplitterDistance = 169;
+            this.splitContainer2.Size = new System.Drawing.Size(624, 407);
+            this.splitContainer2.SplitterDistance = 302;
             this.splitContainer2.TabIndex = 1;
             // 
             // dataGVAssays2
@@ -112,7 +111,7 @@
             this.dataGVAssays2.MultiSelect = false;
             this.dataGVAssays2.Name = "dataGVAssays2";
             this.dataGVAssays2.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGVAssays2.Size = new System.Drawing.Size(624, 165);
+            this.dataGVAssays2.Size = new System.Drawing.Size(624, 101);
             this.dataGVAssays2.TabIndex = 0;
             this.dataGVAssays2.VirtualMode = true;
             this.dataGVAssays2.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGVAssays2_CellMouseClick);
