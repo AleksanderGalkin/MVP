@@ -10,14 +10,16 @@ namespace GeoDB.Presenter
     public class PLogin
     {
         private IViewLogin _view;
-        private ITestDbConnection _testMsSqlConnection;
         private bool isShowed;
 
         private string _userName;
         private string _password;
         private string _serverName;
         private string _dbName;
+        private string _dbFileName;
         private string _connectionString;
+        private bool _locationServerDb;
+
 
         public event EventHandler<EventArgs> NewDataInputed;
         public event EventHandler<EventArgs> Canceled;
@@ -40,6 +42,8 @@ namespace GeoDB.Presenter
             _password = _view.password;
             _serverName = _view.serverName;
             _dbName = _view.dbName;
+            _dbFileName = _view.dbFileName;
+            _locationServerDb = _view.locationServerDb;
             
             var ev = NewDataInputed;
             if (ev != null)
@@ -74,6 +78,36 @@ namespace GeoDB.Presenter
         {
             if (!isShowed)
             {
+                if (Properties.Settings.Default.userNames != null)
+                {
+                    string[] tArray_userNames = new string[Properties.Settings.Default.userNames.Count];
+                    Properties.Settings.Default.userNames.CopyTo(tArray_userNames, 0);
+                    _view.userNames = new List<string>(tArray_userNames as IEnumerable<string>);
+                    _view.userName = Properties.Settings.Default.userName ?? "";
+                }
+                if (Properties.Settings.Default.serverNames != null)
+                {
+                    string[] tArray_serverNames = new string[Properties.Settings.Default.serverNames.Count];
+                    Properties.Settings.Default.serverNames.CopyTo(tArray_serverNames, 0);
+                    _view.serverNames = new List<string>(tArray_serverNames as IEnumerable<string>);
+                    _view.serverName = Properties.Settings.Default.serverName ?? "";
+                }
+                if (Properties.Settings.Default.dbNames != null)
+                {
+                    string[] tArray_dbNames = new string[Properties.Settings.Default.dbNames.Count];
+                    Properties.Settings.Default.dbNames.CopyTo(tArray_dbNames, 0);
+                    _view.dbNames = new List<string>(tArray_dbNames as IEnumerable<string>);
+                    _view.dbName = Properties.Settings.Default.dbName ?? "";
+                }
+                if (Properties.Settings.Default.dbFileNames != null)
+                {
+                    string[] tArray_dbFileNames = new string[Properties.Settings.Default.dbFileNames.Count];
+                    Properties.Settings.Default.dbFileNames.CopyTo(tArray_dbFileNames, 0);
+                    _view.dbFileNames = new List<string>(tArray_dbFileNames as IEnumerable<string>);
+                    _view.dbFileName = Properties.Settings.Default.dbFileName ?? "";
+                }
+                _view.locationServerDb = Properties.Settings.Default.locationServerDb;
+
                 isShowed = true;
                 _view.Show();
             }
@@ -88,7 +122,57 @@ namespace GeoDB.Presenter
             _view.Close();
         }
 
+        public void SaveParams()
+        {
+            string currentUserName = _userName;
+            Properties.Settings.Default.userName = currentUserName;
+            if (Properties.Settings.Default.userNames == null)
+            {
+                Properties.Settings.Default.userNames = new System.Collections.Specialized.StringCollection();
+            }
+            if (!Properties.Settings.Default.userNames.Contains(currentUserName))
+            {
+                Properties.Settings.Default.userNames.Add(currentUserName);
+            }
+            string currentServerName = _serverName;
+            Properties.Settings.Default.serverName = currentServerName;
+            if (Properties.Settings.Default.serverNames == null)
+            {
+                Properties.Settings.Default.serverNames = new System.Collections.Specialized.StringCollection();
+            }
+            if ( !Properties.Settings.Default.serverNames.Contains(currentServerName) )
+            {
+                Properties.Settings.Default.serverNames.Add(currentServerName);
+            }
+            string currentDbName = _dbName;
+            Properties.Settings.Default.dbName = currentDbName;
+            if (Properties.Settings.Default.dbNames == null)
+            {
+                Properties.Settings.Default.dbNames = new System.Collections.Specialized.StringCollection();
+            }
+            if (!Properties.Settings.Default.dbNames.Contains(currentDbName))
+            {
+                Properties.Settings.Default.dbNames.Add(currentDbName);
+            }
+            string currentdbFileName = _dbFileName;
+            Properties.Settings.Default.dbFileName = currentdbFileName;
+            if (Properties.Settings.Default.dbFileNames == null)
+            {
+                Properties.Settings.Default.dbFileNames = new System.Collections.Specialized.StringCollection();
+            }
+            if (!Properties.Settings.Default.dbFileNames.Contains(currentdbFileName))
+            {
+                Properties.Settings.Default.dbFileNames.Add(currentdbFileName);
+            }
+            bool currentLocationServerDb = _locationServerDb;
+            if (Properties.Settings.Default.locationServerDb != currentLocationServerDb)
+            {
+                Properties.Settings.Default.locationServerDb = currentLocationServerDb;
+            }
 
+            Properties.Settings.Default.Save();
+        }
+       
         public string GetUserName()
         {
             return _userName;
@@ -104,6 +188,14 @@ namespace GeoDB.Presenter
         public string GetDbName()
         {
             return _dbName;
+        }
+        public string GetDbFileName()
+        {
+            return _dbFileName;
+        }
+        public bool GetLocationServerDb()
+        {
+            return _locationServerDb;
         }
     }
 }

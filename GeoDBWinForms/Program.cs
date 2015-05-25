@@ -21,8 +21,12 @@ namespace GeoDBWinForms
         [STAThread]
         static void Main()
         {
-
-            Application.Run(new ViewMainForm());
+            Form MainForm = new ViewMainForm();
+            if ( ! MainForm.IsDisposed )
+            {
+                Application.Run(MainForm);
+            }
+            
   
 
         }

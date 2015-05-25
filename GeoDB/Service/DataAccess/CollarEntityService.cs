@@ -9,6 +9,7 @@ using System.Configuration;
 using System.Data.EntityClient;
 using System.Data.SqlClient;
 
+
 namespace GeoDB.Service.DataAccess
 {
     public class CollarEntityService : IBaseService<COLLAR2>
@@ -19,27 +20,12 @@ namespace GeoDB.Service.DataAccess
 
         public CollarEntityService()
         {
-            var newConnectionTest = String.Format(
-                @"data source={0}; Initial Catalog={1}; integrated security={2}; connect timeout=30; multipleactiveresultsets=True; User ID = {3}; Password = {4}; App=EntityFramework"
-                , "OGK-S-APPMINE01\\MINESQL"
-                , "bl_TEST"
-                , "False"
-                , "test"
-                , "1641642eE");
-
-            SqlConnection conntest = new SqlConnection(newConnectionTest);
-            conntest.Open();
-            conntest.Close();
-
-            var new2Connection = new EntityConnectionStringBuilder()
+            string connectionString= SecurityContext.GetConnectionString_All_In_One();
+            if (String.IsNullOrEmpty(connectionString))
             {
-                Metadata = @"res://*/Model.Model1.csdl|res://*/Model.Model1.ssdl|res://*/Model.Model1.msl",
-                Provider = @"System.Data.SqlClient",
-                ProviderConnectionString = newConnectionTest
-            };
-            
-
-            db = new ModelDB(new2Connection.ConnectionString);
+                throw new UnauthorizedAccessException(SecurityContext.textError, SecurityContext.Exception);
+            }
+            db = new ModelDB(connectionString);
         }
 
         public void Create(COLLAR2 obj)

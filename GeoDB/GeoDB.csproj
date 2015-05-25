@@ -100,6 +100,11 @@
     <Compile Include="Presenter\PDrillHoles.cs" />
     <Compile Include="Presenter\PLogin.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
     <Compile Include="Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -170,9 +175,14 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model1.Designer.cs</LastGenOutput>
     </EntityDeploy>
+    <None Include="app.config" />
     <None Include="Properties\DataSources\GeoDB.Model.ModelDB.datasource" />
     <None Include="Properties\DataSources\GeoDB.Service.DataAccess.ModelDB.datasource" />
     <None Include="Properties\DataSources\ModelDB.datasource" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

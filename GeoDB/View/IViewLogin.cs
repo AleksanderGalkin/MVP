@@ -14,6 +14,9 @@ namespace GeoDB.View
         string serverName { get; set; }
         List<string> dbNames { set; }
         string dbName { get; set; }
+        List<string> dbFileNames { set; }
+        string dbFileName { get; set; }
+        bool locationServerDb { get; set; }
 
         event EventHandler<EventArgs> clickOk;
         event EventHandler<EventArgs> clickCancel;

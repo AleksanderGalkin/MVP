@@ -22,11 +22,11 @@ namespace GeoDBWinForms
         private PCollar2Crud preCollar2Crud ;
         private PAssays2Crud preAssays2Crud;
         private PDrillHoles preDrillHoles;
-
+        public bool mustClosed;
         public ViewMainForm()
         {
             InitializeComponent();
-
+            this.mustClosed = false;
             this.navMenu = new NavigatorMenu(CreateMenu());
             this.Controls.Add(this.navMenu);
             this.Factory();
@@ -99,56 +99,66 @@ namespace GeoDBWinForms
 
         private void Factory()
         {
-            
+            try
+            {
 
-            IKernel ninjectKernel = new StandardKernel();
-            ninjectKernel.Bind<IViewDrillHoles2>().To<ViewDrillHoles>();
-            ninjectKernel.Bind<IViewCollar2Crud>().To<ViewCollar2Crud>();
-            ninjectKernel.Bind<IViewAssays2Crud>().To<ViewAssays2Crud>();
-            ninjectKernel.Bind<IViewLogin>().To<ViewLogin>();
+                IKernel ninjectKernel = new StandardKernel();
+                ninjectKernel.Bind<IViewDrillHoles2>().To<ViewDrillHoles>();
+                ninjectKernel.Bind<IViewCollar2Crud>().To<ViewCollar2Crud>();
+                ninjectKernel.Bind<IViewAssays2Crud>().To<ViewAssays2Crud>();
+                ninjectKernel.Bind<IViewLogin>().To<ViewLogin>();
 
-            ninjectKernel.Bind<IBaseService<COLLAR2>>().To<CollarEntityService>();
-            ninjectKernel.Bind<IBaseService<ASSAYS2>>().To<AssaysEntityService>();
-            ninjectKernel.Bind<IBaseService<GEOLOGIST>>().To<GeologistEntityService>();
-            ninjectKernel.Bind<IBaseService<GORIZONT>>().To<GorizontEntityService>();
-            ninjectKernel.Bind<IBaseService<RL_EXPLO2>>().To<BlastEntityService>();
-            ninjectKernel.Bind<IBaseService<DRILLING_TYPE>>().To<DrillingTypeEntityService>();
-            ninjectKernel.Bind<IBaseService<DOMEN>>().To<DomenEntityService>();
+                ninjectKernel.Bind<IBaseService<COLLAR2>>().To<CollarEntityService>();
+                ninjectKernel.Bind<IBaseService<ASSAYS2>>().To<AssaysEntityService>();
+                ninjectKernel.Bind<IBaseService<GEOLOGIST>>().To<GeologistEntityService>();
+                ninjectKernel.Bind<IBaseService<GORIZONT>>().To<GorizontEntityService>();
+                ninjectKernel.Bind<IBaseService<RL_EXPLO2>>().To<BlastEntityService>();
+                ninjectKernel.Bind<IBaseService<DRILLING_TYPE>>().To<DrillingTypeEntityService>();
+                ninjectKernel.Bind<IBaseService<DOMEN>>().To<DomenEntityService>();
 
-            ninjectKernel.Bind<IBaseService<BLOCK_ZAPASOV>>().To<ZblockEntityService>();
-            ninjectKernel.Bind<IBaseService<LITOLOGY>>().To<LitoEntityService>();
-            ninjectKernel.Bind<IBaseService<RANG>>().To<RangEntityService>();
-            ninjectKernel.Bind<IBaseService<REESTR_VEDOMOSTEI>>().To<BlankEntityService>();
-            ninjectKernel.Bind<IBaseService<JOURNAL>>().To<JournalEntityService>();
-
-
-            IViewDrillHoles2 view = ninjectKernel.Get<IViewDrillHoles2>();
-            IViewCollar2Crud vCollarCrud = ninjectKernel.Get<IViewCollar2Crud>();
-            IViewAssays2Crud vAssaysCrud = ninjectKernel.Get<IViewAssays2Crud>();
-            IViewLogin vLogin =  ninjectKernel.Get<ViewLogin>();
-            IBaseService<COLLAR2> modelCollar = ninjectKernel.Get<IBaseService<COLLAR2>>();
-            IBaseService<ASSAYS2> modelAssays = ninjectKernel.Get<IBaseService<ASSAYS2>>();
-            IBaseService<GEOLOGIST> modelGeologist = ninjectKernel.Get<IBaseService<GEOLOGIST>>();
-            IBaseService<GORIZONT> modelGorizont = ninjectKernel.Get<IBaseService<GORIZONT>>();
-            IBaseService<RL_EXPLO2> modelBlast = ninjectKernel.Get<IBaseService<RL_EXPLO2>>();
-            IBaseService<DRILLING_TYPE> modelDrillType = ninjectKernel.Get<IBaseService<DRILLING_TYPE>>();
-            IBaseService<DOMEN> modelDomen = ninjectKernel.Get<IBaseService<DOMEN>>();
-
-            IBaseService<BLOCK_ZAPASOV> modelZblock = ninjectKernel.Get<IBaseService<BLOCK_ZAPASOV>>();
-            IBaseService<LITOLOGY> modelLito = ninjectKernel.Get<IBaseService<LITOLOGY>>();
-            IBaseService<RANG> modelRang = ninjectKernel.Get<IBaseService<RANG>>();
-            IBaseService<REESTR_VEDOMOSTEI> modelBlank = ninjectKernel.Get<IBaseService<REESTR_VEDOMOSTEI>>();
-            IBaseService<JOURNAL> modelJournal = ninjectKernel.Get<IBaseService<JOURNAL>>();
-
-            preCollar2Crud = new PCollar2Crud(vCollarCrud, modelCollar, modelGorizont, modelBlast, modelDrillType, modelDomen);
-            preAssays2Crud = new PAssays2Crud(vAssaysCrud, modelAssays, modelZblock, modelLito, modelRang, modelBlank, modelJournal, modelGeologist);
-            preDrillHoles = new PDrillHoles(view, modelCollar, modelAssays, modelGeologist, 20, preCollar2Crud, preAssays2Crud);
+                ninjectKernel.Bind<IBaseService<BLOCK_ZAPASOV>>().To<ZblockEntityService>();
+                ninjectKernel.Bind<IBaseService<LITOLOGY>>().To<LitoEntityService>();
+                ninjectKernel.Bind<IBaseService<RANG>>().To<RangEntityService>();
+                ninjectKernel.Bind<IBaseService<REESTR_VEDOMOSTEI>>().To<BlankEntityService>();
+                ninjectKernel.Bind<IBaseService<JOURNAL>>().To<JournalEntityService>();
 
 
-            SecurityContext.SetLoginForm(vLogin);
-            SecurityContext.SuccsessAuthorization += (s, e) => { MessageBox.Show(SecurityContext.GetConnectionString()); };
-            SecurityContext.FailureAuthorization += (s, e) => { MessageBox.Show("Failure Authorization"); };
-            SecurityContext.StartAuthorization();
+                IViewDrillHoles2 view = ninjectKernel.Get<IViewDrillHoles2>();
+                IViewCollar2Crud vCollarCrud = ninjectKernel.Get<IViewCollar2Crud>();
+                IViewAssays2Crud vAssaysCrud = ninjectKernel.Get<IViewAssays2Crud>();
+                IViewLogin vLogin = ninjectKernel.Get<ViewLogin>();
+
+                SecurityContext.SetLoginForm(vLogin);
+
+
+                IBaseService<COLLAR2> modelCollar = ninjectKernel.Get<IBaseService<COLLAR2>>();
+                IBaseService<ASSAYS2> modelAssays = ninjectKernel.Get<IBaseService<ASSAYS2>>();
+                IBaseService<GEOLOGIST> modelGeologist = ninjectKernel.Get<IBaseService<GEOLOGIST>>();
+                IBaseService<GORIZONT> modelGorizont = ninjectKernel.Get<IBaseService<GORIZONT>>();
+                IBaseService<RL_EXPLO2> modelBlast = ninjectKernel.Get<IBaseService<RL_EXPLO2>>();
+                IBaseService<DRILLING_TYPE> modelDrillType = ninjectKernel.Get<IBaseService<DRILLING_TYPE>>();
+                IBaseService<DOMEN> modelDomen = ninjectKernel.Get<IBaseService<DOMEN>>();
+
+                IBaseService<BLOCK_ZAPASOV> modelZblock = ninjectKernel.Get<IBaseService<BLOCK_ZAPASOV>>();
+                IBaseService<LITOLOGY> modelLito = ninjectKernel.Get<IBaseService<LITOLOGY>>();
+                IBaseService<RANG> modelRang = ninjectKernel.Get<IBaseService<RANG>>();
+                IBaseService<REESTR_VEDOMOSTEI> modelBlank = ninjectKernel.Get<IBaseService<REESTR_VEDOMOSTEI>>();
+                IBaseService<JOURNAL> modelJournal = ninjectKernel.Get<IBaseService<JOURNAL>>();
+
+                preCollar2Crud = new PCollar2Crud(vCollarCrud, modelCollar, modelGorizont, modelBlast, modelDrillType, modelDomen);
+                preAssays2Crud = new PAssays2Crud(vAssaysCrud, modelAssays, modelZblock, modelLito, modelRang, modelBlank, modelJournal, modelGeologist);
+                preDrillHoles = new PDrillHoles(view, modelCollar, modelAssays, modelGeologist, 20, preCollar2Crud, preAssays2Crud);
+
+            }
+
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, ex.InnerException != null ? ex.InnerException.Message : "");
+                this.mustClosed = true;
+                this.Close();
+            }
+     
+
         }
 
     }

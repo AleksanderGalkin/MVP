@@ -23,14 +23,109 @@ namespace GeoDB.Properties {
             }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=.\\SQLEXPRESSR2;AttachDbFilename=|DataDirectory|\\bl_server_data.mdf;In" +
-            "tegrated Security=True;Connect Timeout=30;User Instance=True")]
-        public string bl_server_dataConnectionString {
+        [global::System.Configuration.DefaultSettingValueAttribute("<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<ArrayOfString xmlns:xsi=\"http://www.w3." +
+            "org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" />")]
+        public global::System.Collections.Specialized.StringCollection userNames {
             get {
-                return ((string)(this["bl_server_dataConnectionString"]));
+                return ((global::System.Collections.Specialized.StringCollection)(this["userNames"]));
+            }
+            set {
+                this["userNames"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string userName {
+            get {
+                return ((string)(this["userName"]));
+            }
+            set {
+                this["userName"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Collections.Specialized.StringCollection serverNames {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["serverNames"]));
+            }
+            set {
+                this["serverNames"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string serverName {
+            get {
+                return ((string)(this["serverName"]));
+            }
+            set {
+                this["serverName"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Collections.Specialized.StringCollection dbNames {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["dbNames"]));
+            }
+            set {
+                this["dbNames"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string dbName {
+            get {
+                return ((string)(this["dbName"]));
+            }
+            set {
+                this["dbName"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Collections.Specialized.StringCollection dbFileNames {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["dbFileNames"]));
+            }
+            set {
+                this["dbFileNames"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string dbFileName {
+            get {
+                return ((string)(this["dbFileName"]));
+            }
+            set {
+                this["dbFileName"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool locationServerDb {
+            get {
+                return ((bool)(this["locationServerDb"]));
+            }
+            set {
+                this["locationServerDb"] = value;
             }
         }
     }

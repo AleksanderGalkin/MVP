@@ -15,19 +15,23 @@ namespace GeoDB.Service.DataAccess
         static string _password;
         static string _serverName;
         static string _dbName;
+        static string _dbFileName;
+        static bool _locationServerDb;
         static string _connectionString;
         static IViewLogin _vLogin;
         static int attempt;
         static PLogin preLogin;
-        public static event EventHandler<EventArgs> SuccsessAuthorization;
-        public static event EventHandler<EventArgs> FailureAuthorization;
+        static public int errorLevel;
+        static public Exception Exception;
+        static public string textError;
 
         static  SecurityContext()
         {
             attempt = 0;
+            errorLevel = 0;
         }
 
-         private static  bool Login()
+         private static  void Login()
         {
             if (preLogin == null)
             {
@@ -35,9 +39,7 @@ namespace GeoDB.Service.DataAccess
                 preLogin.NewDataInputed += new EventHandler<EventArgs>(TestConnectionString);
                 preLogin.Canceled += new EventHandler<EventArgs>(CancelAuthorization);
             }
-            
             preLogin.Show();
-            return true;
         }
          private static void TestConnectionString(object send, EventArgs e)
          {
@@ -45,13 +47,29 @@ namespace GeoDB.Service.DataAccess
             _password = preLogin.GetPassword();
             _serverName = preLogin.GetServerName();
             _dbName = preLogin.GetDbName();
-            var stringTest = String.Format(
-             @"data source={0}; Initial Catalog={1}; integrated security={2}; connect timeout=30; multipleactiveresultsets=True; User ID = {3}; Password = {4}; App=EntityFramework"
-             , _serverName
-             , _dbName
-             , "False"
-             , _userName
-             , _password);
+            _dbFileName = preLogin.GetDbFileName();
+            _locationServerDb = preLogin.GetLocationServerDb();
+            string stringTest;
+            if (_locationServerDb)
+            {
+                stringTest = String.Format(
+                     @"data source={0}; Initial Catalog={1}; integrated security={2}; connect timeout=30; multipleactiveresultsets=True; User ID = {3}; Password = {4}; App=EntityFramework"
+                     , _serverName
+                     , _dbName
+                     , "False"
+                     , _userName
+                     , _password);
+            }
+            else
+            {
+                stringTest = String.Format(
+                    @"data source={0};attachdbfilename={1};integrated security={2};connect timeout=30; User ID = {3}; Password = {4};multipleactiveresultsets=True;App=EntityFramework"
+                     , _serverName
+                     , _dbFileName
+                     , "False"
+                     , _userName
+                     , _password);    
+            }
 
             try
             {
@@ -59,10 +77,13 @@ namespace GeoDB.Service.DataAccess
                 conntest.Open();
                 conntest.Close();
             }
-            catch
+            catch (Exception ex)
             {
+                Exception = ex;
+                textError = "Не удачная попытка соединения с БД";
+                errorLevel = 1;
                 _connectionString = string.Empty;
-                StartAuthorization();
+                NewAuthorizationAttempt();
                 return;
             }
             var entityConnectionString = new EntityConnectionStringBuilder()
@@ -73,35 +94,19 @@ namespace GeoDB.Service.DataAccess
             };
 
             _connectionString = entityConnectionString.ConnectionString;
-            StartAuthorization();
+            NewAuthorizationAttempt();
             
          }
-        public static void StartAuthorization()
+        private static void NewAuthorizationAttempt()
         {
             if (attempt < 3 &&   String.IsNullOrEmpty(_connectionString))
             {
                 Login();
                 attempt++;
             }
-            else if (_connectionString != string.Empty)
+            else 
             {
-                var ev = SuccsessAuthorization;
-                if (ev != null)
-                {
-                    ev(null, EventArgs.Empty);
-                }
                 attempt = 0;
-               // preLogin.NewDataInputed -= new EventHandler<EventArgs>(TestConnectionString);
-            }
-            else if (_connectionString == string.Empty)
-            {
-                var ev = FailureAuthorization;
-                if (ev != null)
-                {
-                    ev(null, EventArgs.Empty);
-                }
-                attempt = 0;
-               // preLogin.NewDataInputed -= new EventHandler<EventArgs>(TestConnectionString);
             }
             
         }
@@ -110,19 +115,26 @@ namespace GeoDB.Service.DataAccess
             _vLogin = vLogin;
         }
 
-        public static string  GetConnectionString()
+        public static string GetConnectionString_All_In_One()
         {
+            errorLevel = 0;
+            SecurityContext.NewAuthorizationAttempt();
+            SaveTrueAutorizationParams(errorLevel);
             return _connectionString;
         }
 
         private static void CancelAuthorization(object sender, EventArgs e)
         {
-            var ev = FailureAuthorization;
-            if (ev != null)
-            {
-                ev(null, EventArgs.Empty);
-            }
+            textError = "Отмена авторизации";
             attempt = 0;
+            errorLevel = 2;
+        }
+        private static void SaveTrueAutorizationParams(int ErrorLevel)
+        {
+            if (ErrorLevel !=0)
+                return;
+
+            preLogin.SaveParams();
         }
     }
 }

@@ -17,11 +17,17 @@ namespace GeoDBWinForms
             InitializeComponent();
         }
 
-        public List<string> userNames { set; private get; }
+        public List<string> userNames 
+        {
+            set
+            {
+                cbUserName.DataSource=value;
+            }
+        }
         public string userName 
         {
-            get { return tbUserName.Text; }
-            set { tbUserName.Text = value; }
+            get { return cbUserName.Text; }
+            set { cbUserName.Text = value; }
         }
         public string password 
         {
@@ -31,14 +37,34 @@ namespace GeoDBWinForms
         public List<string> serverNames { set; private get; }
         public string serverName
         {
-            get { return tbServerName.Text; }
-            set { tbServerName.Text = value; }
+            get { return cbServerName.Text; }
+            set { cbServerName.Text = value; }
         }
         public List<string> dbNames { set; private get; }
         public string dbName 
         {
-            get { return tbDbName.Text; }
-            set { tbDbName.Text = value; }
+            get { return cbDbName.Text; }
+            set { cbDbName.Text = value; }
+        }
+        public List<string> dbFileNames { set; private get; }
+        public string dbFileName
+        {
+            get { return cbDbFileName.Text; }
+            set { cbDbFileName.Text = value; }
+        }
+
+        public bool locationServerDb 
+        {
+            get
+            {
+                return rbServer.Checked;
+            }
+            set
+            {
+                rbServer.Checked = value;
+                rbDesktop.Checked = !value;
+                rbServer_CheckedChanged(this, EventArgs.Empty);
+            }
         }
 
         public bool propVisible
@@ -75,5 +101,40 @@ namespace GeoDBWinForms
                 ev(this, EventArgs.Empty);
             }
         }
+
+        private void rbServer_CheckedChanged(object sender, EventArgs e)
+        {
+            cbServerName.Enabled = locationServerDb;
+            cbDbName.Enabled = locationServerDb;
+            cbDbFileName.Enabled = !locationServerDb;
+            btDbFileName.Enabled = !locationServerDb;
+        }
+
+        private void rbDesktop_CheckedChanged(object sender, EventArgs e)
+        {
+            cbServerName.Enabled = locationServerDb;
+            cbDbName.Enabled = locationServerDb;
+            cbDbFileName.Enabled = !locationServerDb;
+            btDbFileName.Enabled = !locationServerDb;
+        }
+
+
+        private void btDbFileName_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog1 = new OpenFileDialog();
+
+            openFileDialog1.InitialDirectory = "c:\\";
+            openFileDialog1.Filter = "MS SQL DBF files(*.mdf)|*.mdf|All files (*.*)|*.*";
+            openFileDialog1.FilterIndex = 1;
+            openFileDialog1.RestoreDirectory = true;
+            openFileDialog1.Multiselect = false;
+            openFileDialog1.ValidateNames = false;
+            DialogResult r = openFileDialog1.ShowDialog();
+            if (r == DialogResult.OK)
+                {
+                    cbDbFileName.Text = openFileDialog1.FileName;
+                }
+        }
+
     }
 }

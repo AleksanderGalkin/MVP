@@ -71,6 +71,7 @@
     <Compile Include="NavigatorMenu.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Settings.cs" />
     <Compile Include="ViewAssays2Crud.cs">
       <SubType>Form</SubType>
     </Compile>
