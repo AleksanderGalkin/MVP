@@ -21,7 +21,7 @@ namespace GeoDB.Service.DataAccess
         public CollarEntityService()
         {
             string connectionString= SecurityContext.GetConnectionString_All_In_One();
-            if (String.IsNullOrEmpty(connectionString))
+            if (SecurityContext.errorLevel != 0)
             {
                 throw new UnauthorizedAccessException(SecurityContext.textError, SecurityContext.Exception);
             }

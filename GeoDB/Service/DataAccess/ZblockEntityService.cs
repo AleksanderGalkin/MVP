@@ -10,7 +10,17 @@ namespace GeoDB.Service.DataAccess
 {
     public class ZblockEntityService : IBaseService<BLOCK_ZAPASOV>
     {
-        ModelDB db = new ModelDB();
+        ModelDB db;
+
+        public ZblockEntityService()
+        {
+            string connectionString= SecurityContext.GetConnectionString_All_In_One();
+            if (SecurityContext.errorLevel != 0)
+            {
+                throw new UnauthorizedAccessException(SecurityContext.textError, SecurityContext.Exception);
+            }
+            db = new ModelDB(connectionString);
+        }
 
         public void Create(BLOCK_ZAPASOV obj)
         {

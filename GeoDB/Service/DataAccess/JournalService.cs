@@ -10,7 +10,17 @@ namespace GeoDB.Service.DataAccess
 {
     public class JournalEntityService : IBaseService<JOURNAL>
     {
-        ModelDB db = new ModelDB();
+        ModelDB db;
+
+        public JournalEntityService()
+        {
+            string connectionString= SecurityContext.GetConnectionString_All_In_One();
+            if (SecurityContext.errorLevel != 0)
+            {
+                throw new UnauthorizedAccessException(SecurityContext.textError, SecurityContext.Exception);
+            }
+            db = new ModelDB(connectionString);
+        }
 
         public void Create(JOURNAL obj)
         {

@@ -10,7 +10,16 @@ namespace GeoDB.Service.DataAccess
 {
     public class BlankEntityService : IBaseService<REESTR_VEDOMOSTEI>
     {
-        ModelDB db = new ModelDB();
+        ModelDB db;
+        public BlankEntityService()
+        {
+            string connectionString= SecurityContext.GetConnectionString_All_In_One();
+            if (SecurityContext.errorLevel != 0)
+            {
+                throw new UnauthorizedAccessException(SecurityContext.textError, SecurityContext.Exception);
+            }
+            db = new ModelDB(connectionString);
+        }
 
         public void Create(REESTR_VEDOMOSTEI obj)
         {

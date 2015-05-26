@@ -10,7 +10,17 @@ namespace GeoDB.Service.DataAccess
 {
     public class DrillingTypeEntityService : IBaseService<DRILLING_TYPE>
     {
-        ModelDB db = new ModelDB();
+        ModelDB db;
+
+        public DrillingTypeEntityService()
+        {
+            string connectionString= SecurityContext.GetConnectionString_All_In_One();
+            if (SecurityContext.errorLevel != 0)
+            {
+                throw new UnauthorizedAccessException(SecurityContext.textError, SecurityContext.Exception);
+            }
+            db = new ModelDB(connectionString);
+        }
         public void Create(DRILLING_TYPE obj)
         {
                 db.AddToDRILLING_TYPE(obj);
