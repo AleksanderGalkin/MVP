@@ -34,19 +34,37 @@ namespace GeoDBWinForms
             get { return tbPassword.Text; }
             set { tbPassword.Text = value; }
         }
-        public List<string> serverNames { set; private get; }
+        public List<string> serverNames
+        {
+            set
+            {
+                cbServerName.DataSource = value;
+            }
+        }
         public string serverName
         {
             get { return cbServerName.Text; }
             set { cbServerName.Text = value; }
         }
-        public List<string> dbNames { set; private get; }
+        public List<string> dbNames
+        {
+            set
+            {
+                cbDbName.DataSource = value;
+            }
+        }
         public string dbName 
         {
             get { return cbDbName.Text; }
             set { cbDbName.Text = value; }
         }
-        public List<string> dbFileNames { set; private get; }
+        public List<string> dbFileNames
+        {
+            set
+            {
+                cbDbFileName.DataSource = value;
+            }
+        }
         public string dbFileName
         {
             get { return cbDbFileName.Text; }
