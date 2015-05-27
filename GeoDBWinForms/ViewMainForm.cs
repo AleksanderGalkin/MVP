@@ -12,6 +12,9 @@ using GeoDB.Service.DataAccess.Interface;
 using GeoDB.Model;
 using GeoDB.Service.DataAccess;
 using GeoDB.Presenter;
+using System.Security.Principal;
+using System.Threading;
+using GeoDB.Service.Security;
 
 namespace GeoDBWinForms
 {
@@ -23,9 +26,43 @@ namespace GeoDBWinForms
         private PAssays2Crud preAssays2Crud;
         private PDrillHoles preDrillHoles;
         public bool mustClosed;
+
+
+        IKernel ninjectKernel;
+
+        IViewDrillHoles2 view ;
+        IViewCollar2Crud vCollarCrud ;
+        IViewAssays2Crud vAssaysCrud ;
+        IViewLogin vLogin;
+
+
+        IBaseService<COLLAR2> modelCollar ;
+        IBaseService<ASSAYS2> modelAssays ;
+        IBaseService<GEOLOGIST> modelGeologist ;
+        IBaseService<GORIZONT> modelGorizont ;
+        IBaseService<RL_EXPLO2> modelBlast ;
+        IBaseService<DRILLING_TYPE> modelDrillType ;
+        IBaseService<DOMEN> modelDomen ;
+
+        IBaseService<BLOCK_ZAPASOV> modelZblock ;
+        IBaseService<LITOLOGY> modelLito ;
+        IBaseService<RANG> modelRang ;
+        IBaseService<REESTR_VEDOMOSTEI> modelBlank ;
+        IBaseService<JOURNAL> modelJournal;
+
+
         public ViewMainForm()
         {
             InitializeComponent();
+
+
+            GenericIdentity MyIdentity = new GenericIdentity("test");
+            String[] MyStringArray = { "Manager", "Teller" };
+            GenericPrincipal MyPrincipal =
+                new GenericPrincipal(MyIdentity, MyStringArray);
+
+            Thread.CurrentPrincipal = MyPrincipal;
+
             this.mustClosed = false;
             this.navMenu = new NavigatorMenu(CreateMenu());
             this.Controls.Add(this.navMenu);
@@ -44,7 +81,17 @@ namespace GeoDBWinForms
             item1.image = global::GeoDBWinForms.Properties.Resources.drillhole;
             item1.clickItem += (t, e) =>
             {
-                preDrillHoles.Show(this);
+                try
+                {
+                    preCollar2Crud = new PCollar2Crud(vCollarCrud, modelCollar, modelGorizont, modelBlast, modelDrillType, modelDomen);
+                    preAssays2Crud = new PAssays2Crud(vAssaysCrud, modelAssays, modelZblock, modelLito, modelRang, modelBlank, modelJournal, modelGeologist);
+                    preDrillHoles = new PDrillHoles(view, modelCollar, modelAssays, modelGeologist, 20, preCollar2Crud, preAssays2Crud);
+                    preDrillHoles.Show(this);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message + " " + (ex.InnerException != null ? ex.InnerException.Message : ""), ex.Message);
+                }
             };
             Item item2 = new Item();
             item2.tittle = "Контроль";
@@ -102,7 +149,7 @@ namespace GeoDBWinForms
             try
             {
 
-                IKernel ninjectKernel = new StandardKernel();
+                 ninjectKernel = new StandardKernel();
                 ninjectKernel.Bind<IViewDrillHoles2>().To<ViewDrillHoles>();
                 ninjectKernel.Bind<IViewCollar2Crud>().To<ViewCollar2Crud>();
                 ninjectKernel.Bind<IViewAssays2Crud>().To<ViewAssays2Crud>();
@@ -123,37 +170,35 @@ namespace GeoDBWinForms
                 ninjectKernel.Bind<IBaseService<JOURNAL>>().To<JournalEntityService>();
 
 
-                IViewDrillHoles2 view = ninjectKernel.Get<IViewDrillHoles2>();
-                IViewCollar2Crud vCollarCrud = ninjectKernel.Get<IViewCollar2Crud>();
-                IViewAssays2Crud vAssaysCrud = ninjectKernel.Get<IViewAssays2Crud>();
-                IViewLogin vLogin = ninjectKernel.Get<ViewLogin>();
+                 view = ninjectKernel.Get<IViewDrillHoles2>();
+                 vCollarCrud = ninjectKernel.Get<IViewCollar2Crud>();
+                 vAssaysCrud = ninjectKernel.Get<IViewAssays2Crud>();
+                 vLogin = ninjectKernel.Get<ViewLogin>();
 
-                SecurityContext.SetLoginForm(vLogin);
+                MySecurity.SetLoginForm(vLogin);
 
 
-                IBaseService<COLLAR2> modelCollar = ninjectKernel.Get<IBaseService<COLLAR2>>();
-                IBaseService<ASSAYS2> modelAssays = ninjectKernel.Get<IBaseService<ASSAYS2>>();
-                IBaseService<GEOLOGIST> modelGeologist = ninjectKernel.Get<IBaseService<GEOLOGIST>>();
-                IBaseService<GORIZONT> modelGorizont = ninjectKernel.Get<IBaseService<GORIZONT>>();
-                IBaseService<RL_EXPLO2> modelBlast = ninjectKernel.Get<IBaseService<RL_EXPLO2>>();
-                IBaseService<DRILLING_TYPE> modelDrillType = ninjectKernel.Get<IBaseService<DRILLING_TYPE>>();
-                IBaseService<DOMEN> modelDomen = ninjectKernel.Get<IBaseService<DOMEN>>();
+                modelCollar = ninjectKernel.Get<IBaseService<COLLAR2>>();
+                 modelAssays = ninjectKernel.Get<IBaseService<ASSAYS2>>();
+                 modelGeologist = ninjectKernel.Get<IBaseService<GEOLOGIST>>();
+                 modelGorizont = ninjectKernel.Get<IBaseService<GORIZONT>>();
+                 modelBlast = ninjectKernel.Get<IBaseService<RL_EXPLO2>>();
+                 modelDrillType = ninjectKernel.Get<IBaseService<DRILLING_TYPE>>();
+                 modelDomen = ninjectKernel.Get<IBaseService<DOMEN>>();
 
-                IBaseService<BLOCK_ZAPASOV> modelZblock = ninjectKernel.Get<IBaseService<BLOCK_ZAPASOV>>();
-                IBaseService<LITOLOGY> modelLito = ninjectKernel.Get<IBaseService<LITOLOGY>>();
-                IBaseService<RANG> modelRang = ninjectKernel.Get<IBaseService<RANG>>();
-                IBaseService<REESTR_VEDOMOSTEI> modelBlank = ninjectKernel.Get<IBaseService<REESTR_VEDOMOSTEI>>();
-                IBaseService<JOURNAL> modelJournal = ninjectKernel.Get<IBaseService<JOURNAL>>();
+                 modelZblock = ninjectKernel.Get<IBaseService<BLOCK_ZAPASOV>>();
+                 modelLito = ninjectKernel.Get<IBaseService<LITOLOGY>>();
+                 modelRang = ninjectKernel.Get<IBaseService<RANG>>();
+                 modelBlank = ninjectKernel.Get<IBaseService<REESTR_VEDOMOSTEI>>();
+                 modelJournal = ninjectKernel.Get<IBaseService<JOURNAL>>();
 
-                preCollar2Crud = new PCollar2Crud(vCollarCrud, modelCollar, modelGorizont, modelBlast, modelDrillType, modelDomen);
-                preAssays2Crud = new PAssays2Crud(vAssaysCrud, modelAssays, modelZblock, modelLito, modelRang, modelBlank, modelJournal, modelGeologist);
-                preDrillHoles = new PDrillHoles(view, modelCollar, modelAssays, modelGeologist, 20, preCollar2Crud, preAssays2Crud);
+
 
             }
 
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, ex.InnerException != null ? ex.InnerException.Message : "");
+                MessageBox.Show( ex.Message+" "+(ex.InnerException != null ? ex.InnerException.Message : "") ,ex.Message );
                 this.mustClosed = true;
                 this.Close();
             }

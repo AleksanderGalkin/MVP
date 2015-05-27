@@ -10,11 +10,15 @@ using log4net;
 using GeoDB.Model.Interface;
 using GeoDB.Extensions;
 using System.Windows.Forms;
+using System.Security.Permissions;
+using System.Threading;
+using GeoDB.Service.Security;
 
 namespace GeoDB.Presenter
 {
+    
     public class BrowseCollar:AbsBrowser<COLLAR2,Collar2VmFull>
-    {
+    {   
         public BrowseCollar
          (
                        IBaseService<COLLAR2> modelCollar
@@ -25,7 +29,7 @@ namespace GeoDB.Presenter
         public override void CreateFilteredModel()
         {
             var temp =
-                 (from a in _model.Get()
+                 (from a in _model .Get()
                   join b in _modelGeologist.Get()
                   on a.LastUserID equals b.GEOLOGIST_ID
                   into louter
@@ -117,6 +121,9 @@ namespace GeoDB.Presenter
         }
 
     }
+
+    [AnyRolePermissionAttribute(SecurityAction.Demand, Roles = "GDB_BL_ADM,GDB_BL_GEO_ADV")]
+
     public class PDrillHoles
     {
         public static ILog log = LogManager.GetLogger("ConsoleAppender");

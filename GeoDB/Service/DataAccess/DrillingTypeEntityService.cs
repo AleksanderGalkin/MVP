@@ -5,6 +5,7 @@ using System.Text;
 using GeoDB.Service.DataAccess.Interface;
 using GeoDB.Model;
 using System.Data.Objects;
+using GeoDB.Service.Security;
 
 namespace GeoDB.Service.DataAccess
 {
@@ -14,10 +15,10 @@ namespace GeoDB.Service.DataAccess
 
         public DrillingTypeEntityService()
         {
-            string connectionString= SecurityContext.GetConnectionString_All_In_One();
-            if (SecurityContext.errorLevel != 0)
+            string connectionString= MySecurity.GetAuthorisation();
+            if (MySecurity.state != MySecurity.MySecurityState.success)
             {
-                throw new UnauthorizedAccessException(SecurityContext.textError, SecurityContext.Exception);
+                throw new UnauthorizedAccessException(MySecurity.textError, MySecurity.Exception);
             }
             db = new ModelDB(connectionString);
         }
@@ -41,8 +42,8 @@ namespace GeoDB.Service.DataAccess
         }
         public IEnumerable<DRILLING_TYPE> Get()
         {
-            IEnumerable<DRILLING_TYPE> result = (from a in db.DRILLING_TYPE
-                              select a).ToList();
+            IEnumerable<DRILLING_TYPE> result = from a in db.DRILLING_TYPE
+                              select a;
 
             return result;
         }

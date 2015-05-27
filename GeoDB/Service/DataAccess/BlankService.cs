@@ -5,6 +5,8 @@ using System.Text;
 using GeoDB.Service.DataAccess.Interface;
 using GeoDB.Model;
 using System.Data.Objects;
+using GeoDB.Service.Security;
+using GeoDB.Extensions;
 
 namespace GeoDB.Service.DataAccess
 {
@@ -13,10 +15,10 @@ namespace GeoDB.Service.DataAccess
         ModelDB db;
         public BlankEntityService()
         {
-            string connectionString= SecurityContext.GetConnectionString_All_In_One();
-            if (SecurityContext.errorLevel != 0)
+            string connectionString= MySecurity.GetAuthorisation();
+            if (MySecurity.state != MySecurity.MySecurityState.success)
             {
-                throw new UnauthorizedAccessException(SecurityContext.textError, SecurityContext.Exception);
+                throw new UnauthorizedAccessException(MySecurity.textError, MySecurity.Exception);
             }
             db = new ModelDB(connectionString);
         }
@@ -41,8 +43,8 @@ namespace GeoDB.Service.DataAccess
         }
         public IEnumerable<REESTR_VEDOMOSTEI> Get()
         {
-            IEnumerable<REESTR_VEDOMOSTEI> result = (from a in db.REESTR_VEDOMOSTEI
-                              select a).ToList();
+            IEnumerable<REESTR_VEDOMOSTEI> result = from a in db.REESTR_VEDOMOSTEI
+                              select a;
 
             return result;
         }
@@ -54,7 +56,6 @@ namespace GeoDB.Service.DataAccess
                                     select a).FirstOrDefault();
             return result;
         }
-
         public IEnumerable<REESTR_VEDOMOSTEI> GetByBhid(int bhid)
         {
             throw new InvalidOperationException("Not implement operation");

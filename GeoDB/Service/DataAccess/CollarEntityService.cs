@@ -8,6 +8,8 @@ using System.Data.Objects;
 using System.Configuration;
 using System.Data.EntityClient;
 using System.Data.SqlClient;
+using GeoDB.Service.Security;
+using GeoDB.Extensions;
 
 
 namespace GeoDB.Service.DataAccess
@@ -20,10 +22,10 @@ namespace GeoDB.Service.DataAccess
 
         public CollarEntityService()
         {
-            string connectionString= SecurityContext.GetConnectionString_All_In_One();
-            if (SecurityContext.errorLevel != 0)
+            string connectionString= MySecurity.GetAuthorisation();
+            if (MySecurity.state != MySecurity.MySecurityState.success)
             {
-                throw new UnauthorizedAccessException(SecurityContext.textError, SecurityContext.Exception);
+                throw new UnauthorizedAccessException(MySecurity.textError, MySecurity.Exception);
             }
             db = new ModelDB(connectionString);
         }
@@ -49,8 +51,8 @@ namespace GeoDB.Service.DataAccess
         }
         public IEnumerable<COLLAR2> Get()
         {
-            IEnumerable<COLLAR2> result = (from a in db.COLLAR2
-                              select a).ToList();
+            IEnumerable<COLLAR2> result = from a in db.COLLAR2
+                              select a;
 
             return result;
         }
