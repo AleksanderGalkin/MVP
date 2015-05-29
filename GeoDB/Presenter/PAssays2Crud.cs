@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using GeoDB.View;
 using GeoDB.Service.DataAccess.Interface;
 using GeoDB.Model;
 using System.Windows.Forms;

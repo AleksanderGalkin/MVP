@@ -49,8 +49,15 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="FastReport, Version=2015.1.5.0, Culture=neutral, PublicKeyToken=db7e5ce63278458c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files (x86)\FastReports\FastReport.Net Demo\FastReport.dll</HintPath>
+    </Reference>
     <Reference Include="log4net">
       <HintPath>..\..\..\Install\programming\log4net-1.2.13\bin\net\4.0\release\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject">
+      <HintPath>..\..\..\Ninject-3.0.0.15-release-net-4.0\Ninject.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
@@ -99,6 +106,7 @@
     <Compile Include="Presenter\PCollar2Crud.cs" />
     <Compile Include="Presenter\PDrillHoles.cs" />
     <Compile Include="Presenter\PLogin.cs" />
+    <Compile Include="Presenter\PMainForm.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -127,14 +135,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\DataAccess\Interface\ITestDbConnection.cs" />
     <Compile Include="Service\Security\AnyRolePermissionAttribute.cs" />
-    <Compile Include="View\IViewAssays2Crud.cs" />
-    <Compile Include="View\IViewCollar2Crud.cs" />
-    <Compile Include="View\IViewDrillHoles2.cs" />
-    <Compile Include="View\IViewLogin.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
@@ -183,9 +187,51 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <EmbeddedResource Include="Resources\rptDrillHoles.frx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\loaddb.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\report.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\blank.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\control.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\drillhole.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\role.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\test.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\user.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\vaicle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\very-basic-arrowdown-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\very-basic-arrowup-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Very-Basic-Filter-Filled-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Very-Basic-Filter-Not-Filled.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -4,16 +4,10 @@ using System.Linq;
 using System.Text;
 using GeoDB.Extensions;
 
-namespace GeoDB.Model
+namespace GeoDbUserInterface.ServiceInterfaces
 {
-   public  class NumSortedFieldEventArgs : EventArgs
+    public class NumSortedFieldEventArgs : ANumSortedFieldEventArgs
     {
-        public int numField { get; set; }
-        public LinqExtensionSorterCriterion.TypeCriterion order { get; set; }
-        public NumSortedFieldEventArgs(int NumField, LinqExtensionSorterCriterion.TypeCriterion Order):base()
-        {
-            numField = NumField;
-            order = Order;
-        }
+
     }
 }

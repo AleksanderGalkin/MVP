@@ -5,9 +5,10 @@ using System.Text;
 using GeoDB.Model;
 using GeoDB.Model.Interface;
 
+
 namespace GeoDB.Extensions
 {
-    public class LinqExtensionFilterCriterion
+    public class LinqExtensionFilterCriterion 
     {
         public enum TypeCriterion { oneArg, twoArg,resetArgs }
         public object min { get; private set; }
@@ -54,7 +55,7 @@ namespace GeoDB.Extensions
             this.min = criterion.min;
             this.max = criterion.max;
             this.only = criterion.only;
-            this._typeCriterion = criterion._typeCriterion;
+            this._typeCriterion = criterion.GetTypeCriterion();
         }
         public void Reset()
         {

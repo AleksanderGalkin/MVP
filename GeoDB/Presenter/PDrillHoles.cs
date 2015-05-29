@@ -13,6 +13,11 @@ using System.Windows.Forms;
 using System.Security.Permissions;
 using System.Threading;
 using GeoDB.Service.Security;
+using System.Drawing;
+using FastReport;
+using System.IO;
+using System.Reflection;
+//using GeoDBWinForms;
 
 namespace GeoDB.Presenter
 {
@@ -134,6 +139,8 @@ namespace GeoDB.Presenter
         private PAssays2Crud _preAssays2Crud;
         private Form mdiParent;
 
+        private IBaseService<GEOLOGIST> _modelGeologist;
+
         public PDrillHoles
             (           IViewDrillHoles2 viewCollar2
                         , IBaseService<COLLAR2> modelCollar
@@ -147,6 +154,8 @@ namespace GeoDB.Presenter
             _view = viewCollar2;
             _preCollar2Crud = PresenterCollar2Crud;
             _preAssays2Crud = PresenterAssays2Crud;
+
+            _modelGeologist = modelGeologist; // for report testing
 
             _broCollar = new BrowseCollar(modelCollar, modelGeologist, rowsToBuffer);
             _broCollar.generatedNewPartOfBuffer += new EventHandler<EventArgs>(OnCollarGeneratedNewPartOfBuffer);
@@ -290,5 +299,28 @@ namespace GeoDB.Presenter
             this.mdiParent = f;
             _view.Show();
         }
+
+        
+
+        private void Report()
+        {
+            var report = new Report();
+
+            //Stream stream = this.GetType().Assembly.GetManifestResourceStream("GeoDBWinForms.Resources.rptDrillHoles.frx");  //GetExecutingAssembly
+            Assembly assem = Assembly.GetExecutingAssembly();
+            Stream stream = assem.GetManifestResourceStream("GeoDB.Resources.rptDrillHoles.frx");  
+            report.Load(stream);
+            report.RegisterData(_modelGeologist.Get(), "GEOLOGIST");
+            report.GetDataSource("GEOLOGIST").Enabled = true;
+
+            FastReport.DataBand band = ((FastReport.DataBand)report.FindObject("Data1"));
+            band.DataSource = report.GetDataSource("GEOLOGIST");
+
+
+            FastReport.TextObject desc = ((FastReport.TextObject)report.FindObject("Text2"));
+            if (desc != null) desc.Text = "[GEOLOGIST.GEOLOGIST_NAME]";
+            report.Show();
+        }
+
     }
 }

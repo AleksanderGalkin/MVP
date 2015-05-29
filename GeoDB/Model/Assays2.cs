@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using GeoDB.Model.Interface;
 using GeoDB.Extensions;
+using GeoDbUserInterface.View;
 
 namespace GeoDB.Model
 {
@@ -12,7 +13,7 @@ namespace GeoDB.Model
        
     }
 
-    public class Assays2VmFull : IViewModel
+    public class Assays2VmFull : IAssays2VmFull
     {
         
         public int bhid { get; set; }

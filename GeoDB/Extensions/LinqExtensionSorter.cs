@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using GeoDB.Model;
 using GeoDB.Model.Interface;
+using GeoDBWinForms.ServiceInterfaces;
 
 namespace GeoDB.Extensions
 {
-    public class LinqExtensionSorterCriterion
+    public class LinqExtensionSorterCriterion : ILinqExtensionSorterCriterion
     {
         public enum TypeCriterion { Ascending, Descending }
         public DGVHeader _firstField { get; private set; }
