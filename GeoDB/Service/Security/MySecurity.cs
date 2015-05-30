@@ -5,11 +5,11 @@ using System.Text;
 using System.Data.SqlClient;
 using System.Data.EntityClient;
 using GeoDB.Presenter;
-using GeoDB.View;
 using System.Security.Principal;
 using System.Security;
 using System.Threading;
 using System.Security.Permissions;
+using GeoDbUserInterface.View;
 
 namespace GeoDB.Service.Security
 {

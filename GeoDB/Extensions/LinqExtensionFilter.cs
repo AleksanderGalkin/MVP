@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using GeoDB.Model;
 using GeoDB.Model.Interface;
+using GeoDbUserInterface.ServiceInterfaces;
 
 
 namespace GeoDB.Extensions
@@ -73,17 +74,17 @@ namespace GeoDB.Extensions
     }
     public static class LinqExtensionFilter
     {
-        public static IEnumerable<T> FilteredBy<T>(this IEnumerable<T> source, Dictionary<DGVHeader,LinqExtensionFilterCriterion> criterion)
+        public static IEnumerable<T> FilteredBy<T>(this IEnumerable<T> source, Dictionary<IDGVHeader,ILinqExtensionFilterCriterion> criterion)
         {
             IEnumerable<T> result = source;
 
             foreach (var i in criterion)
             {
-                if (i.Value.GetTypeCriterion() == LinqExtensionFilterCriterion.TypeCriterion.oneArg)
+                if (i.Value.GetTypeCriterion() == FilterTypeCriterion.oneArg)
                 {
                     result = FilteredByOneArg<T>(result, i);
                 }
-                else if (i.Value.GetTypeCriterion() == LinqExtensionFilterCriterion.TypeCriterion.twoArg)
+                else if (i.Value.GetTypeCriterion() == FilterTypeCriterion.twoArg)
                 {
                     result = FilteredByTwoArgs<T>(result, i);
                 }
@@ -94,7 +95,7 @@ namespace GeoDB.Extensions
 
         }
 
-        private static IEnumerable<T> FilteredByTwoArgs<T>(IEnumerable<T> source, KeyValuePair<DGVHeader,LinqExtensionFilterCriterion> criterion)
+        private static IEnumerable<T> FilteredByTwoArgs<T>(IEnumerable<T> source, KeyValuePair<IDGVHeader,ILinqExtensionFilterCriterion> criterion)
         {
             var keyType = typeof(T).GetProperty(criterion.Key.fieldName).PropertyType;
 
@@ -133,7 +134,7 @@ namespace GeoDB.Extensions
 
         }
 
-        private static IEnumerable<T> FilteredByOneArg<T>(IEnumerable<T> source, KeyValuePair<DGVHeader, LinqExtensionFilterCriterion> criterion)
+        private static IEnumerable<T> FilteredByOneArg<T>(IEnumerable<T> source, KeyValuePair<IDGVHeader, ILinqExtensionFilterCriterion> criterion)
         {
             var keyType = typeof(T).GetProperty(criterion.Key.fieldName).PropertyType;
 

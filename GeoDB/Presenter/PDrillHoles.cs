@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using GeoDB.Model;
-using GeoDB.View;
 using GeoDB.Service.DataAccess;
 using GeoDB.Service.DataAccess.Interface;
 using log4net;
@@ -17,12 +16,14 @@ using System.Drawing;
 using FastReport;
 using System.IO;
 using System.Reflection;
-//using GeoDBWinForms;
+using GeoDbUserInterface.View;
+using GeoDbUserInterface.ServiceInterfaces;
+
 
 namespace GeoDB.Presenter
 {
-    
-    public class BrowseCollar:AbsBrowser<COLLAR2,Collar2VmFull>
+
+    public class BrowseCollar : AbsBrowser<COLLAR2, ICollar2VmFull, Collar2VmFull>
     {   
         public BrowseCollar
          (
@@ -30,7 +31,11 @@ namespace GeoDB.Presenter
                      , IBaseService<GEOLOGIST> modelGeologist
                      , int rowsToBuffer
          )
-            : base(modelCollar, modelGeologist, rowsToBuffer) { }
+            : base(modelCollar, modelGeologist, rowsToBuffer) 
+        {
+        }
+
+
         public override void CreateFilteredModel()
         {
             var temp =
@@ -63,7 +68,7 @@ namespace GeoDB.Presenter
 
     }
 
-    public class BrowseAssay:AbsBrowser<ASSAYS2,Assays2VmFull>
+    public class BrowseAssay : AbsBrowser<ASSAYS2, IAssays2VmFull, Assays2VmFull>
     {
         public BrowseAssay
             (
@@ -71,7 +76,10 @@ namespace GeoDB.Presenter
                         , IBaseService<GEOLOGIST> modelGeologist
                         , int rowsToBuffer
             )
-            :base(modelAssays,modelGeologist,rowsToBuffer){}
+            :base(modelAssays,modelGeologist,rowsToBuffer)
+        {
+ 
+        }
 
 
         public override void CreateFilteredModel()
@@ -117,7 +125,7 @@ namespace GeoDB.Presenter
 
             _wholeModelRowCount = _filteredViewModel.Count();
         }
-        public  void OnSetRowMasterTable(object sender, NumRowEventArgs e)
+        public  void OnSetRowMasterTable(object sender, ANumRowEventArgs e)
         {
             _bhid_Collar_id = e.numRow  ;
             CreateFilteredModel();
@@ -137,9 +145,12 @@ namespace GeoDB.Presenter
         private BrowseAssay _broAssays;
         private PCollar2Crud _preCollar2Crud;
         private PAssays2Crud _preAssays2Crud;
-        private Form mdiParent;
+        private IView mdiParent;
 
         private IBaseService<GEOLOGIST> _modelGeologist;
+
+
+        public event EventHandler<EventArgs> _FormClosing;
 
         public PDrillHoles
             (           IViewDrillHoles2 viewCollar2
@@ -162,31 +173,36 @@ namespace GeoDB.Presenter
             _broCollar.refreshedViewModel += new EventHandler<EventArgs>(OnCollarRefreshedViewModel);
             _broCollar.sortedViewModel += new EventHandler<EventArgs>(OnCollarSortedViewModel);
             _broCollar.filteredViewModel += new EventHandler<EventArgs>(OnCollarFilteredViewModel);
-            _view.clickCollarHeader += new EventHandler<NumSortedFieldEventArgs>(_broCollar.OnSetSortedField);
-            _view.showAnyCollarScreen += new EventHandler<NumRowEventArgs>(_broCollar.OnShowAnyScreen);
-            _view.settedCollarFilter += new EventHandler<FilterParamsEventArgs>(_broCollar.OnClickFilters);
+            _view.clickCollarHeader += new EventHandler<ANumSortedFieldEventArgs>(_broCollar.OnSetSortedField);
+            _view.showAnyCollarScreen += new EventHandler<ANumRowEventArgs>(_broCollar.OnShowAnyScreen);
+            _view.settedCollarFilter += new EventHandler<AFilterParamsEventArgs>(_broCollar.OnClickFilters);
             _view.clickCollarCreateData += new EventHandler<EventArgs>(OnClickCollarCreateData);
-            _view.clickCollarEditData += new EventHandler<NumRowEventArgs>(OnClickCollarEditData);
-            _view.clickCollarDeleteData += new EventHandler<NumRowEventArgs>(OnClickCollarDeleteData);
+            _view.clickCollarEditData += new EventHandler<ANumRowEventArgs>(OnClickCollarEditData);
+            _view.clickCollarDeleteData += new EventHandler<ANumRowEventArgs>(OnClickCollarDeleteData);
 
             _broAssays = new BrowseAssay(modelAssays, modelGeologist, rowsToBuffer);
             _broAssays.generatedNewPartOfBuffer += new EventHandler<EventArgs>(OnAssaysGeneratedNewPartOfBuffer);
             _broAssays.refreshedViewModel += new EventHandler<EventArgs>(OnAssaysRefreshedViewModel);
             _broAssays.sortedViewModel += new EventHandler<EventArgs>(OnAssaysSortedViewModel);
             _broAssays.filteredViewModel += new EventHandler<EventArgs>(OnAssaysFilteredViewModel);
-            _view.clickAssaysHeader += new EventHandler<NumSortedFieldEventArgs>(_broAssays.OnSetSortedField);
-            _view.showAnyAssaysScreen += new EventHandler<NumRowEventArgs>(_broAssays.OnShowAnyScreen);
-            _view.settedAssaysFilter += new EventHandler<FilterParamsEventArgs>(_broAssays.OnClickFilters);
-            _view.setCurrentRow += new EventHandler<NumRowEventArgs>(_broAssays.OnSetRowMasterTable);
+            _view.clickAssaysHeader += new EventHandler<ANumSortedFieldEventArgs>(_broAssays.OnSetSortedField);
+            _view.showAnyAssaysScreen += new EventHandler<ANumRowEventArgs>(_broAssays.OnShowAnyScreen);
+            _view.settedAssaysFilter += new EventHandler<AFilterParamsEventArgs>(_broAssays.OnClickFilters);
+            _view.setCurrentRow += new EventHandler<ANumRowEventArgs>(_broAssays.OnSetRowMasterTable);
             _view.clickAssaysCreateData += new EventHandler<EventArgs>(OnClickAssaysCreateData);
-            _view.clickAssaysEditData += new EventHandler<NumRowEventArgs>(OnClickAssaysEditData);
-            _view.clickAssaysDeleteData += new EventHandler<NumRowEventArgs>(OnClickAssaysDeleteData);
+            _view.clickAssaysEditData += new EventHandler<ANumRowEventArgs>(OnClickAssaysEditData);
+            _view.clickAssaysDeleteData += new EventHandler<ANumRowEventArgs>(OnClickAssaysDeleteData);
 
             _view.clickCloseForm += new EventHandler<EventArgs>(OnClickCloseForm);
 
             _preCollar2Crud.DataChanged += new EventHandler<EventArgs>(OnPreCollar2Crud_DataChanged);
             _preAssays2Crud.DataChanged += new EventHandler<EventArgs>(OnPreAssays2Crud_DataChanged);
-            
+
+
+            _view._FormClosing += (s, e) => {
+                var ev = _FormClosing;
+                if (ev != null) ev(this, EventArgs.Empty);
+            };
         }
         private void OnPreCollar2Crud_DataChanged(object sender, EventArgs e)
         {
@@ -198,6 +214,7 @@ namespace GeoDB.Presenter
         }
         private void OnCollarGeneratedNewPartOfBuffer(object sender, EventArgs e)
         {
+            //_view.CollarList = _broCollar.GetBuffer();
             _view.CollarList = _broCollar.GetBuffer();
             _view.rowCollarCount = _broCollar.GetWholeModelRowCount();
         }
@@ -220,20 +237,20 @@ namespace GeoDB.Presenter
 
         private void OnClickCollarCreateData(object sender, EventArgs e)
         {
-            _preCollar2Crud.Show(mdiParent, _view as Form);
+            _preCollar2Crud.Show(mdiParent, _view);
             _view.Enabled = false;
             _broCollar.Refresh();
         }
 
-        private void OnClickCollarEditData(object sender, NumRowEventArgs e)
+        private void OnClickCollarEditData(object sender, ANumRowEventArgs e)
         {
-            _preCollar2Crud.Show(e.numRow, mdiParent, _view as Form);
+            _preCollar2Crud.Show(e.numRow, mdiParent, _view);
             _broCollar.Refresh();
         }
 
-        private void OnClickCollarDeleteData(object sender, NumRowEventArgs e)
+        private void OnClickCollarDeleteData(object sender, ANumRowEventArgs e)
         {
-            _preCollar2Crud.ShowForDelete(e.numRow, mdiParent, _view as Form);
+            _preCollar2Crud.ShowForDelete(e.numRow, mdiParent, _view );
             _broCollar.Refresh();
         }
         private void OnAssaysGeneratedNewPartOfBuffer(object sender, EventArgs e)
@@ -259,19 +276,19 @@ namespace GeoDB.Presenter
         }
         private void OnClickAssaysCreateData(object sender, EventArgs e)
         {
-            _preAssays2Crud.ShowCreate(_broAssays.GetForeignKey(),mdiParent,_view as Form);
+            _preAssays2Crud.ShowCreate(_broAssays.GetForeignKey(),mdiParent,_view);
             _broAssays.Refresh();
         }
 
-        private void OnClickAssaysEditData(object sender, NumRowEventArgs e)
+        private void OnClickAssaysEditData(object sender, ANumRowEventArgs e)
         {
-            _preAssays2Crud.ShowModify(e.numRow, mdiParent, _view as Form);
+            _preAssays2Crud.ShowModify(e.numRow, mdiParent, _view);
             _broAssays.Refresh();
         }
 
-        private void OnClickAssaysDeleteData(object sender, NumRowEventArgs e)
+        private void OnClickAssaysDeleteData(object sender, ANumRowEventArgs e)
         {
-            _preAssays2Crud.ShowForDelete(e.numRow, mdiParent, _view as Form);
+            _preAssays2Crud.ShowForDelete(e.numRow, mdiParent, _view);
             _broAssays.Refresh();
         }
         private void OnClickCloseForm(object sender, EventArgs e)
@@ -280,7 +297,7 @@ namespace GeoDB.Presenter
         }
 
 
-        public void Show(Form f)
+        public void Show(IView f)
         {
             _view.CollarHeader = _broCollar.GetHeader();
             _view.sortedCollarNumField = _broCollar.GetSortedNumField();

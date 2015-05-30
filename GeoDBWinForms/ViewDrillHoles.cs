@@ -6,10 +6,10 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using GeoDB.Model;
-using GeoDB.View;
 using System.Reflection;
-using GeoDB.Extensions;
+using GeoDbUserInterface.View;
+using GeoDbUserInterface.ServiceInterfaces;
+using GeoDBWinForms.Service;
 
 namespace GeoDBWinForms
 {
@@ -23,59 +23,68 @@ namespace GeoDBWinForms
         // Collar interface
         #region Collar
 
-        public Dictionary<int, Collar2VmFull> CollarList
+        public Dictionary<int, ICollar2VmFull> CollarList
         {private  get; set;}
         public int rowCollarCount
         {
             set { dataGVCollar2.RowCount = value; }
             private get { return dataGVCollar2.RowCount; }
         }
-        public List<DGVHeader> CollarHeader
+        private List<IDGVHeader> _CollarHeader;
+        public List<IDGVHeader> CollarHeader
         {
             set
             {
+                _CollarHeader=value;
                 dataGVCollar2.Columns.Clear();
                 foreach (var i in value)
                 {
                     dataGVCollar2.Columns.Add(i.fieldName, i.fieldHeader);
                 }
             }
-            
+            private get
+            {
+                return _CollarHeader;
+            }
         }
         public int sortedCollarNumField { set; private get; }
-        public LinqExtensionSorterCriterion.TypeCriterion
+        public SortererTypeCriterion
             SortedCollarCriterion { set; private get; }
         public bool[] filteredCollarNumField { set; private get; }
-        
 
-        public event EventHandler<NumSortedFieldEventArgs> clickCollarHeader;
-        public event EventHandler<FilterParamsEventArgs> settedCollarFilter;
-        public event EventHandler<NumRowEventArgs> showAnyCollarScreen;
-        public event EventHandler<NumRowEventArgs> setCurrentRow;
+
+        public ToolStrip toolStrip { get; set; }
+
+
+        public event EventHandler<ANumSortedFieldEventArgs> clickCollarHeader;
+        public event EventHandler<AFilterParamsEventArgs> settedCollarFilter;
+        public event EventHandler<ANumRowEventArgs> showAnyCollarScreen;
+        public event EventHandler<ANumRowEventArgs> setCurrentRow;
         public event EventHandler<EventArgs> clickCollarCreateData;
-        public event EventHandler<NumRowEventArgs> clickCollarEditData;
-        public event EventHandler<NumRowEventArgs> clickCollarDeleteData;
+        public event EventHandler<ANumRowEventArgs> clickCollarEditData;
+        public event EventHandler<ANumRowEventArgs> clickCollarDeleteData;
 
         private void dataGVCollar2_CellValueNeeded(object sender, DataGridViewCellValueEventArgs e)
         {
 
-            Collar2VmFull tmp;
+            ICollar2VmFull tmp;
             if (CollarList.TryGetValue(e.RowIndex, out tmp))
             {
-                string propName = Collar2VmFull.header.ElementAt(e.ColumnIndex).fieldName;
+                //var header = typeof(ICollar2VmFull).GetMethod(
+                string propName = CollarHeader.ElementAt(e.ColumnIndex).fieldName;
                 e.Value = tmp.GetType().GetProperty(propName).GetValue(tmp, null);
             }
             else
             {
                 if (showAnyCollarScreen != null)
                 {
-                    showAnyCollarScreen(this, new NumRowEventArgs(e.RowIndex));
+                    showAnyCollarScreen(this, new ANumRowEventArgs(e.RowIndex));
                 }
                 
 
                 if (CollarList.TryGetValue(e.RowIndex, out tmp))
                 {
-                    string propName = Collar2VmFull.header.ElementAt(e.ColumnIndex).fieldName;
+                    string propName = CollarHeader.ElementAt(e.ColumnIndex).fieldName;
                     e.Value = tmp.GetType().GetProperty(propName).GetValue(tmp, null);
                 }
                 
@@ -100,11 +109,11 @@ namespace GeoDBWinForms
 
                     if (filteredCollarNumField[e.ColumnIndex])
                     {
-                        imgFilter = Properties.Resources.ResourceManager.GetObject("Very_Basic_Filter_Filled_icon") as Image;
+                        imgFilter = GeoDBWinForms2.Properties.Resources.ResourceManager.GetObject("Very_Basic_Filter_Filled_icon") as Image;
                     }
                     else
                     {
-                        imgFilter = Properties.Resources.ResourceManager.GetObject("Very_Basic_Filter_Not_Filled") as Image;
+                        imgFilter = GeoDBWinForms2.Properties.Resources.ResourceManager.GetObject("Very_Basic_Filter_Not_Filled") as Image;
                     }
                     int offsetFilter = width - imgFilter.Width;
                     width = offsetFilter;
@@ -116,13 +125,13 @@ namespace GeoDBWinForms
                 {
                     Image imgSort;
                     Point ptSort = e.CellBounds.Location;
-                    if (SortedCollarCriterion == LinqExtensionSorterCriterion.TypeCriterion.Ascending)
+                    if (SortedCollarCriterion == SortererTypeCriterion.Ascending)
                     {
-                        imgSort = Properties.Resources.ResourceManager.GetObject("Very_Basic_ArrowUp_icon") as Image;
+                        imgSort = GeoDBWinForms2.Properties.Resources.ResourceManager.GetObject("Very_Basic_ArrowUp_icon") as Image;
                     }
                     else
                     {
-                        imgSort = Properties.Resources.ResourceManager.GetObject("Very_Basic_ArrowDown_icon") as Image;
+                        imgSort = GeoDBWinForms2.Properties.Resources.ResourceManager.GetObject("Very_Basic_ArrowDown_icon") as Image;
                     }
                     int offsetSort = width - imgSort.Width;
                     ptSort.X += offsetSort;
@@ -137,23 +146,23 @@ namespace GeoDBWinForms
         {
             if (e.Button == MouseButtons.Left)
             {
-                LinqExtensionSorterCriterion.TypeCriterion temp;
+                SortererTypeCriterion temp;
                 if (sortedCollarNumField == e.ColumnIndex)
                 {
-                    if (SortedCollarCriterion == LinqExtensionSorterCriterion.TypeCriterion.Ascending)
+                    if (SortedCollarCriterion == SortererTypeCriterion.Ascending)
                     {
-                        temp = LinqExtensionSorterCriterion.TypeCriterion.Descending;
+                        temp = SortererTypeCriterion.Descending;
                     }
                     else
                     {
-                        temp = LinqExtensionSorterCriterion.TypeCriterion.Ascending;
+                        temp = SortererTypeCriterion.Ascending;
                     }
                 }
                 else
                 {
-                    temp = LinqExtensionSorterCriterion.TypeCriterion.Ascending;
+                    temp = SortererTypeCriterion.Ascending;
                 }
-                clickCollarHeader(this, new NumSortedFieldEventArgs(e.ColumnIndex, temp));
+                clickCollarHeader(this, new ANumSortedFieldEventArgs(e.ColumnIndex, temp));
             }
             else if (e.Button == MouseButtons.Right)
             {
@@ -192,17 +201,20 @@ namespace GeoDBWinForms
         // Assays interface
         #region Assays 
 
-        public Dictionary<int, Assays2VmFull> AssaysList
+        public Dictionary<int, IAssays2VmFull> AssaysList
         { private get; set; }
         public int rowAssaysCount
         {
             set {dataGVAssays2.RowCount = value > 0 ? value : 1 ;}
             private get { return dataGVAssays2.RowCount; }
         }
-        public List<DGVHeader> AssaysHeader
+
+        private List<IDGVHeader> _AssaysHeader;
+        public List<IDGVHeader> AssaysHeader
         {
             set
-            {
+            {   
+                _AssaysHeader = value;
                 dataGVAssays2.Columns.Clear();
                 foreach (var i in value)
                 {
@@ -213,28 +225,32 @@ namespace GeoDBWinForms
                     h.Width = i.fieldHeader.ToString().Length * 10;
                     dataGVAssays2.Columns.Add(h);
                 }
+                
             }
-
+            private get
+            {
+                return _AssaysHeader;
+            }
         }
         public int sortedAssaysNumField { set; private get; }
-        public LinqExtensionSorterCriterion.TypeCriterion
+        public SortererTypeCriterion
             SortedAssaysCriterion { set; private get; }
         public bool[] filteredAssaysNumField { set; private get; }
 
-        public event EventHandler<NumSortedFieldEventArgs> clickAssaysHeader;
-        public event EventHandler<NumRowEventArgs> showAnyAssaysScreen;
-        public event EventHandler<FilterParamsEventArgs> settedAssaysFilter;
+        public event EventHandler<ANumSortedFieldEventArgs> clickAssaysHeader;
+        public event EventHandler<ANumRowEventArgs> showAnyAssaysScreen;
+        public event EventHandler<AFilterParamsEventArgs> settedAssaysFilter;
         public event EventHandler<EventArgs> clickAssaysCreateData;
-        public event EventHandler<NumRowEventArgs> clickAssaysEditData;
-        public event EventHandler<NumRowEventArgs> clickAssaysDeleteData;
+        public event EventHandler<ANumRowEventArgs> clickAssaysEditData;
+        public event EventHandler<ANumRowEventArgs> clickAssaysDeleteData;
 
         private void dataGVAssays2_CellValueNeeded(object sender, DataGridViewCellValueEventArgs e)
         {
 
-            Assays2VmFull tmp;
+            IAssays2VmFull tmp;
             if (AssaysList.TryGetValue(e.RowIndex, out tmp))
             {
-                string propName = Assays2VmFull.header.ElementAt(e.ColumnIndex).fieldName;
+                string propName = AssaysHeader.ElementAt(e.ColumnIndex).fieldName;
                 e.Value = tmp.GetType().GetProperty(propName).GetValue(tmp, null);
             }
             else
@@ -242,12 +258,12 @@ namespace GeoDBWinForms
              
                 if (showAnyAssaysScreen != null)
                 {
-                    showAnyAssaysScreen(this, new NumRowEventArgs(e.RowIndex));
+                    showAnyAssaysScreen(this, new ANumRowEventArgs(e.RowIndex));
                 }
            
                 if (AssaysList.TryGetValue(e.RowIndex, out tmp))
                 {
-                    string propName = Assays2VmFull.header.ElementAt(e.ColumnIndex).fieldName;
+                    string propName = AssaysHeader.ElementAt(e.ColumnIndex).fieldName;
                     e.Value = tmp.GetType().GetProperty(propName).GetValue(tmp, null);
                 }
 
@@ -258,7 +274,7 @@ namespace GeoDBWinForms
             if (setCurrentRow != null)
             {
                 int CollarID = (int)(dataGVCollar2[dataGVCollar2.Columns["ID"].Index, e.RowIndex].Value);
-               setCurrentRow(this, new NumRowEventArgs(CollarID));
+               setCurrentRow(this, new ANumRowEventArgs(CollarID));
             }
         }
         private void dataGVAssays2_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
@@ -278,11 +294,11 @@ namespace GeoDBWinForms
 
                     if (filteredAssaysNumField[e.ColumnIndex])
                     {
-                        imgFilter = Properties.Resources.ResourceManager.GetObject("Very_Basic_Filter_Filled_icon") as Image;
+                        imgFilter = GeoDBWinForms2.Properties.Resources.ResourceManager.GetObject("Very_Basic_Filter_Filled_icon") as Image;
                     }
                     else
                     {
-                        imgFilter = Properties.Resources.ResourceManager.GetObject("Very_Basic_Filter_Not_Filled") as Image;
+                        imgFilter = GeoDBWinForms2.Properties.Resources.ResourceManager.GetObject("Very_Basic_Filter_Not_Filled") as Image;
                     }
                     int offsetFilter = width - imgFilter.Width;
                     width = offsetFilter;
@@ -294,13 +310,13 @@ namespace GeoDBWinForms
                 {
                     Image imgSort;
                     Point ptSort = e.CellBounds.Location;
-                    if (SortedAssaysCriterion == LinqExtensionSorterCriterion.TypeCriterion.Ascending)
+                    if (SortedAssaysCriterion == SortererTypeCriterion.Ascending)
                     {
-                        imgSort = Properties.Resources.ResourceManager.GetObject("Very_Basic_ArrowUp_icon") as Image;
+                        imgSort = GeoDBWinForms2.Properties.Resources.ResourceManager.GetObject("Very_Basic_ArrowUp_icon") as Image;
                     }
                     else
                     {
-                        imgSort = Properties.Resources.ResourceManager.GetObject("Very_Basic_ArrowDown_icon") as Image;
+                        imgSort = GeoDBWinForms2.Properties.Resources.ResourceManager.GetObject("Very_Basic_ArrowDown_icon") as Image;
                     }
                     int offsetSort = width - imgSort.Width;
                     ptSort.X += offsetSort;
@@ -315,26 +331,26 @@ namespace GeoDBWinForms
         {
             if (e.Button == MouseButtons.Left)
             {
-                LinqExtensionSorterCriterion.TypeCriterion temp;
+                SortererTypeCriterion temp;
                 if (sortedAssaysNumField == e.ColumnIndex)
                 {
-                    if (SortedAssaysCriterion == LinqExtensionSorterCriterion.TypeCriterion.Ascending)
+                    if (SortedAssaysCriterion == SortererTypeCriterion.Ascending)
                     {
-                        temp = LinqExtensionSorterCriterion.TypeCriterion.Descending;
+                        temp = SortererTypeCriterion.Descending;
                     }
                     else
                     {
-                        temp = LinqExtensionSorterCriterion.TypeCriterion.Ascending;
+                        temp = SortererTypeCriterion.Ascending;
                     }
                 }
                 else
                 {
-                    temp = LinqExtensionSorterCriterion.TypeCriterion.Ascending;
+                    temp = SortererTypeCriterion.Ascending;
                 }
                 var ev = clickAssaysHeader;
                 if (ev != null)
                 {
-                    clickAssaysHeader(this, new NumSortedFieldEventArgs(e.ColumnIndex, temp));
+                    clickAssaysHeader(this, new ANumSortedFieldEventArgs(e.ColumnIndex, temp));
                 }
             }
             else if (e.Button == MouseButtons.Right)
@@ -371,16 +387,23 @@ namespace GeoDBWinForms
 
         #endregion Assays // Assays interrface
 
-        public event EventHandler<EventArgs> clickCloseForm;
-
-        public Form mdiParent 
+        public List<IItem> toolStripSettings
         {
-            set { this.MdiParent = value; }
+            get;
+            set;
         }
-        public new  bool Enabled 
+        public IView mdiParent
+        {
+            set { this.MdiParent = value as Form; }
+        }
+        public new bool Enabled
         {
             set { base.Enabled = value; }
         }
+
+        public event EventHandler<EventArgs> clickCloseForm;
+        public new event EventHandler<EventArgs> _FormClosing;
+
         public new void Show()
         {
           //  this.MdiParent = f;
@@ -397,7 +420,7 @@ namespace GeoDBWinForms
         {
             dataGVAssays2.Refresh();
         }
-        private ContextMenuStrip GetFilterContextMenu(int NumColumn, EventHandler<FilterParamsEventArgs> DelegateEvent)
+        private ContextMenuStrip GetFilterContextMenu(int NumColumn, EventHandler<AFilterParamsEventArgs> DelegateEvent)
         {
             ContextMenuStrip cm = new ContextMenuStrip();
 
@@ -411,7 +434,7 @@ namespace GeoDBWinForms
             ToolStripMenuItem item1_ok = new ToolStripMenuItem("Ок");
             item1_ok.Click += (i, a) =>
             {
-                FilterParamsEventArgs param = new FilterParamsEventArgs(NumColumn, new LinqExtensionFilterCriterion(item12.Text, item14.Text));
+                AFilterParamsEventArgs param = new AFilterParamsEventArgs(NumColumn, new LinqExtensionFilterCriterion(item12.Text, item14.Text));
                 var ev = DelegateEvent;
                 if (ev != null)
                 {
@@ -435,7 +458,7 @@ namespace GeoDBWinForms
             ToolStripMenuItem item2_ok = new ToolStripMenuItem("Ок");
             item2_ok.Click += (i, a) =>
             {
-                FilterParamsEventArgs param = new FilterParamsEventArgs(NumColumn, new LinqExtensionFilterCriterion(item22.Text));
+                AFilterParamsEventArgs param = new AFilterParamsEventArgs(NumColumn, new LinqExtensionFilterCriterion(item22.Text));
                 var ev = DelegateEvent;
                 if (ev != null)
                 {
@@ -453,7 +476,7 @@ namespace GeoDBWinForms
             ToolStripMenuItem item3_cancel = new ToolStripMenuItem("Сброс");
             item3_cancel.Click += (i, a) =>
             {
-                FilterParamsEventArgs param = new FilterParamsEventArgs(NumColumn, new LinqExtensionFilterCriterion());
+                AFilterParamsEventArgs param = new AFilterParamsEventArgs(NumColumn, new LinqExtensionFilterCriterion());
                 var ev = DelegateEvent;
                 if (ev != null)
                 {
@@ -476,7 +499,7 @@ namespace GeoDBWinForms
                 var ev =clickCollarCreateData ;
                 if (ev != null)
                 {
-                    ev(this, new NumRowEventArgs(0));
+                    ev(this, new ANumRowEventArgs(0));
                 }
             };
             item1.DisplayStyle = ToolStripItemDisplayStyle.Text;
@@ -489,7 +512,7 @@ namespace GeoDBWinForms
                 if (ev != null)
                 {
                     int CollarID = (int) (dataGVCollar2 [dataGVCollar2.Columns ["ID"] . Index, NumRow] . Value);
-                    ev (this, new NumRowEventArgs (CollarID) );
+                    ev (this, new ANumRowEventArgs (CollarID) );
                 }
             };
 
@@ -503,7 +526,7 @@ namespace GeoDBWinForms
                 if (ev != null)
                 {
                     int CollarID = (int)(dataGVCollar2[dataGVCollar2.Columns["ID"].Index, NumRow].Value);
-                    ev(this, new NumRowEventArgs(CollarID));
+                    ev(this, new ANumRowEventArgs(CollarID));
                 }
             };
 
@@ -538,7 +561,7 @@ namespace GeoDBWinForms
                 if (ev != null)
                 {
                     int AssaysID = (int)(dataGVAssays2[dataGVAssays2.Columns["ID"].Index, NumRow].Value);
-                    ev(this, new NumRowEventArgs(AssaysID));
+                    ev(this, new ANumRowEventArgs(AssaysID));
                 }
             };
 
@@ -552,7 +575,7 @@ namespace GeoDBWinForms
                 if (ev != null)
                 {
                     int AssaysID = (int)(dataGVAssays2[dataGVAssays2.Columns["ID"].Index, NumRow].Value);
-                    ev(this, new NumRowEventArgs(AssaysID));
+                    ev(this, new ANumRowEventArgs(AssaysID));
                 }
             };
 
@@ -565,10 +588,16 @@ namespace GeoDBWinForms
         }
         private void btCloseForm_Click(object sender, EventArgs e)
         {
-            if (clickCloseForm != null)
+            var ev = clickCloseForm;
+            if (ev != null)
             {
-                clickCloseForm(this, EventArgs.Empty);
+                ev(this, EventArgs.Empty);
             }
+        }
+
+        private void ViewDrillHoles_FormClosed(object sender, FormClosedEventArgs e)
+        {
+
         }
 
         private void ViewDrillHoles_FormClosing(object sender, FormClosingEventArgs e)
@@ -579,6 +608,13 @@ namespace GeoDBWinForms
             {
                 ev(this, EventArgs.Empty);
             }
+
+            var ev2 = _FormClosing;
+            if (ev2 != null)
+            {
+                ev2(this, EventArgs.Empty);
+            }
+
         }
 
 
@@ -630,7 +666,9 @@ namespace GeoDBWinForms
             }
             base.WndProc(ref m);
         }
-        
 
+
+
+        
     }
 }

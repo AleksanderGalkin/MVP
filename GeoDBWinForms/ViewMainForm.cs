@@ -6,29 +6,28 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using Ninject;
-using GeoDB.View;
-using GeoDB.Service.DataAccess.Interface;
-using GeoDB.Model;
-using GeoDB.Service.DataAccess;
-using GeoDB.Presenter;
+
 using System.Security.Principal;
 using System.Threading;
-using GeoDB.Service.Security;
+using FastReport;
+using FastReport.Utils;
+using System.IO;
+using GeoDbUserInterface.View;
+
 
 namespace GeoDBWinForms
 {
-    public partial class ViewMainForm : Form
+    public partial class ViewMainForm : Form,IViewMainForm
     {
 
         private NavigatorMenu navMenu;
-        private PCollar2Crud preCollar2Crud ;
-        private PAssays2Crud preAssays2Crud;
-        private PDrillHoles preDrillHoles;
+        //private PCollar2Crud preCollar2Crud ;
+        //private PAssays2Crud preAssays2Crud;
+        //private PDrillHoles preDrillHoles;
         public bool mustClosed;
 
 
-        IKernel ninjectKernel;
+       // IKernel ninjectKernel;
 
         IViewDrillHoles2 view ;
         IViewCollar2Crud vCollarCrud ;
@@ -36,175 +35,199 @@ namespace GeoDBWinForms
         IViewLogin vLogin;
 
 
-        IBaseService<COLLAR2> modelCollar ;
-        IBaseService<ASSAYS2> modelAssays ;
-        IBaseService<GEOLOGIST> modelGeologist ;
-        IBaseService<GORIZONT> modelGorizont ;
-        IBaseService<RL_EXPLO2> modelBlast ;
-        IBaseService<DRILLING_TYPE> modelDrillType ;
-        IBaseService<DOMEN> modelDomen ;
+        //IBaseService<COLLAR2> modelCollar ;
+        //IBaseService<ASSAYS2> modelAssays ;
+        //IBaseService<GEOLOGIST> modelGeologist ;
+        //IBaseService<GORIZONT> modelGorizont ;
+        //IBaseService<RL_EXPLO2> modelBlast ;
+        //IBaseService<DRILLING_TYPE> modelDrillType ;
+        //IBaseService<DOMEN> modelDomen ;
 
-        IBaseService<BLOCK_ZAPASOV> modelZblock ;
-        IBaseService<LITOLOGY> modelLito ;
-        IBaseService<RANG> modelRang ;
-        IBaseService<REESTR_VEDOMOSTEI> modelBlank ;
-        IBaseService<JOURNAL> modelJournal;
+        //IBaseService<BLOCK_ZAPASOV> modelZblock ;
+        //IBaseService<LITOLOGY> modelLito ;
+        //IBaseService<RANG> modelRang ;
+        //IBaseService<REESTR_VEDOMOSTEI> modelBlank ;
+        //IBaseService<JOURNAL> modelJournal;
 
+       
+
+        ToolStripContainer mainToolStripContainer;
+        ToolStrip mainToolStrip;
+
+        public event EventHandler<EventArgs> FormClosed;
 
         public ViewMainForm()
         {
             InitializeComponent();
 
-
-            GenericIdentity MyIdentity = new GenericIdentity("test");
-            String[] MyStringArray = { "Manager", "Teller" };
-            GenericPrincipal MyPrincipal =
-                new GenericPrincipal(MyIdentity, MyStringArray);
-
-            Thread.CurrentPrincipal = MyPrincipal;
+            this.SetToolMenu();
 
             this.mustClosed = false;
-            this.navMenu = new NavigatorMenu(CreateMenu());
+            
             this.Controls.Add(this.navMenu);
-            this.Factory();
-
-
-
+         //   this.Factory();
+        
+        }
+        public Image logo { set; private get; }
+        public List<IPopup> navigatorMenuSettings 
+        {
+            set
+            {
+                this.navMenu = new NavigatorMenu(value, logo);
+                this.Controls.Add(this.navMenu);
+            }
         }
 
-        private List<IPopup> CreateMenu()
+        public void addChildMenu(IPopup childMenuSettings)
         {
-            List<IPopup> popups = new List<IPopup>();
-            Popup popup1 = new Popup();
-            Item item1 = new Item();
-            item1.tittle = "Скважины";
-            item1.image = global::GeoDBWinForms.Properties.Resources.drillhole;
-            item1.clickItem += (t, e) =>
-            {
-                try
-                {
-                    preCollar2Crud = new PCollar2Crud(vCollarCrud, modelCollar, modelGorizont, modelBlast, modelDrillType, modelDomen);
-                    preAssays2Crud = new PAssays2Crud(vAssaysCrud, modelAssays, modelZblock, modelLito, modelRang, modelBlank, modelJournal, modelGeologist);
-                    preDrillHoles = new PDrillHoles(view, modelCollar, modelAssays, modelGeologist, 20, preCollar2Crud, preAssays2Crud);
-                    preDrillHoles.Show(this);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message + " " + (ex.InnerException != null ? ex.InnerException.Message : ""), ex.Message);
-                }
-            };
-            Item item2 = new Item();
-            item2.tittle = "Контроль";
-            item2.image = global::GeoDBWinForms.Properties.Resources.Control;
-            item2.clickItem += (t,e) => {MessageBox.Show("Sorry. Form under construction");};
-            popup1.tittle = "Геология";
-            popup1.items.Add(item1);
-            popup1.items.Add(item2);
-            Popup popup2 = new Popup();
-            Item item3 = new Item();
-            item3.tittle = "Пробы склада";
-            item3.image = global::GeoDBWinForms.Properties.Resources.test;
-            item3.clickItem += (t, e) => { MessageBox.Show("Sorry. Form under construction"); };
-            Item item4 = new Item();
-            item4.tittle = "Движение руды";
-            item4.image = global::GeoDBWinForms.Properties.Resources.vaicle;
-            item4.clickItem += (t, e) => { MessageBox.Show("Sorry. Form under construction"); };
-            Item item5 = new Item();
-            item5.tittle = "Пробы забоев";
-            item5.image = global::GeoDBWinForms.Properties.Resources.test;
-            item5.clickItem += (t, e) => { MessageBox.Show("Sorry. Form under construction"); };
-            popup2.tittle = "Склад";
-            popup2.items.Add(item3);
-            popup2.items.Add(item4);
-            popup2.items.Add(item5);
-
-            Popup popup3 = new Popup();
-            Item item6 = new Item();
-            item6.tittle = "Пользователи";
-            item6.image = global::GeoDBWinForms.Properties.Resources.user;
-            item6.clickItem += (t, e) => { MessageBox.Show("Sorry. Form under construction"); };
-            Item item7 = new Item();
-            item7.tittle = "Роли";
-            item7.image = global::GeoDBWinForms.Properties.Resources.role;
-            item7.clickItem += (t, e) => { MessageBox.Show("Sorry. Form under construction"); };
-            Item item8 = new Item();
-            item8.tittle = "Ведомости";
-            item8.image = global::GeoDBWinForms.Properties.Resources.blank;
-            item8.clickItem += (t, e) => { MessageBox.Show("Sorry. Form under construction"); };
-            popup3.tittle = "Настройки";
-            popup3.items.Add(item6);
-            popup3.items.Add(item7);
-            popup3.items.Add(item8);
-
-            popups.Add(popup1);
-            popups.Add(popup2);
-            popups.Add(popup3);
-
-            return popups;
+            ToolStrip childToolMenu = GetChildToolMenu(childMenuSettings);
+            ToolStripManager.Merge(childToolMenu, mainToolStrip);
+        }
+        public void removeChildMenu(IPopup childMenuSettings)
+        {
+            ToolStrip childToolMenu = ToolStripManager.FindToolStrip(childMenuSettings.tittle);
+            if (childToolMenu == null) throw new InvalidOperationException("Не найденно ToolStrip меню:" + childMenuSettings.tittle);
+            ToolStripManager.RevertMerge(mainToolStrip, childToolMenu);
         }
 
 
-        private void Factory()
-        {
-            try
-            {
+        //private void Factory()
+        //{
+        //    try
+        //    {
 
-                 ninjectKernel = new StandardKernel();
-                ninjectKernel.Bind<IViewDrillHoles2>().To<ViewDrillHoles>();
-                ninjectKernel.Bind<IViewCollar2Crud>().To<ViewCollar2Crud>();
-                ninjectKernel.Bind<IViewAssays2Crud>().To<ViewAssays2Crud>();
-                ninjectKernel.Bind<IViewLogin>().To<ViewLogin>();
+        //         ninjectKernel = new StandardKernel();
+        //        ninjectKernel.Bind<IViewDrillHoles2>().To<ViewDrillHoles>();
+        //        ninjectKernel.Bind<IViewCollar2Crud>().To<ViewCollar2Crud>();
+        //        ninjectKernel.Bind<IViewAssays2Crud>().To<ViewAssays2Crud>();
+        //        ninjectKernel.Bind<IViewLogin>().To<ViewLogin>();
 
-                ninjectKernel.Bind<IBaseService<COLLAR2>>().To<CollarEntityService>();
-                ninjectKernel.Bind<IBaseService<ASSAYS2>>().To<AssaysEntityService>();
-                ninjectKernel.Bind<IBaseService<GEOLOGIST>>().To<GeologistEntityService>();
-                ninjectKernel.Bind<IBaseService<GORIZONT>>().To<GorizontEntityService>();
-                ninjectKernel.Bind<IBaseService<RL_EXPLO2>>().To<BlastEntityService>();
-                ninjectKernel.Bind<IBaseService<DRILLING_TYPE>>().To<DrillingTypeEntityService>();
-                ninjectKernel.Bind<IBaseService<DOMEN>>().To<DomenEntityService>();
+        //        ninjectKernel.Bind<IBaseService<COLLAR2>>().To<CollarEntityService>();
+        //        ninjectKernel.Bind<IBaseService<ASSAYS2>>().To<AssaysEntityService>();
+        //        ninjectKernel.Bind<IBaseService<GEOLOGIST>>().To<GeologistEntityService>();
+        //        ninjectKernel.Bind<IBaseService<GORIZONT>>().To<GorizontEntityService>();
+        //        ninjectKernel.Bind<IBaseService<RL_EXPLO2>>().To<BlastEntityService>();
+        //        ninjectKernel.Bind<IBaseService<DRILLING_TYPE>>().To<DrillingTypeEntityService>();
+        //        ninjectKernel.Bind<IBaseService<DOMEN>>().To<DomenEntityService>();
 
-                ninjectKernel.Bind<IBaseService<BLOCK_ZAPASOV>>().To<ZblockEntityService>();
-                ninjectKernel.Bind<IBaseService<LITOLOGY>>().To<LitoEntityService>();
-                ninjectKernel.Bind<IBaseService<RANG>>().To<RangEntityService>();
-                ninjectKernel.Bind<IBaseService<REESTR_VEDOMOSTEI>>().To<BlankEntityService>();
-                ninjectKernel.Bind<IBaseService<JOURNAL>>().To<JournalEntityService>();
-
-
-                 view = ninjectKernel.Get<IViewDrillHoles2>();
-                 vCollarCrud = ninjectKernel.Get<IViewCollar2Crud>();
-                 vAssaysCrud = ninjectKernel.Get<IViewAssays2Crud>();
-                 vLogin = ninjectKernel.Get<ViewLogin>();
-
-                MySecurity.SetLoginForm(vLogin);
+        //        ninjectKernel.Bind<IBaseService<BLOCK_ZAPASOV>>().To<ZblockEntityService>();
+        //        ninjectKernel.Bind<IBaseService<LITOLOGY>>().To<LitoEntityService>();
+        //        ninjectKernel.Bind<IBaseService<RANG>>().To<RangEntityService>();
+        //        ninjectKernel.Bind<IBaseService<REESTR_VEDOMOSTEI>>().To<BlankEntityService>();
+        //        ninjectKernel.Bind<IBaseService<JOURNAL>>().To<JournalEntityService>();
 
 
-                modelCollar = ninjectKernel.Get<IBaseService<COLLAR2>>();
-                 modelAssays = ninjectKernel.Get<IBaseService<ASSAYS2>>();
-                 modelGeologist = ninjectKernel.Get<IBaseService<GEOLOGIST>>();
-                 modelGorizont = ninjectKernel.Get<IBaseService<GORIZONT>>();
-                 modelBlast = ninjectKernel.Get<IBaseService<RL_EXPLO2>>();
-                 modelDrillType = ninjectKernel.Get<IBaseService<DRILLING_TYPE>>();
-                 modelDomen = ninjectKernel.Get<IBaseService<DOMEN>>();
+        //         view = ninjectKernel.Get<IViewDrillHoles2>();
+        //         vCollarCrud = ninjectKernel.Get<IViewCollar2Crud>();
+        //         vAssaysCrud = ninjectKernel.Get<IViewAssays2Crud>();
+        //         vLogin = ninjectKernel.Get<ViewLogin>();
 
-                 modelZblock = ninjectKernel.Get<IBaseService<BLOCK_ZAPASOV>>();
-                 modelLito = ninjectKernel.Get<IBaseService<LITOLOGY>>();
-                 modelRang = ninjectKernel.Get<IBaseService<RANG>>();
-                 modelBlank = ninjectKernel.Get<IBaseService<REESTR_VEDOMOSTEI>>();
-                 modelJournal = ninjectKernel.Get<IBaseService<JOURNAL>>();
+        //        MySecurity.SetLoginForm(vLogin);
 
 
+        //        modelCollar = ninjectKernel.Get<IBaseService<COLLAR2>>();
+        //         modelAssays = ninjectKernel.Get<IBaseService<ASSAYS2>>();
+        //         modelGeologist = ninjectKernel.Get<IBaseService<GEOLOGIST>>();
+        //         modelGorizont = ninjectKernel.Get<IBaseService<GORIZONT>>();
+        //         modelBlast = ninjectKernel.Get<IBaseService<RL_EXPLO2>>();
+        //         modelDrillType = ninjectKernel.Get<IBaseService<DRILLING_TYPE>>();
+        //         modelDomen = ninjectKernel.Get<IBaseService<DOMEN>>();
 
-            }
+        //         modelZblock = ninjectKernel.Get<IBaseService<BLOCK_ZAPASOV>>();
+        //         modelLito = ninjectKernel.Get<IBaseService<LITOLOGY>>();
+        //         modelRang = ninjectKernel.Get<IBaseService<RANG>>();
+        //         modelBlank = ninjectKernel.Get<IBaseService<REESTR_VEDOMOSTEI>>();
+        //         modelJournal = ninjectKernel.Get<IBaseService<JOURNAL>>();
 
-            catch (Exception ex)
-            {
-                MessageBox.Show( ex.Message+" "+(ex.InnerException != null ? ex.InnerException.Message : "") ,ex.Message );
-                this.mustClosed = true;
-                this.Close();
-            }
+
+
+        //    }
+
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show( ex.Message+" "+(ex.InnerException != null ? ex.InnerException.Message : "") ,ex.Message );
+        //        this.mustClosed = true;
+        //        this.Close();
+        //    }
      
 
+        //}
+
+        private void SetToolMenu()
+        {
+            mainToolStripContainer = new System.Windows.Forms.ToolStripContainer();
+            mainToolStrip = new System.Windows.Forms.ToolStrip();
+            mainToolStrip.RenderMode = ToolStripRenderMode.Professional;
+            mainToolStrip.Renderer = new MyToolStripRenderer();
+            mainToolStrip.CanOverflow = false;
+            mainToolStrip.Font = new System.Drawing.Font("Tahoma", 8, FontStyle.Regular);
+            mainToolStrip.GripStyle = ToolStripGripStyle.Visible; // перемещение
+            mainToolStrip.LayoutStyle = ToolStripLayoutStyle.HorizontalStackWithOverflow;
+            mainToolStrip.ImageScalingSize = new System.Drawing.Size(32, 32);
+            mainToolStrip.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            mainToolStrip.Visible = false;
+            mainToolStrip.Name = "mainToolStrip";
+            mainToolStrip.ItemAdded += (s, e) => { mainToolStrip.Visible = true; };
+            mainToolStrip.ItemRemoved += (s, e) => {
+                if (mainToolStrip.Items.Count == 0)
+                {
+                    mainToolStrip.Visible = false; 
+                }
+            };
+
+            mainToolStripContainer.TopToolStripPanel.Controls.Add(mainToolStrip);
+            
+            Controls.Add(mainToolStripContainer);
+
+            mainToolStripContainer.Dock = DockStyle.Top;
+            mainToolStripContainer.Height = 50;
         }
 
+        private ToolStrip GetChildToolMenu(IPopup childMenuSettings)
+        {
+
+            ToolStrip toolStrip1 = new System.Windows.Forms.ToolStrip();
+            toolStrip1.RenderMode = ToolStripRenderMode.Professional;
+            toolStrip1.CanOverflow = false;
+            toolStrip1.Font = new System.Drawing.Font("Tahoma", 8, FontStyle.Regular);
+            toolStrip1.GripStyle = ToolStripGripStyle.Visible; // перемещение
+            toolStrip1.LayoutStyle = ToolStripLayoutStyle.HorizontalStackWithOverflow;
+            toolStrip1.ImageScalingSize = new System.Drawing.Size(32, 32);
+            toolStrip1.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            toolStrip1.Name = childMenuSettings.tittle;
+            for (int i = 0; i < childMenuSettings.items.Count; i++)
+            {
+
+                ToolStripButton toolStripButton = new ToolStripButton();
+                toolStripButton.ImageScaling = ToolStripItemImageScaling.SizeToFit;
+                toolStripButton.Image = childMenuSettings.items[i].image;
+                toolStripButton.AutoSize = true;
+                toolStripButton.ToolTipText = childMenuSettings.items[i].tittle;
+                toolStripButton.Margin = new Padding(1, 1, 1, 3);
+                toolStripButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
+                toolStripButton.Tag = childMenuSettings.items[i];
+                toolStripButton.Click += (t, e) => {
+                    IItem button = ((t as ToolStripButton).Tag) as IItem;
+                    button.sendClickItem();
+                };
+                toolStripButton.Name = "toolStripButton" + i.ToString();
+                toolStrip1.Items.Add(toolStripButton);
+                
+            }
+
+
+            return toolStrip1;
+        }
+
+        public new void Show()
+        {
+            base.Show();
+        }
     }
+
+    
+
+
+    
+
 }

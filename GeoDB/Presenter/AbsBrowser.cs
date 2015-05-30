@@ -7,17 +7,21 @@ using GeoDB.Model.Interface;
 using GeoDB.Service.DataAccess.Interface;
 using GeoDB.Model;
 using GeoDB.Extensions;
-using GeoDB.View;
+using GeoDbUserInterface.ServiceInterfaces;
+using GeoDbUserInterface.View;
 
 
 namespace GeoDB.Presenter
 {
-    abstract public class AbsBrowser<T,S> 
+    abstract public class AbsBrowser<T,S,K> 
         where T:class,IBase,new()
         where S:class,IViewModel
+        where K:class,S
     {
-
-        private List<DGVHeader> _header = typeof(S).GetProperty("header").GetValue(typeof(S), null) as List<DGVHeader>;
+        
+        //private List<IDGVHeader> _header = typeof(S).GetProperty("header").GetValue(typeof(S), null) as List<IDGVHeader>;
+        private  List<IDGVHeader> _header;
+ 
         public static ILog log = LogManager.GetLogger("ConsoleAppender");
 
         protected IBaseService<T> _model;
@@ -29,8 +33,8 @@ namespace GeoDB.Presenter
         private Dictionary<int, S> _buffer;
 
         private DGVHeaderComparer _myDGVHeaderComparer;
-        protected Dictionary<DGVHeader, LinqExtensionFilterCriterion> _filter;
-        protected  LinqExtensionSorterCriterion _sorter;
+        protected Dictionary<IDGVHeader, ILinqExtensionFilterCriterion> _filter;
+        protected LinqExtensionSorterCriterion _sorter;
         protected int _bhid_Collar_id; // foreign key for Assays
         public event EventHandler<EventArgs> generatedNewPartOfBuffer;
         public event EventHandler<EventArgs> refreshedViewModel;
@@ -45,14 +49,15 @@ namespace GeoDB.Presenter
                         , int rowsToBuffer
             )
         {
+            _header = typeof(K).GetProperty("header").GetValue(typeof(K), null) as List<IDGVHeader>;
             _buffer = new Dictionary<int, S>();
             _model = modelCollar;
             _bufferRowCount = rowsToBuffer;
             _currentFirstRowInForm = 0;
             _myDGVHeaderComparer = new DGVHeaderComparer();
-            _filter = new Dictionary<DGVHeader, LinqExtensionFilterCriterion>(_myDGVHeaderComparer);
+            _filter = new Dictionary<IDGVHeader, ILinqExtensionFilterCriterion>(_myDGVHeaderComparer);
             _modelGeologist = modelGeologist;
-            _sorter = typeof(S).GetProperty("DefaultSortedField").GetValue(typeof(S), null) as LinqExtensionSorterCriterion; 
+            _sorter = typeof(K).GetProperty("DefaultSortedField").GetValue(typeof(K), null) as LinqExtensionSorterCriterion; 
             CreateFilteredModel();
             GeneratePage();
         }
@@ -62,11 +67,11 @@ namespace GeoDB.Presenter
         {
             return _bhid_Collar_id;
         }
-        public List<DGVHeader> GetHeader()
+        public List<IDGVHeader> GetHeader()
         {
             return _header;
         }
-        public Dictionary<int, S> GetBuffer()
+        public Dictionary<int,S> GetBuffer()
         {
             return _buffer;
         }
@@ -76,15 +81,15 @@ namespace GeoDB.Presenter
         }
         public bool[] GetFilteredNumField()
         {
-            List<DGVHeader> header = GetHeader();
+            List<IDGVHeader> header = GetHeader();
             bool[] result = new bool[header.Count];
-            LinqExtensionFilterCriterion locCriterion;
+            ILinqExtensionFilterCriterion locCriterion;
             for (int i = 0; i < header.Count; i++)
             {
                 result[i] = false;
                 if (_filter.TryGetValue(header[i], out locCriterion))
                 {
-                    if (locCriterion.GetTypeCriterion() != LinqExtensionFilterCriterion.TypeCriterion.resetArgs)
+                    if (locCriterion.GetTypeCriterion() != FilterTypeCriterion.resetArgs)
                     {
                         result[i] = true;
                     }
@@ -93,9 +98,9 @@ namespace GeoDB.Presenter
             }
           return result;
         }
-        public void ChangeFilter(DGVHeader Column, LinqExtensionFilterCriterion Criterion)
+        public void ChangeFilter(IDGVHeader Column, ILinqExtensionFilterCriterion Criterion)
         {
-            LinqExtensionFilterCriterion locCriterion;
+            ILinqExtensionFilterCriterion locCriterion;
             if (_filter.TryGetValue(Column, out locCriterion))
             {
                 locCriterion.Set(Criterion);
@@ -110,7 +115,7 @@ namespace GeoDB.Presenter
                 filteredViewModel(this, EventArgs.Empty);
             }
         }
-        public void OnShowAnyScreen(object sender, NumRowEventArgs e)
+        public void OnShowAnyScreen(object sender, ANumRowEventArgs e)
         {
             log.DebugFormat("_currentFirsItemInForm_before_calculation_new_FirstItem: {0}", _currentFirstRowInForm);
 
@@ -133,9 +138,9 @@ namespace GeoDB.Presenter
             GeneratePage();
         }
 
-        public void OnClickFilters(object sender, FilterParamsEventArgs e)
+        public void OnClickFilters(object sender, AFilterParamsEventArgs e)
         {
-            DGVHeader headerColumn = _header[e.numField];
+            IDGVHeader headerColumn = _header[e.numField];
             ChangeFilter(headerColumn , e.criterion);
             GeneratePage();
             if (refreshedViewModel != null)
@@ -144,7 +149,7 @@ namespace GeoDB.Presenter
             }
         }
 
-        public void OnSetSortedField(object sender, NumSortedFieldEventArgs e)
+        public void OnSetSortedField(object sender, ANumSortedFieldEventArgs e)
         {
             _sorter.Set(_header.ElementAt(e.numField), e.order);
             CreateFilteredModel();
@@ -161,11 +166,11 @@ namespace GeoDB.Presenter
         }
         public int GetSortedNumField()
         {
-            List<DGVHeader> header = GetHeader();
+            List<IDGVHeader> header = GetHeader();
             int i = header.FindIndex(x => x.fieldName.Equals(_sorter._firstField.fieldName));
             return i;
         }
-        public LinqExtensionSorterCriterion.TypeCriterion
+        public SortererTypeCriterion
                    GetSortedCriterion()
         {
             return _sorter._firstTypeCriterion;

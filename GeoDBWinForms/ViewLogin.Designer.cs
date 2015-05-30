@@ -53,6 +53,7 @@
             this.tbPassword.Name = "tbPassword";
             this.tbPassword.Size = new System.Drawing.Size(100, 20);
             this.tbPassword.TabIndex = 2;
+            this.tbPassword.Text = "1641642eE";
             this.tbPassword.UseSystemPasswordChar = true;
             // 
             // button1

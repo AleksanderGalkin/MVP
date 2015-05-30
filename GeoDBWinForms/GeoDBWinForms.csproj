@@ -2,36 +2,18 @@
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{DA658039-F3E2-4E27-882F-8362C76C64E5}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <ProjectGuid>{650E08CC-CF7B-4BB6-A559-D491EB3261A7}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>GeoDBWinForms</RootNamespace>
-    <AssemblyName>GeoDBWinForms</AssemblyName>
+    <RootNamespace>GeoDBWinForms2</RootNamespace>
+    <AssemblyName>GeoDBWinForms2</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>
-    </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
-    <PublishUrl>publish\</PublishUrl>
-    <Install>true</Install>
-    <InstallFrom>Disk</InstallFrom>
-    <UpdateEnabled>false</UpdateEnabled>
-    <UpdateMode>Foreground</UpdateMode>
-    <UpdateInterval>7</UpdateInterval>
-    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
-    <UpdatePeriodically>false</UpdatePeriodically>
-    <UpdateRequired>false</UpdateRequired>
-    <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <UseApplicationTrust>false</UseApplicationTrust>
-    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -40,8 +22,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -50,47 +31,50 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Ninject">
-      <HintPath>..\..\..\Ninject-3.0.0.15-release-net-4.0\Ninject.dll</HintPath>
+    <Reference Include="FastReport, Version=2015.1.5.0, Culture=neutral, PublicKeyToken=db7e5ce63278458c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files (x86)\FastReports\FastReport.Net Demo\FastReport.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Data.Entity" />
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.Security" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Deployment" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="NavigatorMenu.cs">
+    <Compile Include="Class1.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Service\LinqExtensionFilterCriterion.cs" />
+    <Compile Include="Service\MyToolStripRender.cs" />
+    <Compile Include="Service\NavigatorMenu.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Settings.cs" />
     <Compile Include="ViewAssays2Crud.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="ViewAssays2Crud.Designer.cs">
       <DependentUpon>ViewAssays2Crud.cs</DependentUpon>
     </Compile>
-    <Compile Include="ViewDrillHoles.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ViewDrillHoles.Designer.cs">
-      <DependentUpon>ViewDrillHoles.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewCollar2Crud.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="ViewCollar2Crud.Designer.cs">
       <DependentUpon>ViewCollar2Crud.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ViewDrillHoles.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ViewDrillHoles.Designer.cs">
+      <DependentUpon>ViewDrillHoles.cs</DependentUpon>
     </Compile>
     <Compile Include="ViewLogin.cs">
       <SubType>Form</SubType>
@@ -104,24 +88,33 @@
     <Compile Include="ViewMainForm.Designer.cs">
       <DependentUpon>ViewMainForm.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="ViewAssays2Crud.resx">
-      <DependentUpon>ViewAssays2Crud.cs</DependentUpon>
-    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\blank.png" />
+    <Content Include="Resources\Control.png" />
+    <Content Include="Resources\drillhole.png" />
+    <Content Include="Resources\loadDB.png" />
+    <Content Include="Resources\report.png" />
+    <Content Include="Resources\role.png" />
+    <Content Include="Resources\test.png" />
+    <Content Include="Resources\user.png" />
+    <Content Include="Resources\vaicle.png" />
+    <Content Include="Resources\Very-Basic-ArrowDown-icon.png" />
+    <Content Include="Resources\Very-Basic-ArrowUp-icon.png" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <EmbeddedResource Include="ViewDrillHoles.resx">
-      <DependentUpon>ViewDrillHoles.cs</DependentUpon>
+    <EmbeddedResource Include="Resources\Very-Basic-Filter-Not-Filled.png" />
+    <EmbeddedResource Include="Resources\Very-Basic-Filter-Filled-icon.png" />
+    <EmbeddedResource Include="ViewAssays2Crud.resx">
+      <DependentUpon>ViewAssays2Crud.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ViewCollar2Crud.resx">
       <DependentUpon>ViewCollar2Crud.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ViewDrillHoles.resx">
+      <DependentUpon>ViewDrillHoles.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ViewLogin.resx">
       <DependentUpon>ViewLogin.cs</DependentUpon>
@@ -129,75 +122,17 @@
     <EmbeddedResource Include="ViewMainForm.resx">
       <DependentUpon>ViewMainForm.cs</DependentUpon>
     </EmbeddedResource>
-    <None Include="App.Config">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Properties\DataSources\ModelDB.datasource" />
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadata Include="Service References\" />
+    <EmbeddedResource Include="Resources\rptDrillHoles.frx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">
-      <Visible>False</Visible>
-      <ProductName>Microsoft .NET Framework 4 Client Profile %28x86 and x64%29</ProductName>
-      <Install>true</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
-      <Install>false</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1</ProductName>
-      <Install>false</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Sql.Server.Express.10.0">
-      <Visible>False</Visible>
-      <ProductName>SQL Server 2008 Express</ProductName>
-      <Install>true</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
-      <Visible>False</Visible>
-      <ProductName>Windows Installer 3.1</ProductName>
-      <Install>true</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Windows.Installer.4.5">
-      <Visible>False</Visible>
-      <ProductName>Windows Installer 4.5</ProductName>
-      <Install>true</Install>
-    </BootstrapperPackage>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\GeoDB\GeoDB.csproj">
-      <Project>{E8C7DA49-1762-44F4-82DE-9DAE305EF6A6}</Project>
-      <Name>GeoDB</Name>
+    <ProjectReference Include="..\GeoDbUserInterface\GeoDbUserInterface.csproj">
+      <Project>{7172F5D4-ADEE-4403-BF97-93A3707880EC}</Project>
+      <Name>GeoDbUserInterface</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\Very-Basic-Filter-Filled-icon.png" />
-    <EmbeddedResource Include="Resources\Very-Basic-Filter-Not-Filled.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Resources\Control.png" />
-    <Content Include="Resources\test.png" />
-    <Content Include="Resources\user.png" />
-    <Content Include="Resources\blank.png" />
-    <Content Include="Resources\drillhole.png" />
-    <Content Include="Resources\vaicle.png" />
-    <Content Include="Resources\role.png" />
-    <Content Include="Resources\Very-Basic-ArrowDown-icon.png" />
-    <Content Include="Resources\Very-Basic-ArrowUp-icon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

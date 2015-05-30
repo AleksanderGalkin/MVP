@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using GeoDBWinForms.ServiceInterfaces;
+using GeoDbUserInterface.ServiceInterfaces;
+
 
 namespace GeoDB.Model
 {
@@ -12,13 +13,13 @@ namespace GeoDB.Model
         public string fieldHeader { get; set; }
     }
 
-    public class DGVHeaderComparer : IEqualityComparer<DGVHeader>
+    public class DGVHeaderComparer : IEqualityComparer<IDGVHeader>
     {
-        public bool Equals(DGVHeader a, DGVHeader b)
+        public bool Equals(IDGVHeader a, IDGVHeader b)
         {
             return a.fieldHeader == b.fieldHeader && a.fieldName == b.fieldName;
         }
-        public int GetHashCode(DGVHeader a)
+        public int GetHashCode(IDGVHeader a)
         {
             return a.fieldHeader.GetHashCode() + a.fieldName.GetHashCode();
         }

@@ -6,6 +6,7 @@ using GeoDB.Service.DataAccess.Interface;
 using GeoDB.Model;
 using System.Windows.Forms;
 using System.Transactions;
+using GeoDbUserInterface.View;
 
 namespace GeoDB.Presenter
 {
@@ -132,7 +133,7 @@ namespace GeoDB.Presenter
         {
             MessageBox.Show("ok");
         }
-        public void ShowCreate(int bhid, Form Parent, Form Owner)
+        public void ShowCreate(int bhid, IView Parent, IView Owner)
         {
             _view.Tittle = "Создание объекта";
             _view.bhid = bhid;
@@ -161,12 +162,12 @@ namespace GeoDB.Presenter
             _view.geologist = -1;
             modeFormData._mode = ModeFormEnum.creating;
             modeFormData.id = null;
-            _view.MdiParent = Parent;
-            _view.OwnerForm = Owner;
-            _mdiParent = Parent;
+            _view.MdiParent = Parent as Form;
+            _view.OwnerForm = Owner as Form;
+            _mdiParent = Parent as Form;
             _view.Show();
         }
-        public void ShowModify(int id, Form Parent, Form Owner)
+        public void ShowModify(int id, IView Parent, IView Owner)
         {
             ASSAYS2 obj = _model.Get(id);
 
@@ -196,12 +197,12 @@ namespace GeoDB.Presenter
             _view.pit = obj.PIT;
             modeFormData._mode = ModeFormEnum.modifying;
             modeFormData.id = id;
-            _view.MdiParent = Parent;
-            _view.OwnerForm = Owner;
-            _mdiParent = Parent;
+            _view.MdiParent = Parent as Form;
+            _view.OwnerForm = Owner as Form;
+            _mdiParent = Parent as Form;
             _view.Show();
         }
-        public void ShowForDelete(int id, Form Parent, Form Owner)
+        public void ShowForDelete(int id, IView Parent, IView Owner)
         {
             ASSAYS2 obj = _model.Get(id);
 
@@ -225,9 +226,9 @@ namespace GeoDB.Presenter
             _view.geologist = obj.GEOLOGIST;
             _view.pit = obj.PIT; modeFormData._mode = ModeFormEnum.deleting;
             modeFormData.id = id;
-            _view.MdiParent = Parent;
-            _view.OwnerForm = Owner;
-            _mdiParent = Parent;
+            _view.MdiParent = Parent as Form;
+            _view.OwnerForm = Owner as Form;
+            _mdiParent = Parent as Form;
             _view.Show(true);
         }
     }

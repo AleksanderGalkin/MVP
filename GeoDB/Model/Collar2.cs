@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using GeoDB.Model.Interface;
 using GeoDB.Extensions;
+using GeoDbUserInterface.ServiceInterfaces;
+using GeoDbUserInterface.View;
 
 namespace GeoDB.Model
 {
@@ -12,7 +14,7 @@ namespace GeoDB.Model
        
     }
 
-    public class Collar2VmFull : IViewModel
+    public class Collar2VmFull : ICollar2VmFull
     {
         public int id { get; set; }
         public string bhid { get; set; }
@@ -28,10 +30,10 @@ namespace GeoDB.Model
         public string lastUserID { get; set; }
         public DateTime? lastDT { get; set; }
 
-        static public List<DGVHeader> header {
+        static public List<IDGVHeader> header {
             get
             {
-                List<DGVHeader> _header = new List<DGVHeader>();
+                List<IDGVHeader> _header = new List<IDGVHeader>();
                 
                
                 _header.Add(new DGVHeader { fieldName = "bhid", fieldHeader = "BHID" });
@@ -56,7 +58,7 @@ namespace GeoDB.Model
                 LinqExtensionSorterCriterion temp = new LinqExtensionSorterCriterion();
                  temp.Set(
                                  new DGVHeader{ fieldName = "lastDT", fieldHeader = "Крайняя дата" }
-                                ,LinqExtensionSorterCriterion.TypeCriterion.Descending);
+                                ,SortererTypeCriterion.Descending);
                  return temp;
             }
         }

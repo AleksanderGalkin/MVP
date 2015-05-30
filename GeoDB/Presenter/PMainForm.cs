@@ -6,6 +6,11 @@ using Ninject;
 using GeoDB.Service.DataAccess.Interface;
 using GeoDB.Model;
 using System.Windows.Forms;
+using GeoDbUserInterface.View;
+using System.Drawing;
+using GeoDBWinForms;
+using GeoDB.Service.DataAccess;
+using GeoDB.Service.Security;
 
 namespace GeoDB.Presenter
 {
@@ -13,9 +18,9 @@ namespace GeoDB.Presenter
     {
         IViewMainForm _mainView;
 
-        private PCollar2Crud preCollar2Crud;
-        private PAssays2Crud preAssays2Crud;
-        private PDrillHoles preDrillHoles;
+        PCollar2Crud preCollar2Crud;
+        PAssays2Crud preAssays2Crud;
+        PDrillHoles preDrillHoles;
 
         IKernel ninjectKernel;
 
@@ -60,10 +65,22 @@ namespace GeoDB.Presenter
             {
                 try
                 {
-                    preCollar2Crud = preCollar2Crud ?? new PCollar2Crud(vCollarCrud, modelCollar, modelGorizont, modelBlast, modelDrillType, modelDomen);
-                    preAssays2Crud = preAssays2Crud ?? new PAssays2Crud(vAssaysCrud, modelAssays, modelZblock, modelLito, modelRang, modelBlank, modelJournal, modelGeologist);
-                    preDrillHoles = preDrillHoles ?? new PDrillHoles(view, modelCollar, modelAssays, modelGeologist, 20, preCollar2Crud, preAssays2Crud);
-                    preDrillHoles.Show(this);
+                    preCollar2Crud = preCollar2Crud !=null ? preCollar2Crud : new PCollar2Crud(vCollarCrud, modelCollar, modelGorizont, modelBlast, modelDrillType, modelDomen);
+                    preAssays2Crud = preAssays2Crud !=null ? preAssays2Crud : new PAssays2Crud(vAssaysCrud, modelAssays, modelZblock, modelLito, modelRang, modelBlank, modelJournal, modelGeologist);
+                    preDrillHoles = preDrillHoles != null ? preDrillHoles : new PDrillHoles(view, modelCollar, modelAssays, modelGeologist, 20, preCollar2Crud, preAssays2Crud);
+                    preDrillHoles.Show(_mainView);
+                    IPopup p = new Popup();
+                    p.tittle = "preDrillHoles";
+                    IItem i1 = new Item();
+                    i1.image = GeoDB.Resources.report;
+                    i1.tittle = "Печать";
+                    i1.clickItem += (s, e2) => { MessageBox.Show("ok"); };
+                    p.items.Add(i1);
+
+                    this._mainView.addChildMenu(p);
+                    preDrillHoles._FormClosing += (s, e2) => {
+                        this._mainView.removeChildMenu(p); 
+                    };
                 }
                 catch (Exception ex)
                 {
@@ -178,11 +195,19 @@ namespace GeoDB.Presenter
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message + " " + (ex.InnerException != null ? ex.InnerException.Message : ""), ex.Message);
-                this.mustClosed = true;
-                this.Close();
+                //this.mustClosed = true;
+                //this.Close();
             }
 
 
+        }
+
+        public void Show()
+        {
+            //_mainView.Show();
+            _mainView.logo = GeoDB.Resources.logo;
+            _mainView.navigatorMenuSettings = this.CreateMenu();
+            Application.Run(_mainView as Form);
         }
 
     }

@@ -6,7 +6,7 @@
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{E8C7DA49-1762-44F4-82DE-9DAE305EF6A6}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>GeoDB</RootNamespace>
     <AssemblyName>GeoDB</AssemblyName>
@@ -87,12 +87,10 @@
     <Compile Include="Model\Domen.cs" />
     <Compile Include="Model\Rl_Explo2.cs" />
     <Compile Include="Model\Gorizont.cs" />
-    <Compile Include="Model\FilterParamsEventArgs.cs" />
     <Compile Include="Model\NumSortedFieldEventArgs.cs" />
     <Compile Include="Model\DrillType.cs" />
     <Compile Include="Model\Geologist.cs" />
     <Compile Include="Model\DGVHeader.cs" />
-    <Compile Include="Model\Interface\IViewModel.cs" />
     <Compile Include="Model\Model1.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -232,6 +230,19 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Very-Basic-Filter-Not-Filled.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GeoDbUserInterface\GeoDbUserInterface.csproj">
+      <Project>{7172F5D4-ADEE-4403-BF97-93A3707880EC}</Project>
+      <Name>GeoDbUserInterface</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GeoDBWinForms\GeoDBWinForms.csproj">
+      <Project>{650E08CC-CF7B-4BB6-A559-D491EB3261A7}</Project>
+      <Name>GeoDBWinForms</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\logo.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

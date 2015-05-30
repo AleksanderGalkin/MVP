@@ -4,13 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Drawing;
+using GeoDbUserInterface.View;
+
 
 namespace GeoDBWinForms
 {
     class NavigatorMenu:TableLayoutPanel
     {
         private List<IPopup> _popups;
-        public NavigatorMenu(List<IPopup> PopupsList)
+        public NavigatorMenu(List<IPopup> PopupsList, Image Logotype)
             : base()
         {
             int row = 0;
@@ -21,10 +23,15 @@ namespace GeoDBWinForms
             this.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
           //  this.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 15F));
             Label tittleNavigator = new Label();
-            tittleNavigator.Text = "Меню";
+            tittleNavigator.Text = "логотип";
+            tittleNavigator.TextAlign = ContentAlignment.TopCenter;
             tittleNavigator.TextAlign = ContentAlignment.MiddleCenter;
-            this.Controls.Add(tittleNavigator, 0, row);
-            this.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25));
+            PictureBox logotype = new PictureBox();
+            logotype.Dock = DockStyle.Fill;
+            logotype.Image =  Logotype;
+            logotype.SizeMode = PictureBoxSizeMode.StretchImage;
+            this.Controls.Add(logotype, 0, row);
+            this.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.AutoSize, 25));
             
 
             row = row + 1;
@@ -91,7 +98,7 @@ namespace GeoDBWinForms
                     new2LevelButton.UseVisualStyleBackColor = false;
                     new2LevelButton.Tag = _popups[i].items[j];
                     new2LevelButton.MouseClick += (t, e) => {
-                        Item item = (t as Button).Tag as Item;
+                        IItem item = (t as Button).Tag as IItem;
                         item.sendClickItem();
                     };
 
@@ -140,47 +147,7 @@ namespace GeoDBWinForms
 
     }
 
-    public interface IPopup
-    {
-         string tittle { get; set; }
-         int heigth { get; }
-         int numRow { get; set; }
-         List<Item> items { get; set; }
 
-    }
 
-    public class Item
-    {
-        public string tittle { get; set; }
-        public Image image { get; set; }
-        public event EventHandler<EventArgs> clickItem;
-        public void sendClickItem()
-        {
-            var ev = clickItem;
-            if (ev != null)
-            {
-                ev(this, EventArgs.Empty);
-            }
-        }
-    }
-
-    public class Popup:IPopup
-    {
-        public string tittle { get; set; }
-        public List<Item> items { get; set; }
-        public int numRow { get; set; }
-        public Popup()
-        {
-           items = new List<Item>();
-        }
-
-        public int heigth
-        {
-            get
-            {
-                return items.Count * 60 + items.Count * 10;
-            }
-        }
-
-    }
+  
 }
