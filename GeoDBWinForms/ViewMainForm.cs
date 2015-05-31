@@ -80,14 +80,14 @@ namespace GeoDBWinForms
 
         public void addChildMenu(IPopup childMenuSettings)
         {
-            ToolStrip childToolMenu = GetChildToolMenu(childMenuSettings);
+
+            ToolStrip childToolMenu = GetChildToolMenu(childMenuSettings, MergeAction.Append);
+
             ToolStripManager.Merge(childToolMenu, mainToolStrip);
         }
-        public void removeChildMenu(IPopup childMenuSettings)
+        public void removeAllChildMenu()
         {
-            ToolStrip childToolMenu = ToolStripManager.FindToolStrip(childMenuSettings.tittle);
-            if (childToolMenu == null) throw new InvalidOperationException("Не найденно ToolStrip меню:" + childMenuSettings.tittle);
-            ToolStripManager.RevertMerge(mainToolStrip, childToolMenu);
+                ToolStripManager.RevertMerge(mainToolStrip);
         }
 
 
@@ -166,6 +166,7 @@ namespace GeoDBWinForms
             mainToolStrip.ImageScalingSize = new System.Drawing.Size(32, 32);
             mainToolStrip.BackColor = System.Drawing.SystemColors.ActiveBorder;
             mainToolStrip.Visible = false;
+            mainToolStrip.AllowMerge = true;
             mainToolStrip.Name = "mainToolStrip";
             mainToolStrip.ItemAdded += (s, e) => { mainToolStrip.Visible = true; };
             mainToolStrip.ItemRemoved += (s, e) => {
@@ -183,7 +184,7 @@ namespace GeoDBWinForms
             mainToolStripContainer.Height = 50;
         }
 
-        private ToolStrip GetChildToolMenu(IPopup childMenuSettings)
+        private ToolStrip GetChildToolMenu(IPopup childMenuSettings, MergeAction mergeAction)
         {
 
             ToolStrip toolStrip1 = new System.Windows.Forms.ToolStrip();
@@ -195,6 +196,7 @@ namespace GeoDBWinForms
             toolStrip1.ImageScalingSize = new System.Drawing.Size(32, 32);
             toolStrip1.BackColor = System.Drawing.SystemColors.ActiveBorder;
             toolStrip1.Name = childMenuSettings.tittle;
+            toolStrip1.AllowMerge = true;
             for (int i = 0; i < childMenuSettings.items.Count; i++)
             {
 
@@ -205,12 +207,13 @@ namespace GeoDBWinForms
                 toolStripButton.ToolTipText = childMenuSettings.items[i].tittle;
                 toolStripButton.Margin = new Padding(1, 1, 1, 3);
                 toolStripButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
+                toolStripButton.MergeAction = mergeAction;
                 toolStripButton.Tag = childMenuSettings.items[i];
                 toolStripButton.Click += (t, e) => {
                     IItem button = ((t as ToolStripButton).Tag) as IItem;
                     button.sendClickItem();
                 };
-                toolStripButton.Name = "toolStripButton" + i.ToString();
+                toolStripButton.Name = childMenuSettings.tittle + i.ToString();
                 toolStrip1.Items.Add(toolStripButton);
                 
             }

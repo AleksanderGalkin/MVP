@@ -594,12 +594,6 @@ namespace GeoDBWinForms
                 ev(this, EventArgs.Empty);
             }
         }
-
-        private void ViewDrillHoles_FormClosed(object sender, FormClosedEventArgs e)
-        {
-
-        }
-
         private void ViewDrillHoles_FormClosing(object sender, FormClosingEventArgs e)
         {
             e.Cancel = true;

@@ -11,6 +11,7 @@ using System.Drawing;
 using GeoDBWinForms;
 using GeoDB.Service.DataAccess;
 using GeoDB.Service.Security;
+using GeoDB.Presenter.Interface;
 
 namespace GeoDB.Presenter
 {
@@ -30,6 +31,7 @@ namespace GeoDB.Presenter
         IViewLogin vLogin;
 
 
+
         IBaseService<COLLAR2> modelCollar;
         IBaseService<ASSAYS2> modelAssays;
         IBaseService<GEOLOGIST> modelGeologist;
@@ -44,16 +46,16 @@ namespace GeoDB.Presenter
         IBaseService<REESTR_VEDOMOSTEI> modelBlank;
         IBaseService<JOURNAL> modelJournal;
 
-
+        List<IPresenter> ChildForms;
 
         public PMainForm(
             IViewMainForm MainView
             )
         {
+            ChildForms = new List<IPresenter>();
             _mainView = MainView;
             this.Factory();
         }
-
         private List<IPopup> CreateMenu()
         {
             List<IPopup> popups = new List<IPopup>();
@@ -69,18 +71,14 @@ namespace GeoDB.Presenter
                     preAssays2Crud = preAssays2Crud !=null ? preAssays2Crud : new PAssays2Crud(vAssaysCrud, modelAssays, modelZblock, modelLito, modelRang, modelBlank, modelJournal, modelGeologist);
                     preDrillHoles = preDrillHoles != null ? preDrillHoles : new PDrillHoles(view, modelCollar, modelAssays, modelGeologist, 20, preCollar2Crud, preAssays2Crud);
                     preDrillHoles.Show(_mainView);
-                    IPopup p = new Popup();
-                    p.tittle = "preDrillHoles";
-                    IItem i1 = new Item();
-                    i1.image = GeoDB.Resources.report;
-                    i1.tittle = "Печать";
-                    i1.clickItem += (s, e2) => { MessageBox.Show("ok"); };
-                    p.items.Add(i1);
-
-                    this._mainView.addChildMenu(p);
-                    preDrillHoles._FormClosing += (s, e2) => {
-                        this._mainView.removeChildMenu(p); 
+                    ShowingChildForm(preDrillHoles);
+                    EventHandler<EventArgs> removeChildMenu = delegate 
+                    {
+                        this.HidingChildForm(preDrillHoles);
                     };
+                    preDrillHoles._FormClosing -= removeChildMenu;
+                    preDrillHoles._FormClosing += removeChildMenu;
+                    
                 }
                 catch (Exception ex)
                 {
@@ -139,6 +137,8 @@ namespace GeoDB.Presenter
 
             return popups;
         }
+
+
 
         private void Factory()
         {
@@ -210,6 +210,24 @@ namespace GeoDB.Presenter
             Application.Run(_mainView as Form);
         }
 
+        void ShowingChildForm(IPresenter presenter)
+        {
+            if (ChildForms.Find(x=>x.Equals(presenter)) == null)
+            {
+                ChildForms.Add(presenter);
+            }
+            this._mainView.removeAllChildMenu();
+            ChildForms.ForEach(X => this._mainView.addChildMenu(X.GetToolMenu()));
+        }
+        void HidingChildForm(IPresenter presenter)
+        {
+            if (ChildForms.Find(x => x.Equals(presenter)) != null)
+            {
+                ChildForms.Remove(presenter);
+            }
+            this._mainView.removeAllChildMenu();
+            ChildForms.ForEach(X => this._mainView.addChildMenu(X.GetToolMenu()));
+        }
     }
 
     public class Item : IItem

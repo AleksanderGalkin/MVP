@@ -100,6 +100,7 @@
     <Compile Include="Model\Interface\IBase.cs" />
     <Compile Include="Model\NumRowEventArgs.cs" />
     <Compile Include="Presenter\AbsBrowser.cs" />
+    <Compile Include="Presenter\Interface\IPresenter.cs" />
     <Compile Include="Presenter\PAssays2Crud.cs" />
     <Compile Include="Presenter\PCollar2Crud.cs" />
     <Compile Include="Presenter\PDrillHoles.cs" />

@@ -130,7 +130,6 @@
             this.Name = "ViewDrillHoles";
             this.Text = "Скважины и Пробы";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ViewDrillHoles_FormClosing);
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.ViewDrillHoles_FormClosed);
             this.Resize += new System.EventHandler(this.ViewDrillHoles_Resize);
             ((System.ComponentModel.ISupportInitialize)(this.dataGVCollar2)).EndInit();
             this.splitContainer1.Panel1.ResumeLayout(false);

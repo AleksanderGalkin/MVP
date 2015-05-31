@@ -18,6 +18,7 @@ using System.IO;
 using System.Reflection;
 using GeoDbUserInterface.View;
 using GeoDbUserInterface.ServiceInterfaces;
+using GeoDB.Presenter.Interface;
 
 
 namespace GeoDB.Presenter
@@ -137,7 +138,7 @@ namespace GeoDB.Presenter
 
     [AnyRolePermissionAttribute(SecurityAction.Demand, Roles = "GDB_BL_ADM,GDB_BL_GEO_ADV")]
 
-    public class PDrillHoles
+    public class PDrillHoles : IPresenter
     {
         public static ILog log = LogManager.GetLogger("ConsoleAppender");
         private IViewDrillHoles2 _view;
@@ -317,7 +318,22 @@ namespace GeoDB.Presenter
             _view.Show();
         }
 
-        
+        public IPopup GetToolMenu()
+        {
+            IPopup p = new Popup();
+            p.tittle = "preDrillHoles";
+            IItem i1 = new Item();
+            i1.image = GeoDB.Resources.loadDB;
+            i1.tittle = "Импорт";
+            i1.clickItem += (s, e2) => { MessageBox.Show("ok"); };
+            IItem i2 = new Item();
+            i2.image = GeoDB.Resources.report;
+            i2.tittle = "Печать";
+            i2.clickItem += (s, e2) => { Report(); };
+            p.items.Add(i1);
+            p.items.Add(i2);
+            return p;
+        }
 
         private void Report()
         {
@@ -334,8 +350,14 @@ namespace GeoDB.Presenter
             band.DataSource = report.GetDataSource("GEOLOGIST");
 
 
-            FastReport.TextObject desc = ((FastReport.TextObject)report.FindObject("Text2"));
-            if (desc != null) desc.Text = "[GEOLOGIST.GEOLOGIST_NAME]";
+            FastReport.TextObject desc2 = ((FastReport.TextObject)report.FindObject("Text2"));
+            if (desc2 != null) desc2.Text = "[GEOLOGIST.GEOLOGIST_ID]";
+            FastReport.TextObject desc3 = ((FastReport.TextObject)report.FindObject("Text3"));
+            if (desc3 != null) desc3.Text = "[GEOLOGIST.GEOLOGIST_NAME]";
+            FastReport.TextObject desc4 = ((FastReport.TextObject)report.FindObject("Text4"));
+            if (desc4 != null) desc4.Text = "[GEOLOGIST.LOGIN]";
+            
+            
             report.Show();
         }
 

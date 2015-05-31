@@ -1,14 +1,22 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Report ScriptLanguage="CSharp" ReportInfo.Created="05/28/2015 14:34:52" ReportInfo.Modified="05/28/2015 16:11:50" ReportInfo.CreatorVersion="2015.1.5.0">
-  <Dictionary/>
+<Report ScriptLanguage="CSharp" ReportInfo.Created="05/28/2015 14:34:52" ReportInfo.Modified="05/31/2015 16:18:40" ReportInfo.CreatorVersion="2015.1.5.0">
+  <Dictionary>
+    <Total Name="Количество" TotalType="Count" Evaluator="Data1" PrintOn="PageFooter1"/>
+  </Dictionary>
   <ReportPage Name="Page1">
     <ReportTitleBand Name="ReportTitle1" Width="718.2" Height="37.8">
-      <TextObject Name="Text1" Left="264.6" Top="9.45" Width="94.5" Height="18.9" Text="Отчёт" HorzAlign="Center" Font="Arial, 12pt" TextFill.Color="Maroon"/>
+      <TextObject Name="Text1" Left="264.6" Top="9.45" Width="236.25" Height="18.9" Text="Список пользователей" HorzAlign="Center" Font="Arial, 12pt" TextFill.Color="Maroon"/>
     </ReportTitleBand>
     <PageHeaderBand Name="PageHeader1" Top="41.8" Width="718.2" Height="28.35"/>
-    <DataBand Name="Data1" Top="74.15" Width="718.2" Height="75.6">
-      <TextObject Name="Text2" Left="37.8" Top="28.35" Width="94.5" Height="18.9" HorzAlign="Center" Font="Arial, 12pt" TextFill.Color="Maroon"/>
+    <DataBand Name="Data1" Top="74.15" Width="718.2" Height="18.9">
+      <TextObject Name="Text2" Left="132.3" Width="94.5" Height="18.9" HorzAlign="Center" Font="Arial, 12pt" TextFill.Color="Maroon"/>
+      <TextObject Name="Text3" Left="236.25" Width="94.5" Height="18.9" HorzAlign="Center" Font="Arial, 12pt" TextFill.Color="Maroon"/>
+      <TextObject Name="Text4" Left="340.2" Width="94.5" Height="18.9" HorzAlign="Center" Font="Arial, 12pt" TextFill.Color="Maroon"/>
+      <TextObject Name="Text5" Left="444.15" Width="94.5" Height="18.9" HorzAlign="Center" Font="Arial, 12pt" TextFill.Color="Maroon"/>
     </DataBand>
-    <PageFooterBand Name="PageFooter1" Top="153.75" Width="718.2" Height="18.9"/>
+    <PageFooterBand Name="PageFooter1" Top="97.05" Width="718.2" Height="18.9">
+      <TextObject Name="Text6" Left="444.15" Width="94.5" Height="18.9" Text="[Количество]"/>
+      <TextObject Name="Text7" Left="321.3" Width="94.5" Height="18.9" Text="Количество:"/>
+    </PageFooterBand>
   </ReportPage>
 </Report>

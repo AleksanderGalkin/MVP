@@ -42,7 +42,7 @@ namespace GeoDbUserInterface.View
         Image logo { set; }
 
         void addChildMenu(IPopup childMenuSettings);
-        void removeChildMenu(IPopup childMenuSettings);
+        void removeAllChildMenu();
 
         event EventHandler<EventArgs> FormClosed;
 
