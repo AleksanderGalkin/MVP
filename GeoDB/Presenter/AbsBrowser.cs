@@ -186,13 +186,16 @@ namespace GeoDB.Presenter
             }
         }
 
-
+        public IEnumerable<S> GetFilteredModel()
+        {
+            return _filteredViewModel;
+        }
  #endregion Public
 
   #region Absract
   
         abstract public void CreateFilteredModel();
-
+        
 #endregion Abstract
 #region protected
         protected void GeneratePage()

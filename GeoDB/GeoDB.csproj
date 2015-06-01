@@ -51,13 +51,13 @@
   <ItemGroup>
     <Reference Include="FastReport, Version=2015.1.5.0, Culture=neutral, PublicKeyToken=db7e5ce63278458c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files (x86)\FastReports\FastReport.Net Demo\FastReport.dll</HintPath>
+      <HintPath>..\..\..\Program Files\FastReports\FastReport.Net Demo\FastReport.dll</HintPath>
     </Reference>
     <Reference Include="log4net">
       <HintPath>..\..\..\Install\programming\log4net-1.2.13\bin\net\4.0\release\log4net.dll</HintPath>
     </Reference>
     <Reference Include="Ninject">
-      <HintPath>..\..\..\Ninject-3.0.0.15-release-net-4.0\Ninject.dll</HintPath>
+      <HintPath>..\..\..\Install\programming\Ninject-3.0.0.15-release-net-4.0\Ninject.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
@@ -104,6 +104,7 @@
     <Compile Include="Presenter\PAssays2Crud.cs" />
     <Compile Include="Presenter\PCollar2Crud.cs" />
     <Compile Include="Presenter\PDrillHoles.cs" />
+    <Compile Include="Presenter\PDrillHoles2PrintSet.cs" />
     <Compile Include="Presenter\PLogin.cs" />
     <Compile Include="Presenter\PMainForm.cs" />
     <Compile Include="Program.cs" />

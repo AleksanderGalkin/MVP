@@ -76,6 +76,12 @@
     <Compile Include="ViewDrillHoles.Designer.cs">
       <DependentUpon>ViewDrillHoles.cs</DependentUpon>
     </Compile>
+    <Compile Include="ViewDrillHoles2PrintSet.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ViewDrillHoles2PrintSet.Designer.cs">
+      <DependentUpon>ViewDrillHoles2PrintSet.cs</DependentUpon>
+    </Compile>
     <Compile Include="ViewLogin.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -115,6 +121,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ViewDrillHoles.resx">
       <DependentUpon>ViewDrillHoles.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ViewDrillHoles2PrintSet.resx">
+      <DependentUpon>ViewDrillHoles2PrintSet.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ViewLogin.resx">
       <DependentUpon>ViewLogin.cs</DependentUpon>

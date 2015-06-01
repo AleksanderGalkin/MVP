@@ -19,6 +19,7 @@ using System.Reflection;
 using GeoDbUserInterface.View;
 using GeoDbUserInterface.ServiceInterfaces;
 using GeoDB.Presenter.Interface;
+using GeoDBWinForms2;
 
 
 namespace GeoDB.Presenter
@@ -141,12 +142,16 @@ namespace GeoDB.Presenter
     public class PDrillHoles : IPresenter
     {
         public static ILog log = LogManager.GetLogger("ConsoleAppender");
+        IBaseService<COLLAR2> _modelCollar;
+        IBaseService<ASSAYS2> _modelAssays;
         private IViewDrillHoles2 _view;
         private BrowseCollar _broCollar;
         private BrowseAssay _broAssays;
         private PCollar2Crud _preCollar2Crud;
         private PAssays2Crud _preAssays2Crud;
         private IView mdiParent;
+        private bool bPrintSet1;
+        
 
         private IBaseService<GEOLOGIST> _modelGeologist;
 
@@ -166,7 +171,8 @@ namespace GeoDB.Presenter
             _view = viewCollar2;
             _preCollar2Crud = PresenterCollar2Crud;
             _preAssays2Crud = PresenterAssays2Crud;
-
+            _modelCollar = modelCollar;
+            _modelAssays = modelAssays;
             _modelGeologist = modelGeologist; // for report testing
 
             _broCollar = new BrowseCollar(modelCollar, modelGeologist, rowsToBuffer);
@@ -329,37 +335,30 @@ namespace GeoDB.Presenter
             IItem i2 = new Item();
             i2.image = GeoDB.Resources.report;
             i2.tittle = "Печать";
-            i2.clickItem += (s, e2) => { Report(); };
+            i2.clickItem += (s, e2) => {
+                if (!bPrintSet1)
+                {
+                    ViewDrillHoles2PrintSet view = new ViewDrillHoles2PrintSet();
+                  //  IEnumerable<Collar2VmFull> modelCollar = _broCollar.GetFilteredModel() as IEnumerable<Collar2VmFull>;
+                  //  IEnumerable<Assays2VmFull> modelAssays = _broAssays.GetFilteredModel() as IEnumerable<Assays2VmFull>;
+                
+                    PDrillHoles2PrintSet PrintSet1 = new PDrillHoles2PrintSet(_modelCollar,_modelAssays, view);
+                
+                    PrintSet1._MdiParent = this.mdiParent;
+                    PrintSet1.OwnerForm = _view;
+                    PrintSet1.Show();
+                    bPrintSet1 = true;
+                    PrintSet1._formClosing += (s3, e3) => {
+                        bPrintSet1 = false; };
+                }
+                
+            };
             p.items.Add(i1);
             p.items.Add(i2);
             return p;
         }
 
-        private void Report()
-        {
-            var report = new Report();
-
-            //Stream stream = this.GetType().Assembly.GetManifestResourceStream("GeoDBWinForms.Resources.rptDrillHoles.frx");  //GetExecutingAssembly
-            Assembly assem = Assembly.GetExecutingAssembly();
-            Stream stream = assem.GetManifestResourceStream("GeoDB.Resources.rptDrillHoles.frx");  
-            report.Load(stream);
-            report.RegisterData(_modelGeologist.Get(), "GEOLOGIST");
-            report.GetDataSource("GEOLOGIST").Enabled = true;
-
-            FastReport.DataBand band = ((FastReport.DataBand)report.FindObject("Data1"));
-            band.DataSource = report.GetDataSource("GEOLOGIST");
-
-
-            FastReport.TextObject desc2 = ((FastReport.TextObject)report.FindObject("Text2"));
-            if (desc2 != null) desc2.Text = "[GEOLOGIST.GEOLOGIST_ID]";
-            FastReport.TextObject desc3 = ((FastReport.TextObject)report.FindObject("Text3"));
-            if (desc3 != null) desc3.Text = "[GEOLOGIST.GEOLOGIST_NAME]";
-            FastReport.TextObject desc4 = ((FastReport.TextObject)report.FindObject("Text4"));
-            if (desc4 != null) desc4.Text = "[GEOLOGIST.LOGIN]";
-            
-            
-            report.Show();
-        }
+     
 
     }
 }

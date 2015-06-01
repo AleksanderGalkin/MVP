@@ -57,6 +57,7 @@
     <Compile Include="View\IViewAssays2Crud.cs" />
     <Compile Include="View\IViewCollar2Crud.cs" />
     <Compile Include="View\IViewDrillHoles2.cs" />
+    <Compile Include="View\IViewDrillHoles2PrintSet.cs" />
     <Compile Include="View\IViewLogin.cs" />
     <Compile Include="View\IViewMainForm.cs" />
     <Compile Include="ServiceInterfaces\IViewModel.cs" />

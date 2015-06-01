@@ -122,7 +122,7 @@ namespace GeoDBWinForms
 
         private void rbServer_CheckedChanged(object sender, EventArgs e)
         {
-            cbServerName.Enabled = locationServerDb;
+            
             cbDbName.Enabled = locationServerDb;
             cbDbFileName.Enabled = !locationServerDb;
             btDbFileName.Enabled = !locationServerDb;
@@ -130,7 +130,7 @@ namespace GeoDBWinForms
 
         private void rbDesktop_CheckedChanged(object sender, EventArgs e)
         {
-            cbServerName.Enabled = locationServerDb;
+            
             cbDbName.Enabled = locationServerDb;
             cbDbFileName.Enabled = !locationServerDb;
             btDbFileName.Enabled = !locationServerDb;
@@ -154,5 +154,6 @@ namespace GeoDBWinForms
                 }
         }
 
+ 
     }
 }
