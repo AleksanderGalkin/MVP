@@ -2,16 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using GeoDbUserInterface.View;
 
-namespace ClassLibrary1.View
+namespace GeoDbUserInterface.View
 {
     public interface IViewDrillHoles2PrintSet
     {
         List<string> benchList { set; }
-        string bench { get;  }
+        string bench { get; set; }
         List<string> blastList { set; }
-        string blast { get;  }
+        string blast { get; set; }
 
 
 

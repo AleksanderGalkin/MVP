@@ -109,11 +109,11 @@ namespace GeoDBWinForms
 
                     if (filteredCollarNumField[e.ColumnIndex])
                     {
-                        imgFilter = GeoDBWinForms2.Properties.Resources.ResourceManager.GetObject("Very_Basic_Filter_Filled_icon") as Image;
+                        imgFilter = GeoDBWinForms.Properties.Resources.ResourceManager.GetObject("Very_Basic_Filter_Filled_icon") as Image;
                     }
                     else
                     {
-                        imgFilter = GeoDBWinForms2.Properties.Resources.ResourceManager.GetObject("Very_Basic_Filter_Not_Filled") as Image;
+                        imgFilter = GeoDBWinForms.Properties.Resources.ResourceManager.GetObject("Very_Basic_Filter_Not_Filled") as Image;
                     }
                     int offsetFilter = width - imgFilter.Width;
                     width = offsetFilter;
@@ -127,11 +127,11 @@ namespace GeoDBWinForms
                     Point ptSort = e.CellBounds.Location;
                     if (SortedCollarCriterion == SortererTypeCriterion.Ascending)
                     {
-                        imgSort = GeoDBWinForms2.Properties.Resources.ResourceManager.GetObject("Very_Basic_ArrowUp_icon") as Image;
+                        imgSort = GeoDBWinForms.Properties.Resources.ResourceManager.GetObject("Very_Basic_ArrowUp_icon") as Image;
                     }
                     else
                     {
-                        imgSort = GeoDBWinForms2.Properties.Resources.ResourceManager.GetObject("Very_Basic_ArrowDown_icon") as Image;
+                        imgSort = GeoDBWinForms.Properties.Resources.ResourceManager.GetObject("Very_Basic_ArrowDown_icon") as Image;
                     }
                     int offsetSort = width - imgSort.Width;
                     ptSort.X += offsetSort;
@@ -294,11 +294,11 @@ namespace GeoDBWinForms
 
                     if (filteredAssaysNumField[e.ColumnIndex])
                     {
-                        imgFilter = GeoDBWinForms2.Properties.Resources.ResourceManager.GetObject("Very_Basic_Filter_Filled_icon") as Image;
+                        imgFilter = GeoDBWinForms.Properties.Resources.ResourceManager.GetObject("Very_Basic_Filter_Filled_icon") as Image;
                     }
                     else
                     {
-                        imgFilter = GeoDBWinForms2.Properties.Resources.ResourceManager.GetObject("Very_Basic_Filter_Not_Filled") as Image;
+                        imgFilter = GeoDBWinForms.Properties.Resources.ResourceManager.GetObject("Very_Basic_Filter_Not_Filled") as Image;
                     }
                     int offsetFilter = width - imgFilter.Width;
                     width = offsetFilter;
@@ -312,11 +312,11 @@ namespace GeoDBWinForms
                     Point ptSort = e.CellBounds.Location;
                     if (SortedAssaysCriterion == SortererTypeCriterion.Ascending)
                     {
-                        imgSort = GeoDBWinForms2.Properties.Resources.ResourceManager.GetObject("Very_Basic_ArrowUp_icon") as Image;
+                        imgSort = GeoDBWinForms.Properties.Resources.ResourceManager.GetObject("Very_Basic_ArrowUp_icon") as Image;
                     }
                     else
                     {
-                        imgSort = GeoDBWinForms2.Properties.Resources.ResourceManager.GetObject("Very_Basic_ArrowDown_icon") as Image;
+                        imgSort = GeoDBWinForms.Properties.Resources.ResourceManager.GetObject("Very_Basic_ArrowDown_icon") as Image;
                     }
                     int offsetSort = width - imgSort.Width;
                     ptSort.X += offsetSort;

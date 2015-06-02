@@ -1,4 +1,4 @@
-﻿namespace GeoDBWinForms2
+﻿namespace GeoDBWinForms
 {
     partial class ViewDrillHoles2PrintSet
     {

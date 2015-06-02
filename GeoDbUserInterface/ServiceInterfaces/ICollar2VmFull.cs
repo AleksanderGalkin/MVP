@@ -19,8 +19,8 @@ namespace GeoDbUserInterface.ServiceInterfaces
         double enddepth { get; set; }
         string drillType { get; set; }
         int domen { get; set; }
-        string lastUserID { get; set; }
-        DateTime? lastDT { get; set; }
+      //  string lastUserID { get; set; }
+      //  DateTime? lastDT { get; set; }
 
       //  static  List<IDGVHeader> header { get; }
     }

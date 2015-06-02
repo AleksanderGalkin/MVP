@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Windows.Forms;
 using System.Drawing;
 
 namespace GeoDbUserInterface.View
@@ -29,8 +28,8 @@ namespace GeoDbUserInterface.View
         // string lastUserID { get; set; }
         // DateTime? lastDT { get; set; }
 
-        Form MdiParent {  set; }
-        Form OwnerForm { set; }
+        IView mdiParent {  set; }
+        IView OwnerForm { set; }
         void Show(bool ReadOnly = false);
         void Refresh();
         void Hide();

@@ -20,14 +20,14 @@ namespace GeoDBWinForms
             InitializeComponent();
         }
 
-        public Form mdiParent
+        public IView mdiParent
         {
             set
             {
-                this.MdiParent = value;
+                this.MdiParent = value as Form;
             }
         }
-        public Form OwnerForm
+        public IView OwnerForm
         {
             private get;
             set;
@@ -287,9 +287,11 @@ namespace GeoDBWinForms
 
         public  void Show(bool ReadOnly)
         {
+            Form ownerForm = OwnerForm as Form;
+            if (ownerForm == null) return;
             readOnly = ReadOnly;
-            OwnerForm.Enabled = false;
-            this.Location = new System.Drawing.Point(OwnerForm.Location.X + OwnerForm.Width / 3, OwnerForm.Location.Y + OwnerForm.Height / 3);
+            ownerForm.Enabled = false;
+            this.Location = new System.Drawing.Point(ownerForm.Location.X + ownerForm.Width / 3, ownerForm.Location.Y + ownerForm.Height / 3);
             this.Show();
         }
         
@@ -404,7 +406,9 @@ namespace GeoDBWinForms
             {
                 ev(this, EventArgs.Empty);
             }
-            OwnerForm.Enabled = true;
+            Form ownerForm = OwnerForm as Form;
+            if (ownerForm == null) return;
+            ownerForm.Enabled = true;
             
         }
         

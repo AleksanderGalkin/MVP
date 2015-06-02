@@ -30,8 +30,8 @@ namespace GeoDbUserInterface.ServiceInterfaces
         string journal { get; set; }
         string geologist { get; set; }
         string pit { get; set; }
-        string lastUserID { get; set; }
-        DateTime? lastDT { get; set; }
+       // string lastUserID { get; set; }
+       // DateTime? lastDT { get; set; }
         int id { get; set; }
     }
 }

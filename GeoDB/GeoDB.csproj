@@ -105,8 +105,10 @@
     <Compile Include="Presenter\PCollar2Crud.cs" />
     <Compile Include="Presenter\PDrillHoles.cs" />
     <Compile Include="Presenter\PDrillHoles2PrintSet.cs" />
+    <Compile Include="Presenter\PException.cs" />
     <Compile Include="Presenter\PLogin.cs" />
     <Compile Include="Presenter\PMainForm.cs" />
+    <Compile Include="Presenter\StaticInformation.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>

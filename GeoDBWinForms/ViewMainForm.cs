@@ -29,10 +29,10 @@ namespace GeoDBWinForms
 
        // IKernel ninjectKernel;
 
-        IViewDrillHoles2 view ;
-        IViewCollar2Crud vCollarCrud ;
-        IViewAssays2Crud vAssaysCrud ;
-        IViewLogin vLogin;
+      //  IViewDrillHoles2 view ;
+      //  IViewCollar2Crud vCollarCrud ;
+      //  IViewAssays2Crud vAssaysCrud ;
+      //  IViewLogin vLogin;
 
 
         //IBaseService<COLLAR2> modelCollar ;
@@ -224,7 +224,8 @@ namespace GeoDBWinForms
 
         public new void Show()
         {
-            base.Show();
+           // base.Show();
+            Application.Run(this);
         }
     }
 

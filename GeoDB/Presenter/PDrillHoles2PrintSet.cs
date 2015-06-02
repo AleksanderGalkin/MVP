@@ -2,14 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using GeoDbUserInterface.ServiceInterfaces;
-using ClassLibrary1.View;
-using GeoDbUserInterface.View;
 using FastReport;
 using System.Reflection;
 using System.IO;
 using GeoDB.Model;
 using GeoDB.Service.DataAccess.Interface;
+using GeoDbUserInterface.View;
 
 namespace GeoDB.Presenter
 {
@@ -47,14 +45,14 @@ namespace GeoDB.Presenter
                 from a in selectGroup
                 orderby a.Key
                 select a.Key.ToString();
-            _view.benchList = bench.ToList();
-
+            _view.benchList = new string[]{""}.Union(bench).ToList();
+            _view._MdiParent = StaticInformation.MdiParentForm;
             _view.Show();
             
         }
 
         public IView OwnerForm { set { _view.OwnerForm = value; } }
-        public IView _MdiParent { set { _view._MdiParent = value; } }
+      
 
         private void On_view__selectBench(object sender,EventArgs e)
         {
@@ -68,17 +66,16 @@ namespace GeoDB.Presenter
                 (from a in blast1
                  group a by a.RL_EXPLO2.EXPL_LINE_NAME into g
                  orderby g.Key
-                 select g.Key)
-                .ToList();
+                 select g.Key);
+   
 
-            _view.blastList = blast;
+            _view.blastList = new string[]{""}.Union(blast).ToList();
         }
         private void On_view__clickOk(object sender,EventArgs e)
         {
-            Console.WriteLine("{0},{1}",_view.bench,_view.blast);
+            if (string.IsNullOrEmpty(_view.bench)) return;
             _view.Close();
             Report(_view.bench, _view.blast);
-
         }
         private void On_view__formClosing(object sender, EventArgs e)
         {
@@ -105,6 +102,10 @@ namespace GeoDB.Presenter
                 tTittleText = "горизонту №" + bench+", взрыву №"+blast;
             }
             dynamic samples;
+            double avgVes = 0 ;
+            double avgAu = 0;
+            double avgAu_cut = 0;
+
             if (isAllBenchReport)
             {
                 samples = from a in _assaysModel.Get()
@@ -140,6 +141,40 @@ namespace GeoDB.Presenter
                               lastUserID = "не определено",
                               lastDT = a.LastDT
                           };
+
+                var avgVes1 = (from a in _assaysModel.Get()
+                               join c in _collarModel.Get()
+                               on a.BHID equals c.ID
+                               where c.GORIZONT.BENCH_NAME.ToString() == bench
+                               && a.VES_SAMPLE != null
+                               select (double)a.VES_SAMPLE);
+                if (avgVes1.Count() != 0)
+                {
+                    avgVes = avgVes1.Sum() / avgVes1.Count();
+                }
+
+                var avgAu1 = (from a in _assaysModel.Get()
+                               join c in _collarModel.Get()
+                               on a.BHID equals c.ID
+                               where c.GORIZONT.BENCH_NAME.ToString() == bench
+                               && a.VES_SAMPLE != null && a.Au != null 
+                               group a by a into g
+                               select g);
+                if(avgAu1.Sum(x=>x.Key.VES_SAMPLE)!=0)
+                {
+                    avgAu = (double)(avgAu1.Sum(x => x.Key.Au * x.Key.VES_SAMPLE) / avgAu1.Sum(x=>x.Key.VES_SAMPLE));
+                }
+                var avgAu_cut1 = (from a in _assaysModel.Get()
+                              join c in _collarModel.Get()
+                              on a.BHID equals c.ID
+                              where c.GORIZONT.BENCH_NAME.ToString() == bench
+                              && a.VES_SAMPLE != null && a.Au != null 
+                              group a by a into g
+                              select g);
+                if (avgAu1.Sum(x => x.Key.VES_SAMPLE) != 0)
+                {
+                    avgAu_cut = (double)(avgAu1.Sum(x => x.Key.Au * x.Key.VES_SAMPLE) / avgAu1.Sum(x => x.Key.VES_SAMPLE));
+                }
             }
             else
             {
@@ -177,7 +212,44 @@ namespace GeoDB.Presenter
                               lastUserID = "не определено",
                               lastDT = a.LastDT
                           };
+
+                var avgVes1 = (from a in _assaysModel.Get()
+                               join c in _collarModel.Get()
+                               on a.BHID equals c.ID
+                               where c.GORIZONT.BENCH_NAME.ToString() == bench
+                                    && a.VES_SAMPLE != null
+                               select (double)a.VES_SAMPLE);
+                if (avgVes1.Count() != 0)
+                {
+                    avgVes = avgVes1.Sum() / avgVes1.Count();
+                }
+
+                var avgAu1 = (from a in _assaysModel.Get()
+                              join c in _collarModel.Get()
+                              on a.BHID equals c.ID
+                              where c.GORIZONT.BENCH_NAME.ToString() == bench
+                              && a.VES_SAMPLE != null && a.Au != null 
+                              group a by a into g
+                              select g);
+                if (avgAu1.Sum(x => x.Key.VES_SAMPLE) != 0)
+                {
+                    avgAu = (double)(avgAu1.Sum(x => x.Key.Au * x.Key.VES_SAMPLE) / avgAu1.Sum(x => x.Key.VES_SAMPLE));
+                }
+
+                var avgAu_cut1 = (from a in _assaysModel.Get()
+                                  join c in _collarModel.Get()
+                                  on a.BHID equals c.ID
+                                  where c.GORIZONT.BENCH_NAME.ToString() == bench
+                                  && a.VES_SAMPLE != null && a.Au != null 
+                                  group a by a into g
+                                  select g);
+                if (avgAu1.Sum(x => x.Key.VES_SAMPLE) != 0)
+                {
+                    avgAu_cut = (double)(avgAu1.Sum(x => x.Key.Au * x.Key.VES_SAMPLE) / avgAu1.Sum(x => x.Key.VES_SAMPLE));
+                }
             }
+
+
             var report = new Report();
 
             
@@ -193,6 +265,13 @@ namespace GeoDB.Presenter
 
             FastReport.TextObject field;
 
+            field = ((FastReport.TextObject)report.FindObject("Cell_avgVes"));
+            if (field != null) field.Text = Math.Round(avgVes,3).ToString();
+            field = ((FastReport.TextObject)report.FindObject("Cell_avgAu"));
+            if (field != null) field.Text = Math.Round(avgAu,3).ToString();
+            field = ((FastReport.TextObject)report.FindObject("Cell_avgAuC"));
+            if (field != null) field.Text = Math.Round(avgAu_cut, 3).ToString();
+
             field = ((FastReport.TextObject)report.FindObject("tTittle"));
             if (field != null) field.Text = tTittleText;
 
@@ -200,7 +279,7 @@ namespace GeoDB.Presenter
             if (field != null) field.Text = "[SAMPLES.bhid]";
             field = ((FastReport.TextObject)report.FindObject("Sample"));
             if (field != null) field.Text = "[SAMPLES.sample]";
-            field = ((FastReport.TextObject)report.FindObject("Length"));
+            field = ((FastReport.TextObject)report.FindObject("sampleLength"));
             if (field != null) field.Text = "[SAMPLES.length]";
             field = ((FastReport.TextObject)report.FindObject("Zblock"));
             if (field != null) field.Text = "[SAMPLES.zblock]";

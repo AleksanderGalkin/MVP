@@ -6,10 +6,9 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using ClassLibrary1.View;
 using GeoDbUserInterface.View;
 
-namespace GeoDBWinForms2
+namespace GeoDBWinForms
 {
     public partial class ViewDrillHoles2PrintSet : Form,IViewDrillHoles2PrintSet
     {
@@ -24,6 +23,7 @@ namespace GeoDBWinForms2
         public string bench 
         {
             get { return cbBench.SelectedValue.ToString(); }
+            set { cbBench.SelectedText =value; }
         }
         public List<string> blastList 
         {
@@ -35,6 +35,7 @@ namespace GeoDBWinForms2
         public string blast
         {
             get { return cbBlast.SelectedValue.ToString(); }
+            set { cbBlast.SelectedText = value; }
         }
         public IView _MdiParent { set { this.MdiParent = value as Form; } }
         public IView OwnerForm { get; set; }

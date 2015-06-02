@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using GeoDB.Service.DataAccess.Interface;
 using GeoDB.Model;
-using System.Windows.Forms;
 using System.Transactions;
 using GeoDbUserInterface.View;
 
@@ -19,7 +18,6 @@ namespace GeoDB.Presenter
         private IBaseService<DRILLING_TYPE> _modelDrillType;
         private IBaseService<DOMEN> _modelDomen;
         private enum ModeFormEnum { creating, modifying, deleting } ;
-        private Form _mdiParent;
         private struct ModeFormDataStru
         {
             public ModeFormEnum _mode;
@@ -100,7 +98,7 @@ namespace GeoDB.Presenter
                     {
                         _model.Refresh(obj);
                     }
-                    MessageBox.Show(String.Format("Что то пошло не так при сохранении./n {0}",ex.InnerException),"Что то пошло не так при сохранении.");
+                    throw new InvalidOperationException("Что то пошло не так при сохранении./n  Что то пошло не так при сохранении.",ex.InnerException);
                 }
                 var ev = DataChanged;
                 if (ev != null)
@@ -132,10 +130,9 @@ namespace GeoDB.Presenter
             _view.domenId = -1;
             modeFormData._mode = ModeFormEnum.creating;
             modeFormData.id = null;
-            _view.MdiParent = Parent as Form;
-            _view.OwnerForm = Owner as Form;
-            _mdiParent = Parent as Form;
-           
+            _view.mdiParent = StaticInformation.MdiParentForm;
+            _view.OwnerForm = Owner;
+             
             _view.Show();
         }
         public void Show(int id, IView Parent, IView Owner)
@@ -159,9 +156,8 @@ namespace GeoDB.Presenter
             _view.domenId = obj.DOMEN;
             modeFormData._mode = ModeFormEnum.modifying;
             modeFormData.id = id;
-            _view.MdiParent = Parent as Form;
-            _mdiParent = Parent as Form;
-            _view.OwnerForm = Owner as Form;
+            _view.mdiParent = StaticInformation.MdiParentForm;
+            _view.OwnerForm = Owner;
             _view.Show();
         }
         public void ShowForDelete(int id, IView Parent, IView Owner)
@@ -185,9 +181,7 @@ namespace GeoDB.Presenter
             _view.domenId = obj.DOMEN;
             modeFormData._mode = ModeFormEnum.deleting;
             modeFormData.id = id;
-            _view.MdiParent = Parent as Form;
-            _mdiParent = Parent as Form;
-            _view.OwnerForm = Owner as Form;
+            _view.mdiParent = StaticInformation.MdiParentForm;
             _view.Show(true);
         }
     }

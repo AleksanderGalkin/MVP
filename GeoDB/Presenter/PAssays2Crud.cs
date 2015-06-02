@@ -20,7 +20,6 @@ namespace GeoDB.Presenter
         private IBaseService<REESTR_VEDOMOSTEI> _modelBlank;
         private IBaseService<JOURNAL> _modelJournal;
         private IBaseService<GEOLOGIST> _modelGeologist;
-        private Form _mdiParent;
 
         private enum ModeFormEnum { creating, modifying, deleting } ;
         private struct ModeFormDataStru
@@ -162,9 +161,8 @@ namespace GeoDB.Presenter
             _view.geologist = -1;
             modeFormData._mode = ModeFormEnum.creating;
             modeFormData.id = null;
-            _view.MdiParent = Parent as Form;
-            _view.OwnerForm = Owner as Form;
-            _mdiParent = Parent as Form;
+            _view.mdiParent = StaticInformation.MdiParentForm;
+            _view.OwnerForm = Owner;
             _view.Show();
         }
         public void ShowModify(int id, IView Parent, IView Owner)
@@ -197,9 +195,8 @@ namespace GeoDB.Presenter
             _view.pit = obj.PIT;
             modeFormData._mode = ModeFormEnum.modifying;
             modeFormData.id = id;
-            _view.MdiParent = Parent as Form;
-            _view.OwnerForm = Owner as Form;
-            _mdiParent = Parent as Form;
+            _view.mdiParent = StaticInformation.MdiParentForm;
+            _view.OwnerForm = Owner;
             _view.Show();
         }
         public void ShowForDelete(int id, IView Parent, IView Owner)
@@ -226,9 +223,8 @@ namespace GeoDB.Presenter
             _view.geologist = obj.GEOLOGIST;
             _view.pit = obj.PIT; modeFormData._mode = ModeFormEnum.deleting;
             modeFormData.id = id;
-            _view.MdiParent = Parent as Form;
-            _view.OwnerForm = Owner as Form;
-            _mdiParent = Parent as Form;
+            _view.mdiParent = StaticInformation.MdiParentForm;
+            _view.OwnerForm = Owner;
             _view.Show(true);
         }
     }

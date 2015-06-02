@@ -19,7 +19,9 @@ using System.Reflection;
 using GeoDbUserInterface.View;
 using GeoDbUserInterface.ServiceInterfaces;
 using GeoDB.Presenter.Interface;
-using GeoDBWinForms2;
+
+using System.Diagnostics;
+using GeoDBWinForms;
 
 
 namespace GeoDB.Presenter
@@ -40,6 +42,10 @@ namespace GeoDB.Presenter
 
         public override void CreateFilteredModel()
         {
+#if DEBUG
+            Stopwatch swatchCreateFilteredModel = new Stopwatch();
+            swatchCreateFilteredModel.Start();
+#endif
             var temp =
                  (from a in _model .Get()
                   join b in _modelGeologist.Get()
@@ -63,9 +69,39 @@ namespace GeoDB.Presenter
                       lastDT = a.LastDT
                   });
 
+#if DEBUG
+            swatchCreateFilteredModel.Stop();
+            Console.WriteLine("CreateFilteredModel time: {0}", swatchCreateFilteredModel.Elapsed.ToString());
+#endif
+#if DEBUG
+            Stopwatch swatchFilteredBy = new Stopwatch();
+            swatchFilteredBy.Start();
+#endif
             temp = temp.FilteredBy(_filter);
+#if DEBUG
+            swatchFilteredBy.Stop();
+            Console.WriteLine("swatchFilteredBy time: {0}", swatchFilteredBy.Elapsed.ToString());
+#endif
+#if DEBUG
+            Stopwatch swatchSortBy = new Stopwatch();
+            swatchSortBy.Start();
+#endif   
             _filteredViewModel = temp.SortBy(_sorter);
+
+#if DEBUG
+            swatchSortBy.Stop();
+            Console.WriteLine("swatchSortBy time: {0}", swatchSortBy.Elapsed.ToString());
+#endif
+
+#if DEBUG
+            Stopwatch swatchCount = new Stopwatch();
+            swatchCount.Start();
+#endif  
             _wholeModelRowCount = _filteredViewModel.Count();
+#if DEBUG
+            swatchCount.Stop();
+            Console.WriteLine("swatchCount time: {0}", swatchCount.Elapsed.ToString());
+#endif
         }
 
     }
@@ -343,8 +379,7 @@ namespace GeoDB.Presenter
                   //  IEnumerable<Assays2VmFull> modelAssays = _broAssays.GetFilteredModel() as IEnumerable<Assays2VmFull>;
                 
                     PDrillHoles2PrintSet PrintSet1 = new PDrillHoles2PrintSet(_modelCollar,_modelAssays, view);
-                
-                    PrintSet1._MdiParent = this.mdiParent;
+
                     PrintSet1.OwnerForm = _view;
                     PrintSet1.Show();
                     bPrintSet1 = true;

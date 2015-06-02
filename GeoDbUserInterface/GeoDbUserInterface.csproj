@@ -8,8 +8,8 @@
     <ProjectGuid>{7172F5D4-ADEE-4403-BF97-93A3707880EC}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ClassLibrary1</RootNamespace>
-    <AssemblyName>ClassLibrary1</AssemblyName>
+    <RootNamespace>GeoDbUserInterface</RootNamespace>
+    <AssemblyName>GeoDbUserInterface</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -34,7 +34,6 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -58,6 +57,7 @@
     <Compile Include="View\IViewCollar2Crud.cs" />
     <Compile Include="View\IViewDrillHoles2.cs" />
     <Compile Include="View\IViewDrillHoles2PrintSet.cs" />
+    <Compile Include="View\IViewException.cs" />
     <Compile Include="View\IViewLogin.cs" />
     <Compile Include="View\IViewMainForm.cs" />
     <Compile Include="ServiceInterfaces\IViewModel.cs" />
