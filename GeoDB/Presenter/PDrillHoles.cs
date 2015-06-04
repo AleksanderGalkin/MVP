@@ -19,9 +19,10 @@ using System.Reflection;
 using GeoDbUserInterface.View;
 using GeoDbUserInterface.ServiceInterfaces;
 using GeoDB.Presenter.Interface;
-
+using Ninject;
 using System.Diagnostics;
 using GeoDBWinForms;
+using Ninject.Parameters;
 
 
 namespace GeoDB.Presenter
@@ -257,7 +258,6 @@ namespace GeoDB.Presenter
         }
         private void OnCollarGeneratedNewPartOfBuffer(object sender, EventArgs e)
         {
-            //_view.CollarList = _broCollar.GetBuffer();
             _view.CollarList = _broCollar.GetBuffer();
             _view.rowCollarCount = _broCollar.GetWholeModelRowCount();
         }
@@ -362,24 +362,23 @@ namespace GeoDB.Presenter
 
         public IPopup GetToolMenu()
         {
-            IPopup p = new Popup();
+            IPopup p = StaticInformation.ninjectKernel.Get<IPopup>();
             p.tittle = "preDrillHoles";
-            IItem i1 = new Item();
+            IItem i1 = StaticInformation.ninjectKernel.Get<IItem>();
             i1.image = GeoDB.Resources.loadDB;
             i1.tittle = "Импорт";
             i1.clickItem += (s, e2) => { MessageBox.Show("ok"); };
-            IItem i2 = new Item();
+            IItem i2 = StaticInformation.ninjectKernel.Get<IItem>();
             i2.image = GeoDB.Resources.report;
             i2.tittle = "Печать";
             i2.clickItem += (s, e2) => {
                 if (!bPrintSet1)
                 {
-                    ViewDrillHoles2PrintSet view = new ViewDrillHoles2PrintSet();
-                  //  IEnumerable<Collar2VmFull> modelCollar = _broCollar.GetFilteredModel() as IEnumerable<Collar2VmFull>;
-                  //  IEnumerable<Assays2VmFull> modelAssays = _broAssays.GetFilteredModel() as IEnumerable<Assays2VmFull>;
-                
-                    PDrillHoles2PrintSet PrintSet1 = new PDrillHoles2PrintSet(_modelCollar,_modelAssays, view);
-
+                    PDrillHoles2PrintSet PrintSet1 = StaticInformation.ninjectKernel.Get<PDrillHoles2PrintSet>(
+                                                                            new IParameter[]{new Parameter("CollarModel",_modelCollar,false)
+                                                                                            ,new Parameter("AssaysModel",_modelAssays,false)
+                                                                                             });
+                                                                
                     PrintSet1.OwnerForm = _view;
                     PrintSet1.Show();
                     bPrintSet1 = true;

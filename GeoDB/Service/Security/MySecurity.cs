@@ -10,6 +10,8 @@ using System.Security;
 using System.Threading;
 using System.Security.Permissions;
 using GeoDbUserInterface.View;
+using Ninject;
+using Ninject.Parameters;
 
 namespace GeoDB.Service.Security
 {
@@ -26,11 +28,13 @@ namespace GeoDB.Service.Security
         static private string _dbName;
         static private string _dbFileName;
         static private bool _locationServerDb;
+        static private bool _isWindowsAuthentication;
         static private string _connectionString;
         static private IViewLogin _vLogin;
         static private int attemptCounter;
         static private PLogin preLogin;
-    
+        
+
         static  MySecurity()
         {
             attemptCounter = 0;
@@ -41,7 +45,7 @@ namespace GeoDB.Service.Security
         {
             if (preLogin == null)
             {
-                preLogin = new PLogin(_vLogin);
+                preLogin = StaticInformation.ninjectKernel.Get<PLogin>();
                 preLogin.NewDataInputed += new EventHandler<EventArgs>(TestAccount);
                 preLogin.Canceled += new EventHandler<EventArgs>(CancelAuthorization);
             }
@@ -55,6 +59,7 @@ namespace GeoDB.Service.Security
             _dbName = preLogin.GetDbName();
             _dbFileName = preLogin.GetDbFileName();
             _locationServerDb = preLogin.GetLocationServerDb();
+            _isWindowsAuthentication = preLogin.isWindowsAuthentication();
             string stringTest;
             if (_locationServerDb)
             {
@@ -62,32 +67,43 @@ namespace GeoDB.Service.Security
                      @"data source={0}; Initial Catalog={1}; integrated security={2}; connect timeout=30; multipleactiveresultsets=True; User ID = {3}; Password = {4}; App=EntityFramework"
                      , _serverName
                      , _dbName
-                     , "False"
+                     , _isWindowsAuthentication
                      , _userName
                      , _password);
             }
             else
             {
                 stringTest = String.Format(
-                    @"data source={0};attachdbfilename={1};integrated security={2};connect timeout=30; User ID = {3}; Password = {4};multipleactiveresultsets=True;App=EntityFramework"
+                    @"data source={0};attachdbfilename={1};User Instance={2};integrated security={2};connect timeout=30; User ID = {3}; Password = {4};multipleactiveresultsets=True;App=EntityFramework"
                      , _serverName
                      , _dbFileName
-                     , "False"
+                     , _isWindowsAuthentication
                      , _userName
                      , _password);    
             }
-
+ 
             try
             {
                 SqlConnection conntest = new SqlConnection(stringTest);
                 conntest.Open();
                 conntest.Close();
             }
-            catch (Exception ex)
+            catch (SqlException ex)
             {
                 Exception = ex;
-                textError = "Не удачная попытка соединения с БД";
+                if (ex.Number == 5120)
+                {
+                    textError = "В случае SQL авторизации, для учётной записи под которой работает SQL2008 EXPRESS должны быть предоставлены полные права для файлов данных MDF и LDF";
+                }
+                else
+                {
+                    textError = "Не удачная попытка соединения с БД";
+                }
                 state = MySecurityState.dbAccessFailure;
+                string message = textError + Environment.NewLine + ex.Message;
+                PException pexception = StaticInformation.ninjectKernel.Get<PException>(new ConstructorArgument("MessageText", message, false));
+                pexception.Show();
+
                 _connectionString = string.Empty;
                 NewAuthorizationAttempt();
                 return;

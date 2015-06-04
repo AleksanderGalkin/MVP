@@ -16,7 +16,6 @@ namespace GeoDbUserInterface.View
         void addChildMenu(IPopup childMenuSettings);
         void removeAllChildMenu();
 
-        event EventHandler<EventArgs> FormClosed;
 
         bool Enabled { set; }
         void Show();

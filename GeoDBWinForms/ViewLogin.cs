@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using GeoDbUserInterface.View;
+using System.Deployment.Application;
 
 namespace GeoDBWinForms
 {
@@ -50,6 +51,7 @@ namespace GeoDBWinForms
         {
             set
             {
+
                 cbDbName.DataSource = value;
             }
         }
@@ -62,7 +64,12 @@ namespace GeoDBWinForms
         {
             set
             {
-                cbDbFileName.DataSource = value;
+                List<string> isolatedStoragep = new List<string>();
+                if (ApplicationDeployment.IsNetworkDeployed)
+                {
+                    isolatedStoragep.Add(Application.LocalUserAppDataPath + @"\DB\bl_TEST.mdf");
+                }
+                cbDbFileName.DataSource = isolatedStoragep.Union(value).ToList(); ;
             }
         }
         public string dbFileName
@@ -85,6 +92,20 @@ namespace GeoDBWinForms
             }
         }
 
+        public bool isWindowsAuthentication 
+        {
+            get
+            {
+                return rbWindowsAuthentication.Checked;
+            }
+            set
+            {
+                rbWindowsAuthentication.Checked = value;
+                rbSQLAuthentication.Checked = !value;
+              //  rbWindowsAuthentication_CheckedChanged(this, EventArgs.Empty);
+            }
+        }
+
         public bool propVisible
         {
             get { return this.Visible; }
@@ -96,6 +117,12 @@ namespace GeoDBWinForms
 
         public new void Show()
         {
+            List<string> isolatedStoragep = new List<string>();
+            if (ApplicationDeployment.IsNetworkDeployed)
+            {
+                isolatedStoragep.Add(Application.LocalUserAppDataPath + @"\DB\bl_TEST.mdf");
+                dbFileNames = isolatedStoragep;
+            }
             base.ShowDialog(); ;
         }
 
@@ -153,6 +180,20 @@ namespace GeoDBWinForms
                     cbDbFileName.Text = openFileDialog1.FileName;
                 }
         }
+
+        private void rbWindowsAuthentication_CheckedChanged(object sender, EventArgs e)
+        {
+            cbUserName.Enabled = !isWindowsAuthentication;
+            tbPassword.Enabled = !isWindowsAuthentication;
+        }
+
+        private void rbSQLAuthentication_CheckedChanged(object sender, EventArgs e)
+        {
+            cbUserName.Enabled = !isWindowsAuthentication;
+            tbPassword.Enabled = !isWindowsAuthentication;
+        }
+
+
 
  
     }

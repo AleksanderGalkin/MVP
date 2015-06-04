@@ -48,6 +48,7 @@
             this.Controls.Add(this.rtbError);
             this.Name = "ViewException";
             this.ShowInTaskbar = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Error text";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ViewException_FormClosing);
             this.ResumeLayout(false);

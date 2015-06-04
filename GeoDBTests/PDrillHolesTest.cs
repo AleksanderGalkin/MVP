@@ -4,12 +4,13 @@ using System.Linq;
 using System.Text;
 using NUnit.Framework;
 using GeoDB.Presenter;
-using GeoDB.View;
 using NSubstitute;
 using GeoDB.Service.DataAccess;
 using GeoDB.Service.DataAccess.Interface;
 using GeoDB.Model;
 using GeoDB.Extensions;
+using GeoDbUserInterface.View;
+using GeoDbUserInterface.ServiceInterfaces;
 
 
 namespace GeoDBTests

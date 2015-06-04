@@ -11,7 +11,6 @@ namespace GeoDB.Extensions
 {
     public class LinqExtensionSorterCriterion : ILinqExtensionSorterCriterion
     {
-//        public enum TypeCriterion { Ascending, Descending }
         public IDGVHeader _firstField { get; private set; }
         public SortererTypeCriterion _firstTypeCriterion { get; private set; }
         public IDGVHeader _secondField { get; private set; }

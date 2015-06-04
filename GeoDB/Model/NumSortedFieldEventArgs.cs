@@ -6,8 +6,5 @@ using GeoDB.Extensions;
 
 namespace GeoDbUserInterface.ServiceInterfaces
 {
-    //public class NumSortedFieldEventArgs : ANumSortedFieldEventArgs
-    //{
-
-    //}
+ 
 }

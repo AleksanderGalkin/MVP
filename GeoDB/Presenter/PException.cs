@@ -11,7 +11,7 @@ namespace GeoDB.Presenter
         private string _messageText;
         private IViewException _view;
 
-        public PException(string MessageText, IViewException View)
+        public PException(String MessageText, IViewException View)
         {
             _messageText = MessageText;
             _view = View;

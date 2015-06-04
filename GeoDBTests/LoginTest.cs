@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using NUnit.Framework;
 using NSubstitute;
-using GeoDB.View;
 using GeoDB.Presenter;
 using GeoDB.Service.DataAccess.Interface;
 

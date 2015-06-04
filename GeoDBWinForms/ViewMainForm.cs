@@ -9,10 +9,9 @@ using System.Windows.Forms;
 
 using System.Security.Principal;
 using System.Threading;
-using FastReport;
-using FastReport.Utils;
 using System.IO;
 using GeoDbUserInterface.View;
+using System.Deployment.Application;
 
 
 namespace GeoDBWinForms
@@ -21,52 +20,17 @@ namespace GeoDBWinForms
     {
 
         private NavigatorMenu navMenu;
-        //private PCollar2Crud preCollar2Crud ;
-        //private PAssays2Crud preAssays2Crud;
-        //private PDrillHoles preDrillHoles;
-        public bool mustClosed;
-
-
-       // IKernel ninjectKernel;
-
-      //  IViewDrillHoles2 view ;
-      //  IViewCollar2Crud vCollarCrud ;
-      //  IViewAssays2Crud vAssaysCrud ;
-      //  IViewLogin vLogin;
-
-
-        //IBaseService<COLLAR2> modelCollar ;
-        //IBaseService<ASSAYS2> modelAssays ;
-        //IBaseService<GEOLOGIST> modelGeologist ;
-        //IBaseService<GORIZONT> modelGorizont ;
-        //IBaseService<RL_EXPLO2> modelBlast ;
-        //IBaseService<DRILLING_TYPE> modelDrillType ;
-        //IBaseService<DOMEN> modelDomen ;
-
-        //IBaseService<BLOCK_ZAPASOV> modelZblock ;
-        //IBaseService<LITOLOGY> modelLito ;
-        //IBaseService<RANG> modelRang ;
-        //IBaseService<REESTR_VEDOMOSTEI> modelBlank ;
-        //IBaseService<JOURNAL> modelJournal;
-
-       
 
         ToolStripContainer mainToolStripContainer;
         ToolStrip mainToolStrip;
 
-        public event EventHandler<EventArgs> FormClosed;
+
 
         public ViewMainForm()
         {
             InitializeComponent();
-
             this.SetToolMenu();
-
-            this.mustClosed = false;
-            
             this.Controls.Add(this.navMenu);
-         //   this.Factory();
-        
         }
         public Image logo { set; private get; }
         public List<IPopup> navigatorMenuSettings 
@@ -90,68 +54,6 @@ namespace GeoDBWinForms
                 ToolStripManager.RevertMerge(mainToolStrip);
         }
 
-
-        //private void Factory()
-        //{
-        //    try
-        //    {
-
-        //         ninjectKernel = new StandardKernel();
-        //        ninjectKernel.Bind<IViewDrillHoles2>().To<ViewDrillHoles>();
-        //        ninjectKernel.Bind<IViewCollar2Crud>().To<ViewCollar2Crud>();
-        //        ninjectKernel.Bind<IViewAssays2Crud>().To<ViewAssays2Crud>();
-        //        ninjectKernel.Bind<IViewLogin>().To<ViewLogin>();
-
-        //        ninjectKernel.Bind<IBaseService<COLLAR2>>().To<CollarEntityService>();
-        //        ninjectKernel.Bind<IBaseService<ASSAYS2>>().To<AssaysEntityService>();
-        //        ninjectKernel.Bind<IBaseService<GEOLOGIST>>().To<GeologistEntityService>();
-        //        ninjectKernel.Bind<IBaseService<GORIZONT>>().To<GorizontEntityService>();
-        //        ninjectKernel.Bind<IBaseService<RL_EXPLO2>>().To<BlastEntityService>();
-        //        ninjectKernel.Bind<IBaseService<DRILLING_TYPE>>().To<DrillingTypeEntityService>();
-        //        ninjectKernel.Bind<IBaseService<DOMEN>>().To<DomenEntityService>();
-
-        //        ninjectKernel.Bind<IBaseService<BLOCK_ZAPASOV>>().To<ZblockEntityService>();
-        //        ninjectKernel.Bind<IBaseService<LITOLOGY>>().To<LitoEntityService>();
-        //        ninjectKernel.Bind<IBaseService<RANG>>().To<RangEntityService>();
-        //        ninjectKernel.Bind<IBaseService<REESTR_VEDOMOSTEI>>().To<BlankEntityService>();
-        //        ninjectKernel.Bind<IBaseService<JOURNAL>>().To<JournalEntityService>();
-
-
-        //         view = ninjectKernel.Get<IViewDrillHoles2>();
-        //         vCollarCrud = ninjectKernel.Get<IViewCollar2Crud>();
-        //         vAssaysCrud = ninjectKernel.Get<IViewAssays2Crud>();
-        //         vLogin = ninjectKernel.Get<ViewLogin>();
-
-        //        MySecurity.SetLoginForm(vLogin);
-
-
-        //        modelCollar = ninjectKernel.Get<IBaseService<COLLAR2>>();
-        //         modelAssays = ninjectKernel.Get<IBaseService<ASSAYS2>>();
-        //         modelGeologist = ninjectKernel.Get<IBaseService<GEOLOGIST>>();
-        //         modelGorizont = ninjectKernel.Get<IBaseService<GORIZONT>>();
-        //         modelBlast = ninjectKernel.Get<IBaseService<RL_EXPLO2>>();
-        //         modelDrillType = ninjectKernel.Get<IBaseService<DRILLING_TYPE>>();
-        //         modelDomen = ninjectKernel.Get<IBaseService<DOMEN>>();
-
-        //         modelZblock = ninjectKernel.Get<IBaseService<BLOCK_ZAPASOV>>();
-        //         modelLito = ninjectKernel.Get<IBaseService<LITOLOGY>>();
-        //         modelRang = ninjectKernel.Get<IBaseService<RANG>>();
-        //         modelBlank = ninjectKernel.Get<IBaseService<REESTR_VEDOMOSTEI>>();
-        //         modelJournal = ninjectKernel.Get<IBaseService<JOURNAL>>();
-
-
-
-        //    }
-
-        //    catch (Exception ex)
-        //    {
-        //        MessageBox.Show( ex.Message+" "+(ex.InnerException != null ? ex.InnerException.Message : "") ,ex.Message );
-        //        this.mustClosed = true;
-        //        this.Close();
-        //    }
-     
-
-        //}
 
         private void SetToolMenu()
         {
@@ -224,7 +126,6 @@ namespace GeoDBWinForms
 
         public new void Show()
         {
-           // base.Show();
             Application.Run(this);
         }
     }

@@ -16,6 +16,7 @@ namespace GeoDbUserInterface.View
         string dbName { get; set; }
         List<string> dbFileNames { set; }
         string dbFileName { get; set; }
+        bool isWindowsAuthentication { get; set; }
         bool locationServerDb { get; set; }
 
         event EventHandler<EventArgs> clickOk;

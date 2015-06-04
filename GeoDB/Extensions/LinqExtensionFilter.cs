@@ -156,7 +156,6 @@ namespace GeoDB.Extensions
             else if (keyType == typeof(string))
             {
                 var locOnly = Convert.ToString(criterion.Value.only);
-                //return source.Where(x => (String)(x.GetType().GetProperty(criterion.Key.fieldName).GetValue(x, null)) == (string)criterion.Value.only);
                 return source.Where(x => Convert.ToString(x.GetType().GetProperty(criterion.Key.fieldName).GetValue(x, null)).Contains(locOnly));
             }
             else

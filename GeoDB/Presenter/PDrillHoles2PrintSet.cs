@@ -173,7 +173,7 @@ namespace GeoDB.Presenter
                               select g);
                 if (avgAu1.Sum(x => x.Key.VES_SAMPLE) != 0)
                 {
-                    avgAu_cut = (double)(avgAu1.Sum(x => x.Key.Au * x.Key.VES_SAMPLE) / avgAu1.Sum(x => x.Key.VES_SAMPLE));
+                    avgAu_cut = (double)(avgAu1.Sum(x => x.Key.Au_cut * x.Key.VES_SAMPLE) / avgAu1.Sum(x => x.Key.VES_SAMPLE));
                 }
             }
             else
@@ -245,7 +245,7 @@ namespace GeoDB.Presenter
                                   select g);
                 if (avgAu1.Sum(x => x.Key.VES_SAMPLE) != 0)
                 {
-                    avgAu_cut = (double)(avgAu1.Sum(x => x.Key.Au * x.Key.VES_SAMPLE) / avgAu1.Sum(x => x.Key.VES_SAMPLE));
+                    avgAu_cut = (double)(avgAu1.Sum(x => x.Key.Au_cut * x.Key.VES_SAMPLE) / avgAu1.Sum(x => x.Key.VES_SAMPLE));
                 }
             }
 

@@ -19,7 +19,6 @@ namespace GeoDB.Presenter
         where K:class,S
     {
         
-        //private List<IDGVHeader> _header = typeof(S).GetProperty("header").GetValue(typeof(S), null) as List<IDGVHeader>;
         private  List<IDGVHeader> _header;
  
         public static ILog log = LogManager.GetLogger("ConsoleAppender");

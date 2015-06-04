@@ -70,7 +70,6 @@ namespace GeoDBWinForms
             ICollar2VmFull tmp;
             if (CollarList.TryGetValue(e.RowIndex, out tmp))
             {
-                //var header = typeof(ICollar2VmFull).GetMethod(
                 string propName = CollarHeader.ElementAt(e.ColumnIndex).fieldName;
                 e.Value = tmp.GetType().GetProperty(propName).GetValue(tmp, null);
             }
@@ -402,15 +401,11 @@ namespace GeoDBWinForms
         }
 
         public event EventHandler<EventArgs> clickCloseForm;
-        public new event EventHandler<EventArgs> _FormClosing;
+        public  event EventHandler<EventArgs> _FormClosing;
 
         public new void Show()
         {
-          //  this.MdiParent = f;
              base.Show();
-            //Application.Run(this);
-            
-
         }
         public void RefreshCollar()
         {

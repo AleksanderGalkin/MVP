@@ -19,7 +19,7 @@ namespace GeoDB.Presenter
         private string _dbFileName;
         private string _connectionString;
         private bool _locationServerDb;
-
+        private bool _isWindowsAuthentication;
 
         public event EventHandler<EventArgs> NewDataInputed;
         public event EventHandler<EventArgs> Canceled;
@@ -44,7 +44,8 @@ namespace GeoDB.Presenter
             _dbName = _view.dbName;
             _dbFileName = _view.dbFileName;
             _locationServerDb = _view.locationServerDb;
-            
+            _isWindowsAuthentication = _view.isWindowsAuthentication;
+
             var ev = NewDataInputed;
             if (ev != null)
             {
@@ -107,6 +108,7 @@ namespace GeoDB.Presenter
                     _view.dbFileName = Properties.Settings.Default.dbFileName ?? "";
                 }
                 _view.locationServerDb = Properties.Settings.Default.locationServerDb;
+                _view.isWindowsAuthentication = Properties.Settings.Default.isWindowsAuthentication;
 
                 isShowed = true;
                 _view.Show();
@@ -169,6 +171,11 @@ namespace GeoDB.Presenter
             {
                 Properties.Settings.Default.locationServerDb = currentLocationServerDb;
             }
+            bool current_isWindowsAuthentication = _isWindowsAuthentication;
+            if (Properties.Settings.Default.isWindowsAuthentication != current_isWindowsAuthentication)
+            {
+                Properties.Settings.Default.isWindowsAuthentication = current_isWindowsAuthentication;
+            }
 
             Properties.Settings.Default.Save();
         }
@@ -196,6 +203,10 @@ namespace GeoDB.Presenter
         public bool GetLocationServerDb()
         {
             return _locationServerDb;
+        }
+        public bool isWindowsAuthentication()
+        {
+            return _isWindowsAuthentication;
         }
     }
 }

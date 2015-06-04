@@ -31,12 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="FastReport, Version=2015.1.5.0, Culture=neutral, PublicKeyToken=db7e5ce63278458c, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files (x86)\FastReports\FastReport.Net Demo\FastReport.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
@@ -101,23 +98,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\blank.png" />
-    <Content Include="Resources\Control.png" />
-    <Content Include="Resources\drillhole.png" />
-    <Content Include="Resources\loadDB.png" />
-    <Content Include="Resources\report.png" />
-    <Content Include="Resources\role.png" />
-    <Content Include="Resources\test.png" />
-    <Content Include="Resources\user.png" />
-    <Content Include="Resources\vaicle.png" />
-    <Content Include="Resources\Very-Basic-ArrowDown-icon.png" />
-    <Content Include="Resources\Very-Basic-ArrowUp-icon.png" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Very-Basic-Filter-Not-Filled.png" />
-    <EmbeddedResource Include="Resources\Very-Basic-Filter-Filled-icon.png" />
     <EmbeddedResource Include="ViewAssays2Crud.resx">
       <DependentUpon>ViewAssays2Crud.cs</DependentUpon>
     </EmbeddedResource>
@@ -138,11 +122,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ViewMainForm.resx">
       <DependentUpon>ViewMainForm.cs</DependentUpon>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\rptDrillHoles.frx">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

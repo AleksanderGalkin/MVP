@@ -11,6 +11,7 @@ using GeoDBWinForms;
 using GeoDB.Service.DataAccess;
 using GeoDB.Service.Security;
 using GeoDB.Presenter.Interface;
+using Ninject.Parameters;
 
 namespace GeoDB.Presenter
 {
@@ -22,29 +23,6 @@ namespace GeoDB.Presenter
         PAssays2Crud preAssays2Crud;
         PDrillHoles preDrillHoles;
 
-      //  IKernel StaticInformation.ninjectKernel;
-
-        IViewDrillHoles2 view;
-        IViewCollar2Crud vCollarCrud;
-        IViewAssays2Crud vAssaysCrud;
-        IViewLogin vLogin;
-
-
-
-        IBaseService<COLLAR2> modelCollar;
-        IBaseService<ASSAYS2> modelAssays;
-        IBaseService<GEOLOGIST> modelGeologist;
-        IBaseService<GORIZONT> modelGorizont;
-        IBaseService<RL_EXPLO2> modelBlast;
-        IBaseService<DRILLING_TYPE> modelDrillType;
-        IBaseService<DOMEN> modelDomen;
-
-        IBaseService<BLOCK_ZAPASOV> modelZblock;
-        IBaseService<LITOLOGY> modelLito;
-        IBaseService<RANG> modelRang;
-        IBaseService<REESTR_VEDOMOSTEI> modelBlank;
-        IBaseService<JOURNAL> modelJournal;
-
         List<IPresenter> ChildForms;
 
         public PMainForm(
@@ -54,23 +32,22 @@ namespace GeoDB.Presenter
             ChildForms = new List<IPresenter>();
             _mainView = MainView;
             StaticInformation.MdiParentForm = MainView;
-            this.Factory();
+            MySecurity.GetAuthorisation();
         }
         private List<IPopup> CreateMenu()
         {
             List<IPopup> popups = new List<IPopup>();
-            IPopup popup1 = new Popup();
-            IItem item1 = new Item();
+            IPopup popup1 = StaticInformation.ninjectKernel.Get<IPopup>();
+            IItem item1 = StaticInformation.ninjectKernel.Get<IItem>();
             item1.tittle = "Скважины";
             item1.image = global::GeoDB.Resources.drillhole;
             item1.clickItem += (t, e) =>
             {
                 try
                 {
-                    //preCollar2Crud = preCollar2Crud !=null ? preCollar2Crud : new PCollar2Crud(vCollarCrud, modelCollar, modelGorizont, modelBlast, modelDrillType, modelDomen);
-                    preCollar2Crud = preCollar2Crud != null ? preCollar2Crud : StaticInformation.ninjectKernel.Get<PCollar2Crud>();
-                    preAssays2Crud = preAssays2Crud !=null ? preAssays2Crud : new PAssays2Crud(vAssaysCrud, modelAssays, modelZblock, modelLito, modelRang, modelBlank, modelJournal, modelGeologist);
-                    preDrillHoles = preDrillHoles != null ? preDrillHoles : new PDrillHoles(view, modelCollar, modelAssays, modelGeologist, 20, preCollar2Crud, preAssays2Crud);
+                    preCollar2Crud = StaticInformation.ninjectKernel.Get<PCollar2Crud>();
+                    preAssays2Crud = StaticInformation.ninjectKernel.Get<PAssays2Crud>();
+                    preDrillHoles = StaticInformation.ninjectKernel.Get<PDrillHoles>();
                     preDrillHoles.Show(_mainView);
                     ShowingChildForm(preDrillHoles);
                     EventHandler<EventArgs> removeChildMenu = delegate 
@@ -83,29 +60,31 @@ namespace GeoDB.Presenter
                 }
                 catch (Exception ex)
                 {
-                    throw new InvalidOperationException("Что то пошло не так", ex.InnerException);
+                    throw new InvalidOperationException(ex.Message, ex.InnerException );
                 }
             };
-            Item item2 = new Item();
+            IItem item2 = StaticInformation.ninjectKernel.Get<IItem>();
             item2.tittle = "Контроль";
             item2.image = global::GeoDB.Resources.Control;
-            item2.clickItem += (t, e) => { MessageBox("Sorry. Form under construction"); };
+            item2.clickItem += (t, e) => {
+                MessageBox("Sorry. Form under construction");
+            };
             popup1.tittle = "Геология";
             popup1.items.Add(item1);
             popup1.items.Add(item2);
-            Popup popup2 = new Popup();
-            Item item3 = new Item();
+            IPopup popup2 = StaticInformation.ninjectKernel.Get<IPopup>();
+            IItem item3 = StaticInformation.ninjectKernel.Get<IItem>();
             item3.tittle = "Пробы склада";
             item3.image = global::GeoDB.Resources.test;
             item3.clickItem += (t, e) =>
             {
                 MessageBox("Sorry. Form under construction");
             };
-            Item item4 = new Item();
+            IItem item4 = StaticInformation.ninjectKernel.Get<IItem>();
             item4.tittle = "Движение руды";
             item4.image = global::GeoDB.Resources.vaicle;
             item4.clickItem += (t, e) => { MessageBox("Sorry. Form under construction"); };
-            Item item5 = new Item();
+            IItem item5 = StaticInformation.ninjectKernel.Get<IItem>();
             item5.tittle = "Пробы забоев";
             item5.image = global::GeoDB.Resources.test;
             item5.clickItem += (t, e) => { MessageBox("Sorry. Form under construction"); };
@@ -114,16 +93,16 @@ namespace GeoDB.Presenter
             popup2.items.Add(item4);
             popup2.items.Add(item5);
 
-            Popup popup3 = new Popup();
-            Item item6 = new Item();
+            IPopup popup3 = StaticInformation.ninjectKernel.Get<IPopup>();
+            IItem item6 = StaticInformation.ninjectKernel.Get<IItem>();
             item6.tittle = "Пользователи";
             item6.image = global::GeoDB.Resources.user;
             item6.clickItem += (t, e) => { MessageBox("Sorry. Form under construction"); };
-            Item item7 = new Item();
+            IItem item7 = StaticInformation.ninjectKernel.Get<IItem>();
             item7.tittle = "Роли";
             item7.image = global::GeoDB.Resources.role;
             item7.clickItem += (t, e) => { MessageBox("Sorry. Form under construction"); };
-            Item item8 = new Item();
+            IItem item8 = StaticInformation.ninjectKernel.Get<IItem>();
             item8.tittle = "Ведомости";
             item8.image = global::GeoDB.Resources.blank;
             item8.clickItem += (t, e) => { MessageBox("Sorry. Form under construction"); };
@@ -141,49 +120,10 @@ namespace GeoDB.Presenter
 
         private void MessageBox(string message)
         {
-           // IViewException peView = new ViewException();
-            //PException pexception = new PException(message, peView);
-            PException pexception = StaticInformation.ninjectKernel.Get <PException>();
+            PException pexception = StaticInformation.ninjectKernel.Get<PException>(new ConstructorArgument("MessageText", message, false));
             pexception.Show();
         }
 
-        private void Factory()
-        {
-
-            try
-            {
-
-                view = StaticInformation.ninjectKernel.Get<IViewDrillHoles2>();
-                vCollarCrud = StaticInformation.ninjectKernel.Get<IViewCollar2Crud>();
-                vAssaysCrud = StaticInformation.ninjectKernel.Get<IViewAssays2Crud>();
-                vLogin = StaticInformation.ninjectKernel.Get<IViewLogin>();
-
-                MySecurity.SetLoginForm(vLogin);
-
-
-                modelCollar = StaticInformation.ninjectKernel.Get<IBaseService<COLLAR2>>();
-                modelAssays = StaticInformation.ninjectKernel.Get<IBaseService<ASSAYS2>>();
-                modelGeologist = StaticInformation.ninjectKernel.Get<IBaseService<GEOLOGIST>>();
-                modelGorizont = StaticInformation.ninjectKernel.Get<IBaseService<GORIZONT>>();
-                modelBlast = StaticInformation.ninjectKernel.Get<IBaseService<RL_EXPLO2>>();
-                modelDrillType = StaticInformation.ninjectKernel.Get<IBaseService<DRILLING_TYPE>>();
-                modelDomen = StaticInformation.ninjectKernel.Get<IBaseService<DOMEN>>();
-
-                modelZblock = StaticInformation.ninjectKernel.Get<IBaseService<BLOCK_ZAPASOV>>();
-                modelLito = StaticInformation.ninjectKernel.Get<IBaseService<LITOLOGY>>();
-                modelRang = StaticInformation.ninjectKernel.Get<IBaseService<RANG>>();
-                modelBlank = StaticInformation.ninjectKernel.Get<IBaseService<REESTR_VEDOMOSTEI>>();
-                modelJournal = StaticInformation.ninjectKernel.Get<IBaseService<JOURNAL>>();
-            }
-            catch (Exception ex)
-            {
-                IViewException peView = new ViewException();
-                string messageInner = ex.InnerException != null ? ex.InnerException.ToString() : "";
-                PException pexception = new PException(ex.Message + "\r\n ======= \r\n" + messageInner, peView);
-                pexception.Show();
-            }
-
-        }
 
         public void Show()
         {
@@ -195,9 +135,9 @@ namespace GeoDB.Presenter
             }   
             catch (Exception ex)
             {
-                IViewException peView = new ViewException();
-                string messageInner = ex.InnerException!=null ? ex.InnerException.ToString() : "";
-                PException pexception = new PException(ex.Message + "\r\n ======= \r\n" + messageInner, peView);
+                string messageInner = ex.InnerException != null ? ex.InnerException.ToString() : "";
+                string message = ex.Message + Environment.NewLine + messageInner;
+                PException pexception = StaticInformation.ninjectKernel.Get<PException>(new ConstructorArgument("MessageText", message, false));
                 pexception.Show();
             }
         }
