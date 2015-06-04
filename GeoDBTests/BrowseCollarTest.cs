@@ -7,6 +7,7 @@ using GeoDB.Presenter;
 using GeoDB.Service.DataAccess.Interface;
 using GeoDB.Model;
 using NSubstitute;
+using GeoDbUserInterface.ServiceInterfaces;
 
 namespace GeoDBTests
 {
@@ -49,11 +50,11 @@ namespace GeoDBTests
         [Test]
         public void SortingSetCriterionsTest()
         {
-            _broCollar.OnSetSortedField(this, new NumSortedFieldEventArgs(1, GeoDB.Extensions.LinqExtensionSorterCriterion.TypeCriterion.Descending));
+            _broCollar.OnSetSortedField(this, new ANumSortedFieldEventArgs(1, SortererTypeCriterion.Descending));
             Assert.That(_broCollar.GetSortedNumField(), Is.EqualTo(1));
-            _broCollar.OnSetSortedField(this, new NumSortedFieldEventArgs(2, GeoDB.Extensions.LinqExtensionSorterCriterion.TypeCriterion.Ascending));
+            _broCollar.OnSetSortedField(this, new ANumSortedFieldEventArgs(2, SortererTypeCriterion.Ascending));
             Assert.That(_broCollar.GetSortedNumField(), Is.EqualTo(2));
-            Assert.That(_broCollar.GetSortedCriterion(), Is.EqualTo(GeoDB.Extensions.LinqExtensionSorterCriterion.TypeCriterion.Ascending));
+            Assert.That(_broCollar.GetSortedCriterion(), Is.EqualTo(SortererTypeCriterion.Ascending));
         }
     }
 }

@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using GeoDB.Service.DataAccess.Interface;
 using GeoDbUserInterface.View;
+using GeoDB.Presenter.Interface;
 
 namespace GeoDB.Presenter
 {
-    public class PLogin
+    public class PLogin : ILoginPresenter
     {
         private IViewLogin _view;
         private bool isShowed;
@@ -208,5 +209,9 @@ namespace GeoDB.Presenter
         {
             return _isWindowsAuthentication;
         }
+
+        public IPopup GetToolMenu()
+        { throw new NotImplementedException(); }
+
     }
 }

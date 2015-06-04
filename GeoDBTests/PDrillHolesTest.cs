@@ -65,11 +65,11 @@ namespace GeoDBTests
             }
 
             _view = Substitute.For<IViewDrillHoles2>();
-            _view.CollarList = new Dictionary<int, Collar2VmFull>();
-            _view.AssaysList = new Dictionary<int, Assays2VmFull>();
+            _view.CollarList = new Dictionary<int, ICollar2VmFull>();
+            _view.AssaysList = new Dictionary<int, IAssays2VmFull>();
             _viewEmpty = Substitute.For<IViewDrillHoles2>();
-            _viewEmpty.CollarList = new Dictionary<int, Collar2VmFull>();
-            _viewEmpty.AssaysList = new Dictionary<int, Assays2VmFull>();
+            _viewEmpty.CollarList = new Dictionary<int, ICollar2VmFull>();
+            _viewEmpty.AssaysList = new Dictionary<int, IAssays2VmFull>();
 
             
             
@@ -104,9 +104,9 @@ namespace GeoDBTests
         public void GetWholeModelRowCountWithFiltersTest()
         {
             _browseCollar.ChangeFilter(new DGVHeader { fieldName = "id", fieldHeader = "id" },
-                                    new LinqExtensionFilterCriterion(2,4));
+                                    new LinqExtensionFilterCriterion(2, 4) as ILinqExtensionFilterCriterion);
             _browseCollar.ChangeFilter(new DGVHeader { fieldName = "hole", fieldHeader = "hole" },
-                        new LinqExtensionFilterCriterion(3,6));
+                        new LinqExtensionFilterCriterion(3, 6) as ILinqExtensionFilterCriterion);
             Assert.That(_browseCollar.GetWholeModelRowCount(), Is.EqualTo(2));
         }
 
@@ -114,7 +114,7 @@ namespace GeoDBTests
         public void GetWholeModelRowCountWithBadFiltersTest()
         {
             _browseCollar.ChangeFilter(new DGVHeader { fieldName = "id", fieldHeader = "id" },
-                                    new LinqExtensionFilterCriterion(-1));
+                                    new LinqExtensionFilterCriterion(-1) );
             Assert.DoesNotThrow(()=>_browseCollar.GetBuffer());
             Assert.That(_browseCollar.GetWholeModelRowCount(), Is.EqualTo(0));
             
@@ -123,7 +123,7 @@ namespace GeoDBTests
         [Test]
         public void GetNewBufferFirstPageTest()
         {
-            IDictionary<int,Collar2VmFull> buffer=_browseCollar.GetBuffer();
+            IDictionary<int,ICollar2VmFull> buffer=_browseCollar.GetBuffer();
             Assert.That(buffer.Count, Is.EqualTo(5));
             Assert.That(buffer.ElementAt(0).Value.id, Is.EqualTo(0));
             Assert.That(buffer.ElementAt(4).Value.id, Is.EqualTo(4));
@@ -132,9 +132,9 @@ namespace GeoDBTests
         [Test]
         public void GetNewBufferPrevPageTest()
         {
-            IDictionary<int, Collar2VmFull> buffer = _browseCollar.GetBuffer();
-            _browseCollar.OnShowAnyScreen(this, new NumRowEventArgs(13));
-            _browseCollar.OnShowAnyScreen(this, new NumRowEventArgs(10));
+            IDictionary<int, ICollar2VmFull> buffer = _browseCollar.GetBuffer();
+            _browseCollar.OnShowAnyScreen(this, new ANumRowEventArgs(13));
+            _browseCollar.OnShowAnyScreen(this, new ANumRowEventArgs(10));
             Assert.That(buffer.Count, Is.EqualTo(5));
             Assert.That(buffer.ElementAt(4).Value.id, Is.EqualTo(10));
         }
@@ -142,9 +142,9 @@ namespace GeoDBTests
         [Test]
         public void GetNewBufferLastPageTest()
         {
-            IDictionary<int, Collar2VmFull> buffer = _browseCollar.GetBuffer();
-            _browseCollar.OnShowAnyScreen(this, new NumRowEventArgs(10));
-            _browseCollar.OnShowAnyScreen(this, new NumRowEventArgs(13));
+            IDictionary<int, ICollar2VmFull> buffer = _browseCollar.GetBuffer();
+            _browseCollar.OnShowAnyScreen(this, new ANumRowEventArgs(10));
+            _browseCollar.OnShowAnyScreen(this, new ANumRowEventArgs(13));
             Assert.That(buffer.Count, Is.EqualTo(5));
             Assert.That(buffer.ElementAt(4).Value.id, Is.EqualTo(14));
         }
@@ -157,8 +157,8 @@ namespace GeoDBTests
         [Test]
         public void ChangeCollarCurrentRowTest()
         {
-            _view.setCurrentRow += new EventHandler<NumRowEventArgs>(_browseAssays.OnSetRowMasterTable);
-            _view.setCurrentRow += Raise.Event<EventHandler<NumRowEventArgs>>(new NumRowEventArgs(13));
+            _view.setCurrentRow += new EventHandler<ANumRowEventArgs>(_browseAssays.OnSetRowMasterTable);
+            _view.setCurrentRow += Raise.Event<EventHandler<ANumRowEventArgs>>(new ANumRowEventArgs(13));
             Assert.That(_browseAssays.GetWholeModelRowCount(),Is.EqualTo(1));
             Assert.That(_browseAssays.GetBuffer().ElementAt(0).Value.bhid, Is.EqualTo(13));
         }
@@ -167,8 +167,8 @@ namespace GeoDBTests
         {
             _modelAssaysRecords.ElementAt(6).BHID = 5;
             _modelAssays.Get().Returns(_modelAssaysRecords);
-            _view.setCurrentRow += new EventHandler<NumRowEventArgs>(_browseAssays.OnSetRowMasterTable);
-            _view.setCurrentRow += Raise.Event<EventHandler<NumRowEventArgs>>(new NumRowEventArgs(5));
+            _view.setCurrentRow += new EventHandler<ANumRowEventArgs>(_browseAssays.OnSetRowMasterTable);
+            _view.setCurrentRow += Raise.Event<EventHandler<ANumRowEventArgs>>(new ANumRowEventArgs(5));
             Assert.That(_browseAssays.GetWholeModelRowCount(), Is.EqualTo(2));
         }
 

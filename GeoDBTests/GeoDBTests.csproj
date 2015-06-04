@@ -54,13 +54,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BrowseCollarTest.cs" />
-    <Compile Include="LoginTest.cs" />
     <Compile Include="PCollar2CrudTest.cs" />
     <Compile Include="PDrillHolesTest.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\GeoDbUserInterface\GeoDbUserInterface.csproj">
+      <Project>{7172F5D4-ADEE-4403-BF97-93A3707880EC}</Project>
+      <Name>GeoDbUserInterface</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GeoDB\GeoDB.csproj">
       <Project>{E8C7DA49-1762-44F4-82DE-9DAE305EF6A6}</Project>
       <Name>GeoDB</Name>

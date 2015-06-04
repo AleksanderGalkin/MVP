@@ -7,6 +7,7 @@ using NSubstitute;
 using GeoDB.Model;
 using GeoDB.Service.DataAccess.Interface;
 using GeoDB.Presenter;
+using GeoDbUserInterface.View;
 
 namespace GeoDBTests
 {

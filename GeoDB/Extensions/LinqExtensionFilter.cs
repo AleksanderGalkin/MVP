@@ -9,33 +9,32 @@ using GeoDbUserInterface.ServiceInterfaces;
 
 namespace GeoDB.Extensions
 {
-    public class LinqExtensionFilterCriterion 
+    public class LinqExtensionFilterCriterion: ILinqExtensionFilterCriterion
     {
-        public enum TypeCriterion { oneArg, twoArg,resetArgs }
         public object min { get; private set; }
         public object max { get; private set; }
         public object only { get; private set; }
-        private TypeCriterion _typeCriterion;
+        private FilterTypeCriterion _typeCriterion;
         public LinqExtensionFilterCriterion()
         {
             min = null;
             max = null;
             only = null;
-            _typeCriterion = TypeCriterion.resetArgs;
+            _typeCriterion = FilterTypeCriterion.resetArgs;
         }
         public LinqExtensionFilterCriterion(object Min, object Max)
         {
             min = Min;
             max = Max;
             only = null;
-            _typeCriterion = TypeCriterion.twoArg;
+            _typeCriterion = FilterTypeCriterion.twoArg;
         }
         public LinqExtensionFilterCriterion( object Only)
         {
             min = null;
             max = null;
             only = Only;
-            _typeCriterion = TypeCriterion.oneArg;
+            _typeCriterion = FilterTypeCriterion.oneArg;
         }
         
         public void Set( object Min, object Max)
@@ -49,9 +48,9 @@ namespace GeoDB.Extensions
             min = null;
             max = null;
             only = Only;
-            _typeCriterion = TypeCriterion.oneArg;
+            _typeCriterion = FilterTypeCriterion.oneArg;
         }
-        public void Set(LinqExtensionFilterCriterion criterion)
+        public void Set(ILinqExtensionFilterCriterion criterion)
         {
             this.min = criterion.min;
             this.max = criterion.max;
@@ -63,9 +62,9 @@ namespace GeoDB.Extensions
             min = null;
             max = null;
             only = null;
-            _typeCriterion = TypeCriterion.resetArgs;
+            _typeCriterion = FilterTypeCriterion.resetArgs;
         }
-        public TypeCriterion GetTypeCriterion()
+        public FilterTypeCriterion GetTypeCriterion()
         {
             return _typeCriterion;
         }
