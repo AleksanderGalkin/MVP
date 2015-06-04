@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<asmv1:assembly xsi:schemaLocation="urn:schemas-microsoft-com:asm.v1 assembly.adaptive.xsd" manifestVersion="1.0" xmlns:asmv1="urn:schemas-microsoft-com:asm.v1" xmlns="urn:schemas-microsoft-com:asm.v2" xmlns:asmv2="urn:schemas-microsoft-com:asm.v2" xmlns:xrml="urn:mpeg:mpeg21:2003:01-REL-R-NS" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:asmv3="urn:schemas-microsoft-com:asm.v3" xmlns:dsig="http://www.w3.org/2000/09/xmldsig#" xmlns:co.v1="urn:schemas-microsoft-com:clickonce.v1" xmlns:co.v2="urn:schemas-microsoft-com:clickonce.v2">
+  <assemblyIdentity name="GeoDB.application" version="1.0.0.21" publicKeyToken="b7445207ac37d8cb" language="neutral" processorArchitecture="msil" xmlns="urn:schemas-microsoft-com:asm.v1" />
+  <description asmv2:publisher="GeoDB" asmv2:product="GeoDB" xmlns="urn:schemas-microsoft-com:asm.v1" />
+  <deployment install="true" mapFileExtensions="true" minimumRequiredVersion="1.0.0.6">
+    <subscription>
+      <update>
+        <beforeApplicationStartup />
+      </update>
+    </subscription>
+    <deploymentProvider codebase="https://raw.githubusercontent.com/AleksanderGalkin/MVP/Publish/Publish/GeoDB.application" />
+  </deployment>
+  <compatibleFrameworks xmlns="urn:schemas-microsoft-com:clickonce.v2">
+    <framework targetVersion="4.0" profile="Full" supportedRuntime="4.0.30319" />
+  </compatibleFrameworks>
+  <dependency>
+    <dependentAssembly dependencyType="install" codebase="Application Files\GeoDB_1_0_0_21\GeoDB.exe.manifest" size="11666">
+      <assemblyIdentity name="GeoDB.exe" version="1.0.0.21" publicKeyToken="b7445207ac37d8cb" language="neutral" processorArchitecture="msil" type="win32" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+        <dsig:DigestValue>gaI+FFoyBKhbnJhEKWH3NJRtsDw=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+<publisherIdentity name="CN=MOS\GalkinAP" issuerKeyHash="8076f5292d219c1f614d358a065b7d292d98d7ee" /><Signature Id="StrongNameSignature" xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1" /><Reference URI=""><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" /><Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" /><DigestValue>eOBapxFJfmsmQAFYUVTe7L9dJVM=</DigestValue></Reference></SignedInfo><SignatureValue>Aza8ta6b/S8ypfsKw4EAIEflVLkKanrM/qwH9A7YuhX+HYFTAvmX3XiZUX6D1pF38fRp7sXWj4QMSve6Ap7oNouGZrDaL2tSJP0h3HPQ7lJ7OTKmq2zdR0KC2Af62xWkfVML8aUVXGVuD91tBkRNt4PTq/BRqt171lGbF1bPLkY=</SignatureValue><KeyInfo Id="StrongNameKeyInfo"><KeyValue><RSAKeyValue><Modulus>1VKghYWtBZ+ysSjbNdIHYWkdpe0g3ntvihgWhwJnh/sVJmFB3oYvspsCFNqlPI23BDWG1mO7GpYkkPTS8YhGU0/VQU6y8sKUB9wOLuQanVV5Ccl10FiBrWg7MOE4iUUyMeJYxzWvBtoqHJeFbrGR/vVMYqDtKcFXQn4LlDqFhRE=</Modulus><Exponent>AQAB</Exponent></RSAKeyValue></KeyValue><msrel:RelData xmlns:msrel="http://schemas.microsoft.com/windows/rel/2005/reldata"><r:license xmlns:r="urn:mpeg:mpeg21:2003:01-REL-R-NS" xmlns:as="http://schemas.microsoft.com/windows/pki/2005/Authenticode"><r:grant><as:ManifestInformation Hash="53255dbfecde5451580140266b7e4911a75ae078" Description="" Url=""><as:assemblyIdentity name="GeoDB.application" version="1.0.0.21" publicKeyToken="b7445207ac37d8cb" language="neutral" processorArchitecture="msil" xmlns="urn:schemas-microsoft-com:asm.v1" /></as:ManifestInformation><as:SignedBy /><as:AuthenticodePublisher><as:X509SubjectName>CN=MOS\GalkinAP</as:X509SubjectName></as:AuthenticodePublisher></r:grant><r:issuer><Signature Id="AuthenticodeSignature" xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1" /><Reference URI=""><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" /><Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" /><DigestValue>bvRgOb3i0Lho0kCEmJcQyrrtlzY=</DigestValue></Reference></SignedInfo><SignatureValue>sArKYmaTCoh2et73QLyQ7NbpS8QiIfD1Mlj/J+pHG3F9W7bZRXrW7RhyUEpVZsu2qP3P49YPlWc3CTV3dDlF0bbWbTihpXVTS6LlasumeiG20YkV30kQI4JFxZ8F2kPH/6j+FTPr0QIeh6/uK1s3D86uBmXpTdjL/Pxbp0DSpK8=</SignatureValue><KeyInfo><KeyValue><RSAKeyValue><Modulus>1VKghYWtBZ+ysSjbNdIHYWkdpe0g3ntvihgWhwJnh/sVJmFB3oYvspsCFNqlPI23BDWG1mO7GpYkkPTS8YhGU0/VQU6y8sKUB9wOLuQanVV5Ccl10FiBrWg7MOE4iUUyMeJYxzWvBtoqHJeFbrGR/vVMYqDtKcFXQn4LlDqFhRE=</Modulus><Exponent>AQAB</Exponent></RSAKeyValue></KeyValue><X509Data><X509Certificate>MIIByTCCATKgAwIBAgIQSQpulbmbd6hLurv2QdlVHzANBgkqhkiG9w0BAQUFADAjMSEwHwYDVQQDHhgATQBPAFMAXABHAGEAbABrAGkAbgBBAFAwHhcNMTUwNjAzMDgzOTAzWhcNMTYwNjAyMTQzOTAzWjAjMSEwHwYDVQQDHhgATQBPAFMAXABHAGEAbABrAGkAbgBBAFAwgZ8wDQYJKoZIhvcNAQEBBQADgY0AMIGJAoGBANVSoIWFrQWfsrEo2zXSB2FpHaXtIN57b4oYFocCZ4f7FSZhQd6GL7KbAhTapTyNtwQ1htZjuxqWJJD00vGIRlNP1UFOsvLClAfcDi7kGp1VeQnJddBYga1oOzDhOIlFMjHiWMc1rwbaKhyXhW6xkf71TGKg7SnBV0J+C5Q6hYURAgMBAAEwDQYJKoZIhvcNAQEFBQADgYEAWuEQct1smaeVHRtficXMJ8NoHDs1QdIYULAL1oWGSkwYY2pMjketDriFxFD7uQb73uuk5rE4UgyTP8Nh64XAzI+J6sXD+dBQSBbQwzZsTdyyaeahIFSK6H4W+ofis8GGesULW7RM5ntFhTHkFn1a9ncNaNhaKr2g7UuzfItYShM=</X509Certificate></X509Data></KeyInfo></Signature></r:issuer></r:license></msrel:RelData></KeyInfo></Signature></asmv1:assembly>
