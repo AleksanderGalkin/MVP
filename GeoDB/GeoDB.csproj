@@ -265,15 +265,8 @@
   <ItemGroup>
     <EmbeddedResource Include="Resources\logo.png" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <Content Include="DB\bl_TEST.mdf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="DB\bl_TEST_log.ldf">
-      <DependentUpon>bl_TEST.mdf</DependentUpon>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Folder Include="DB\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
