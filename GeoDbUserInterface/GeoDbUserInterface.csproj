@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{7172F5D4-ADEE-4403-BF97-93A3707880EC}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>GeoDbUserInterface</RootNamespace>
+    <AssemblyName>GeoDbUserInterface</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServiceInterfaces\AFilterParamsEventArgs.cs" />
+    <Compile Include="ServiceInterfaces\ANumRowEventArgs.cs" />
+    <Compile Include="ServiceInterfaces\ANumSortedFieldEventArgs.cs" />
+    <Compile Include="ServiceInterfaces\ICollar2VmFull.cs" />
+    <Compile Include="ServiceInterfaces\IDGVHeader.cs" />
+    <Compile Include="ServiceInterfaces\ILinqExtensionFilterCriterion.cs" />
+    <Compile Include="ServiceInterfaces\ILinqExtensionSorterCriterion.cs" />
+    <Compile Include="ServiceInterfaces\IAssays2VmFull.cs" />
+    <Compile Include="View\IPopup.cs" />
+    <Compile Include="View\IView.cs" />
+    <Compile Include="View\IViewAssays2Crud.cs" />
+    <Compile Include="View\IViewCollar2Crud.cs" />
+    <Compile Include="View\IViewDrillHoles2.cs" />
+    <Compile Include="View\IViewDrillHoles2PrintSet.cs" />
+    <Compile Include="View\IViewException.cs" />
+    <Compile Include="View\IViewLogin.cs" />
+    <Compile Include="View\IViewMainForm.cs" />
+    <Compile Include="ServiceInterfaces\IViewModel.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

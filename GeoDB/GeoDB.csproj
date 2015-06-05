@@ -6,26 +6,31 @@
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{E8C7DA49-1762-44F4-82DE-9DAE305EF6A6}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>GeoDB</RootNamespace>
     <AssemblyName>GeoDB</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <IsWebBootstrapper>false</IsWebBootstrapper>
-    <PublishUrl>publish\</PublishUrl>
+    <PublishUrl>\\ogk-s-appmine01\mdb\temp\Publish\</PublishUrl>
     <Install>true</Install>
-    <InstallFrom>Disk</InstallFrom>
-    <UpdateEnabled>false</UpdateEnabled>
+    <InstallFrom>Unc</InstallFrom>
+    <UpdateEnabled>true</UpdateEnabled>
     <UpdateMode>Foreground</UpdateMode>
     <UpdateInterval>7</UpdateInterval>
     <UpdateIntervalUnits>Days</UpdateIntervalUnits>
     <UpdatePeriodically>false</UpdatePeriodically>
-    <UpdateRequired>false</UpdateRequired>
+    <UpdateRequired>true</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>0</ApplicationRevision>
+    <InstallUrl>\\ogk-s-appmine01\mdb\temp\Publish\</InstallUrl>
+    <MinimumRequiredVersion>1.0.0.6</MinimumRequiredVersion>
+    <WebPage>publish.htm</WebPage>
+    <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
+    <ApplicationRevision>20</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -48,17 +53,39 @@
   <PropertyGroup>
     <StartupObject />
   </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>C5BF8B9AD4E65C62267164AC62D35AF1AE86E892</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>GeoDB_TemporaryKey.pfx</ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>true</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>true</SignManifests>
+  </PropertyGroup>
   <ItemGroup>
+    <Reference Include="FastReport, Version=2015.1.5.0, Culture=neutral, PublicKeyToken=db7e5ce63278458c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Program Files\FastReports\FastReport.Net Demo\FastReport.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="log4net">
-      <HintPath>..\..\..\Install\programming\log4net-1.2.13\bin\net\4.0\release\log4net.dll</HintPath>
+      <HintPath>..\..\..\..\Install\log4net-1.2.13\bin\net\4.0\release\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject">
+      <HintPath>..\..\..\Ninject-3.0.0.15-release-net-4.0\Ninject.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Entity" />
     <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -67,11 +94,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions\LinqExtensionSorter.cs" />
+    <Compile Include="Extensions\LinqExtensionFilter.cs" />
     <Compile Include="Model\Assays2.cs" />
+    <Compile Include="Model\Block_Zapasov.cs" />
+    <Compile Include="Model\Blank.cs" />
+    <Compile Include="Model\Journal.cs" />
+    <Compile Include="Model\Rang.cs" />
+    <Compile Include="Model\Litology.cs" />
+    <Compile Include="Model\Domen.cs" />
+    <Compile Include="Model\Rl_Explo2.cs" />
+    <Compile Include="Model\Gorizont.cs" />
+    <Compile Include="Model\NumSortedFieldEventArgs.cs" />
     <Compile Include="Model\DrillType.cs" />
     <Compile Include="Model\Geologist.cs" />
     <Compile Include="Model\DGVHeader.cs" />
-    <Compile Include="Model\Interface\IViewModel.cs" />
     <Compile Include="Model\Model1.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -80,17 +117,50 @@
     <Compile Include="Model\Collar2.cs" />
     <Compile Include="Model\Interface\IBase.cs" />
     <Compile Include="Model\NumRowEventArgs.cs" />
+    <Compile Include="Presenter\AbsBrowser.cs" />
+    <Compile Include="Presenter\Interface\ILoginPresenter.cs" />
+    <Compile Include="Presenter\Interface\IPresenter.cs" />
+    <Compile Include="Presenter\PAssays2Crud.cs" />
+    <Compile Include="Presenter\PCollar2Crud.cs" />
     <Compile Include="Presenter\PDrillHoles.cs" />
+    <Compile Include="Presenter\PDrillHoles2PrintSet.cs" />
+    <Compile Include="Presenter\PException.cs" />
+    <Compile Include="Presenter\PLogin.cs" />
+    <Compile Include="Presenter\PMainForm.cs" />
+    <Compile Include="Presenter\StaticInformation.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Service\DataAccess\CollarEntityService.cs" />
+    <Compile Include="Service\DataAccess\AssaysEntityService.cs" />
+    <Compile Include="Service\DataAccess\BlastEntityService.cs" />
+    <Compile Include="Service\DataAccess\BlankService.cs" />
+    <Compile Include="Service\Security\MySecurity.cs" />
+    <Compile Include="Service\DataAccess\JournalService.cs" />
+    <Compile Include="Service\DataAccess\RangService.cs" />
+    <Compile Include="Service\DataAccess\LitoService.cs" />
+    <Compile Include="Service\DataAccess\ZblockEntityService.cs" />
+    <Compile Include="Service\DataAccess\DomenEntityService.cs" />
+    <Compile Include="Service\DataAccess\GorizontEntityService.cs" />
     <Compile Include="Service\DataAccess\GeologistEntityService.cs" />
     <Compile Include="Service\DataAccess\DrillingTypeEntityService.cs" />
     <Compile Include="Service\DataAccess\Interface\IBaseService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="View\IViewCollar2.cs" />
+    <Compile Include="Service\Security\AnyRolePermissionAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Tests\" />
+    <EmbeddedResource Include="Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">
@@ -129,12 +199,81 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model1.Designer.cs</LastGenOutput>
     </EntityDeploy>
+    <None Include="app.config" />
+    <None Include="GeoDB_TemporaryKey.pfx" />
     <None Include="Properties\DataSources\GeoDB.Model.ModelDB.datasource" />
     <None Include="Properties\DataSources\GeoDB.Service.DataAccess.ModelDB.datasource" />
     <None Include="Properties\DataSources\ModelDB.datasource" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <EmbeddedResource Include="Resources\rptDrillHoles.frx" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\loaddb.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\report.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\blank.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\control.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\drillhole.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\role.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\test.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\user.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\vaicle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\very-basic-arrowdown-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\very-basic-arrowup-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Very-Basic-Filter-Filled-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Very-Basic-Filter-Not-Filled.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GeoDbUserInterface\GeoDbUserInterface.csproj">
+      <Project>{7172F5D4-ADEE-4403-BF97-93A3707880EC}</Project>
+      <Name>GeoDbUserInterface</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GeoDBWinForms\GeoDBWinForms.csproj">
+      <Project>{650E08CC-CF7B-4BB6-A559-D491EB3261A7}</Project>
+      <Name>GeoDBWinForms</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\logo.png" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="DB\bl_TEST.mdf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DB\bl_TEST_log.ldf">
+      <DependentUpon>bl_TEST.mdf</DependentUpon>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

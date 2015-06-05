@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using GeoDB.Model.Interface;
+using GeoDB.Extensions;
+using GeoDbUserInterface.ServiceInterfaces;
+using GeoDbUserInterface.View;
 
 namespace GeoDB.Model
 {
@@ -11,7 +14,7 @@ namespace GeoDB.Model
        
     }
 
-    public class Collar2VmFull : IViewModel
+    public class Collar2VmFull : ICollar2VmFull
     {
         public int id { get; set; }
         public string bhid { get; set; }
@@ -23,14 +26,16 @@ namespace GeoDB.Model
         public double zcollar { get; set; }
         public double enddepth { get; set; }
         public string drillType { get; set; }
+        public int domen { get; set; }
         public string lastUserID { get; set; }
         public DateTime? lastDT { get; set; }
 
-        static public List<DGVHeader> header {
+        static public List<IDGVHeader> header {
             get
             {
-                List<DGVHeader> _header = new List<DGVHeader>();
-                _header.Add(new DGVHeader{ fieldName = "id", fieldHeader = "ID" });
+                List<IDGVHeader> _header = new List<IDGVHeader>();
+                
+               
                 _header.Add(new DGVHeader { fieldName = "bhid", fieldHeader = "BHID" });
                 _header.Add(new DGVHeader { fieldName = "gorizont", fieldHeader = "Гор." });
                 _header.Add(new DGVHeader { fieldName = "blast", fieldHeader = "Блок" });
@@ -42,7 +47,19 @@ namespace GeoDB.Model
                 _header.Add(new DGVHeader { fieldName = "drillType", fieldHeader = "Станок" });
                 _header.Add(new DGVHeader { fieldName = "lastUserID", fieldHeader = "Крайний" });
                 _header.Add(new DGVHeader { fieldName = "lastDT", fieldHeader = "Крайняя дата" });
+                _header.Add(new DGVHeader { fieldName = "id", fieldHeader = "ID" });
                 return _header;
+            }
+        }
+        static public LinqExtensionSorterCriterion DefaultSortedField
+        {
+            get 
+            {
+                LinqExtensionSorterCriterion temp = new LinqExtensionSorterCriterion();
+                 temp.Set(
+                                 new DGVHeader{ fieldName = "lastDT", fieldHeader = "Крайняя дата" }
+                                ,SortererTypeCriterion.Descending);
+                 return temp;
             }
         }
 

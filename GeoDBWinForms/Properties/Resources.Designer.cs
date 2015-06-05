@@ -59,5 +59,45 @@ namespace GeoDBWinForms.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Very_Basic_ArrowDown_icon {
+            get {
+                object obj = ResourceManager.GetObject("Very_Basic_ArrowDown_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Very_Basic_ArrowUp_icon {
+            get {
+                object obj = ResourceManager.GetObject("Very_Basic_ArrowUp_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Very_Basic_Filter_Filled_icon {
+            get {
+                object obj = ResourceManager.GetObject("Very_Basic_Filter_Filled_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Very_Basic_Filter_Not_Filled {
+            get {
+                object obj = ResourceManager.GetObject("Very_Basic_Filter_Not_Filled", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }

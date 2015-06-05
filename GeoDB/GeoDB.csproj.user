@@ -1,13 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <PublishUrlHistory />
-    <InstallUrlHistory />
+    <PublishUrlHistory>\\ogk-s-appmine01\mdb\temp\Publish\|E:\publish\|publish\</PublishUrlHistory>
+    <InstallUrlHistory>\\ogk-s-appmine01\mdb\temp\Publish\|\\ogk-s-appmine01\mdb\temp\RunFolder\|\\localhost\temp\|\\localhost\publish\ForUsers\</InstallUrlHistory>
     <SupportUrlHistory />
     <UpdateUrlHistory />
     <BootstrapperUrlHistory />
     <ErrorReportUrlHistory />
     <FallbackCulture>en-US</FallbackCulture>
     <VerifyUploadedFiles>false</VerifyUploadedFiles>
+    <ProjectView>ProjectFiles</ProjectView>
   </PropertyGroup>
 </Project>

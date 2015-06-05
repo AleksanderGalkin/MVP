@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report ScriptLanguage="CSharp" ReportInfo.Created="05/28/2015 14:34:52" ReportInfo.Modified="06/02/2015 15:33:24" ReportInfo.CreatorVersion="2015.1.5.0">
+  <Dictionary>
+    <Total Name="Количество" TotalType="Count" Evaluator="Data1"/>
+  </Dictionary>
+  <ReportPage Name="Page1" Landscape="true" PaperWidth="297" PaperHeight="210" RawPaperSize="9">
+    <ReportTitleBand Name="ReportTitle1" Width="1047.06" Height="122.85">
+      <TextObject Name="Text1" Left="264.6" Top="9.45" Width="103.95" Height="18.9" Text="Данные по " HorzAlign="Right" Font="Arial, 10pt, style=Bold" TextFill.Color="WindowText"/>
+      <TextObject Name="tTittle" Left="368.55" Top="9.45" Width="340.2" Height="18.9" Font="Arial, 10pt, style=Bold" TextFill.Color="WindowText"/>
+      <TableObject Name="Table1" Left="37.8" Top="37.8" Width="595.35" Height="75.6" Border.Shadow="true" Border.Lines="All" PrintOn="FirstPage" CanBreak="false" RepeatHeaders="false">
+        <TableColumn Name="Column1" Width="250.45"/>
+        <TableColumn Name="Column2" Width="344.9"/>
+        <TableRow Name="Row1">
+          <TableCell Name="Cell1" Border.Lines="All" Text="Показатель" Font="Arial, 10pt, style=Bold"/>
+          <TableCell Name="Cell2" Border.Lines="All" Text="Значение" Font="Arial, 10pt, style=Bold"/>
+        </TableRow>
+        <TableRow Name="Row2">
+          <TableCell Name="Cell6" Border.Lines="All" Text="Средний вес пробы"/>
+          <TableCell Name="Cell_avgVes" Border.Lines="All"/>
+        </TableRow>
+        <TableRow Name="Row3">
+          <TableCell Name="Cell11" Border.Lines="All" Text="Среднее содержание"/>
+          <TableCell Name="Cell_avgAu" Border.Lines="All"/>
+        </TableRow>
+        <TableRow Name="Row4">
+          <TableCell Name="Cell13" Border.Lines="All" Text="Среднее содержание ограниченное"/>
+          <TableCell Name="Cell_avgAuC" Border.Lines="All"/>
+        </TableRow>
+      </TableObject>
+    </ReportTitleBand>
+    <PageHeaderBand Name="PageHeader1" Top="126.85" Width="1047.06" Height="18.9">
+      <TextObject Name="Text8" Left="9.45" Width="113.4" Height="18.9" Border.Lines="All" Text="Bhid" HorzAlign="Center" TextFill.Color="WindowText"/>
+      <TextObject Name="Text9" Left="122.85" Width="75.6" Height="18.9" Border.Lines="All" Text="№ Пробы" HorzAlign="Center" TextFill.Color="WindowText"/>
+      <TextObject Name="Text10" Left="198.45" Width="75.6" Height="18.9" Border.Lines="All" Text="Длина" HorzAlign="Center" TextFill.Color="WindowText"/>
+      <TextObject Name="Text11" Left="274.05" Width="85.05" Height="18.9" Border.Lines="All" Text="Блокировка" HorzAlign="Center" TextFill.Color="WindowText"/>
+      <TextObject Name="Text12" Left="359.1" Width="85.05" Height="18.9" Border.Lines="All" Text="Ранг" HorzAlign="Center" TextFill.Color="WindowText"/>
+      <TextObject Name="Text13" Left="444.15" Width="66.15" Height="18.9" Border.Lines="All" Text="Вес" HorzAlign="Center" TextFill.Color="WindowText"/>
+      <TextObject Name="Text14" Left="510.3" Width="66.15" Height="18.9" Border.Lines="All" Text="Au, г/т" HorzAlign="Center" TextFill.Color="WindowText"/>
+      <TextObject Name="Text15" Left="576.45" Width="66.15" Height="18.9" Border.Lines="All" Text="AuCut, г/т" HorzAlign="Center" TextFill.Color="WindowText"/>
+      <TextObject Name="Text16" Left="642.6" Width="85.05" Height="18.9" Border.Lines="All" Text="Дата" HorzAlign="Center" TextFill.Color="WindowText"/>
+      <TextObject Name="Text17" Left="727.65" Width="85.05" Height="18.9" Border.Lines="All" Text="Вед." HorzAlign="Center" TextFill.Color="WindowText"/>
+      <TextObject Name="Text18" Left="812.7" Width="85.05" Height="18.9" Border.Lines="All" Text="Карьер" HorzAlign="Center" TextFill.Color="WindowText"/>
+    </PageHeaderBand>
+    <DataBand Name="Data1" Top="149.75" Width="1047.06" Height="18.9">
+      <TextObject Name="Bhid" Left="9.45" Width="113.4" Height="18.9" Border.Lines="All" HorzAlign="Center" TextFill.Color="WindowText"/>
+      <TextObject Name="Sample" Left="122.85" Width="75.6" Height="18.9" Border.Lines="All" HorzAlign="Center" TextFill.Color="WindowText"/>
+      <TextObject Name="sampleLength" Left="198.45" Width="75.6" Height="18.9" Border.Lines="All" HorzAlign="Center" TextFill.Color="WindowText"/>
+      <TextObject Name="Zblock" Left="274.05" Width="85.05" Height="18.9" Border.Lines="All" HorzAlign="Center" TextFill.Color="WindowText"/>
+      <TextObject Name="Rang" Left="359.1" Width="85.05" Height="18.9" Border.Lines="All" HorzAlign="Center" TextFill.Color="WindowText"/>
+      <TextObject Name="Ves" Left="444.15" Width="66.15" Height="18.9" Border.Lines="All" HorzAlign="Center" TextFill.Color="WindowText"/>
+      <TextObject Name="Au" Left="510.3" Width="66.15" Height="18.9" Border.Lines="All" HorzAlign="Center" TextFill.Color="WindowText"/>
+      <TextObject Name="Au_cut" Left="576.45" Width="66.15" Height="18.9" Border.Lines="All" HorzAlign="Center" TextFill.Color="WindowText"/>
+      <TextObject Name="Date" Left="642.6" Width="85.05" Height="18.9" Border.Lines="All" HorzAlign="Center" TextFill.Color="WindowText"/>
+      <TextObject Name="Blank" Left="727.65" Width="85.05" Height="18.9" Border.Lines="All" HorzAlign="Center" TextFill.Color="WindowText"/>
+      <TextObject Name="Pit" Left="812.7" Width="85.05" Height="18.9" Border.Lines="All" HorzAlign="Center" TextFill.Color="WindowText"/>
+    </DataBand>
+    <ReportSummaryBand Name="ReportSummary1" Top="172.65" Width="1047.06" Height="37.8" PrintOn="LastPage">
+      <TextObject Name="Text6" Left="803.25" Top="9.45" Width="94.5" Height="18.9" Text="[Количество]" TextFill.Color="WindowText"/>
+      <TextObject Name="Text7" Left="680.4" Top="9.45" Width="94.5" Height="18.9" Text="Количество:" TextFill.Color="WindowText"/>
+    </ReportSummaryBand>
+  </ReportPage>
+</Report>
